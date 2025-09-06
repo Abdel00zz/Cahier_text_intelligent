@@ -18,7 +18,15 @@ export const useConfigManager = () => {
         try {
             const storedConfig = localStorage.getItem(CONFIG_STORAGE_KEY);
             if (storedConfig) {
-                setConfig({ ...defaultConfig, ...JSON.parse(storedConfig) });
+                const loadedConfig = JSON.parse(storedConfig);
+                // Ensure printShowDescriptions defaults to true if not set
+                if (typeof loadedConfig.printShowDescriptions === 'undefined') {
+                    loadedConfig.printShowDescriptions = true;
+                }
+                setConfig({ ...defaultConfig, ...loadedConfig });
+            } else {
+                // For new users, explicitly set the default
+                setConfig({ ...defaultConfig, printShowDescriptions: true });
             }
         } catch (error) {
             console.error("Failed to load config from localStorage", error);

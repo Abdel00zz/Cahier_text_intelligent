@@ -66,6 +66,19 @@
         animation: fade-in 0.2s ease-out;
     }
 
+    /* Animation for config button hint */
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.7);
+      }
+      50% {
+        box-shadow: 0 0 0 10px rgba(13, 148, 136, 0);
+      }
+    }
+    .animate-pulse-glow {
+      animation: pulse-glow 2s infinite;
+    }
+
 
     /* Date cell animation */
     .date-cell-filled::before {

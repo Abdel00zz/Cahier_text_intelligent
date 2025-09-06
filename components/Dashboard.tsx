@@ -163,23 +163,27 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
         setImportModalOpen(false);
     }, []);
 
+    const needsConfiguration = !config.establishmentName || !config.defaultTeacherName;
+
     if (isLoading) {
         return <Spinner fullPage text="Chargement des classes..." />;
     }
 
     return (
         <div className="p-4 sm:p-8">
-            <header className="relative text-center mb-8">
-                <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 font-slab">Tableau de Bord</h1>
-                <p className="text-base sm:text-lg text-slate-500 mt-2">Gérez vos cahiers de textes</p>
+            <header className="relative text-center mb-12">
+                <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 font-slab">Votre Espace Pédagogique</h1>
+                <p className="text-base sm:text-lg text-slate-500 mt-2">Bienvenue ! Organisez, créez et partagez vos leçons avec simplicité et intelligence.</p>
                 <div className="absolute top-0 right-0 flex items-center gap-2">
                     <Button
                         variant="icon"
+                        size="lg"
                         onClick={() => setConfigModalOpen(true)}
                         data-tippy-content="Configuration"
                         aria-label="Ouvrir la configuration"
+                        className={needsConfiguration ? 'animate-pulse-glow' : ''}
                     >
-                        <i className="fas fa-cog"></i>
+                        <i className="fas fa-cog text-2xl"></i>
                     </Button>
                 </div>
             </header>

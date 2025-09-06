@@ -70,8 +70,10 @@ Bienvenue ! Ce guide pratique explique chaque bouton, badge, menu et écran de l
 
 ## Vos avantages en bref
 ✅ Gestion flexible et moderne de votre cahier de textes.
+✅ Interface intelligente et fluide pour une expérience utilisateur optimale.
 ✅ Organisation fine par chapitres, sections et éléments pédagogiques.
 ✅ Ajout rapide des activités, exercices, exemples et évaluations.
+✅ Rendu d'impression de haute qualité.
 ✅ Recherche instantanée dans tout le contenu (par mot, date ou numéro).
 ✅ Sauvegarde automatique fiable + sauvegarde manuelle à la demande.
 ✅ Impression soignée, prête pour le format papier.
@@ -198,13 +200,14 @@ Créé par Boudouh Abdelmalek (Maroc). Contact: [bdh.malek@gmail.com](mailto:bdh
 export const GUIDE_AR = `# مساعدة شاملة – دفتر النصوص التفاعلي
 
 أهلاً بك! هذا الدليل يشرح كل زر وشارة وقائمة وواجهة في التطبيق.
-
-تطبيق دفتر النصوص الرقمي يمنحك إدارة مرنة وعمليّة لدفترك. يوفّر بيئة متكاملة لإعداد الدروس، تنظيم الفصول والأقسام، إضافة الأنشطة والتمارين، البحث السريع، الحفظ التلقائي، والطباعة الجاهزة. حلٌ بسيط يشجّع الأستاذ على تنظيم عمله وتوفير الوقت وتحسين مردويديته.
+تطبيق دفتر النصوص الرقمي يمنحك إدارة مرنة وعمليّة لدفترك. يوفّر بيئة متكاملة لإعداد الدروس، تنظيم الحصص والأقسام، إضافة الأنشطة والتمارين، البحث السريع، الحفظ التلقائي، والطباعة الجاهزة. حلول ذكية تساعد الأستاذ على تنظيم وتيسيير عمله وتوفير الوقت وتحسين مردويديته.
 
 ## المزايا باختصار
 ✅ إدارة مرنة وحديثة لدفتر النصوص.
-✅ تنظيم هرمي واضح: فصول، أقسام، عناصر تعليمية.
+✅ واجهة ذكية وسلسة لتجربة مستخدم مثالية.
+✅ تنظيم هرمي واضح: حصص، أقسام، عناصر تعليمية.
 ✅ إضافة سريعة للأنشطة، التمارين، الأمثلة والتقييمات.
+✅ طباعة عالية الجودة.
 ✅ بحث فوري في كل المحتوى (كلمة، تاريخ، رقم).
 ✅ حفظ تلقائي موثوق + حفظ يدوي عند الحاجة.
 ✅ طباعة أنيقة جاهزة للورق.

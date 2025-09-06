@@ -8,6 +8,13 @@ interface ClassCardProps {
     onDelete: () => void;
 }
 
+// Helper function to detect Arabic characters
+const containsArabic = (text: string): boolean => {
+    if (!text) return false;
+    const arabicRegex = /[\u0600-\u06FF]/;
+    return arabicRegex.test(text);
+};
+
 export const ClassCard: React.FC<ClassCardProps> = ({ classInfo, lastModified, onSelect, onDelete }) => {
     
     const handleDeleteClick = (e: React.MouseEvent) => {
@@ -34,6 +41,8 @@ export const ClassCard: React.FC<ClassCardProps> = ({ classInfo, lastModified, o
         }
     };
 
+    const isArabic = containsArabic(classInfo.name);
+
     return (
         <div 
             className="group relative rounded-lg shadow-md cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 overflow-hidden flex flex-col aspect-[4/3]"
@@ -43,7 +52,7 @@ export const ClassCard: React.FC<ClassCardProps> = ({ classInfo, lastModified, o
             <div className="flex flex-col h-full p-5 text-white text-center">
                 {/* Class Name (Main Content) */}
                 <div className="flex-grow flex items-center justify-center">
-                    <h3 className="text-3xl font-bold font-slab break-words leading-tight filter drop-shadow-sm">
+                    <h3 className={`font-bold break-words leading-tight filter drop-shadow-sm ${isArabic ? 'font-ar text-5xl' : 'font-slab text-4xl'}`}>
                         {classInfo.name}
                     </h3>
                 </div>
