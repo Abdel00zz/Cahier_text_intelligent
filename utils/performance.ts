@@ -38,22 +38,6 @@ export function throttle<T extends (...args: any[]) => any>(
 }
 
 /**
- * Hook for debounced callbacks
- */
-export function useDebouncedCallback<T extends (...args: any[]) => any>(
-  callback: T,
-  delay: number
-): (...args: Parameters<T>) => void {
-  const callbackRef = useRef(callback);
-  callbackRef.current = callback;
-
-  return useCallback(
-    debounce((...args: Parameters<T>) => callbackRef.current(...args), delay),
-    [delay]
-  );
-}
-
-/**
  * Memoize function for performance optimization
  */
 export function memoize<T extends (...args: any[]) => any>(

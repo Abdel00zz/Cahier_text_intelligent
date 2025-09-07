@@ -8,8 +8,7 @@ export const OPTIMIZATION_CONFIG = {
   LAZY_COMPONENTS: [
     'PrintView',
     'GuideModal',
-    'ImportModal',
-    'SmartDatePicker'
+    'ImportModal'
   ],
   
   // Cache des données fréquemment utilisées
