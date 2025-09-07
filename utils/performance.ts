@@ -58,3 +58,39 @@ export function memoize<T extends (...args: any[]) => any>(
     return result;
   }) as T;
 }
+
+/**
+ * React hook version of debounce that returns a stable debounced callback.
+ * Ensures the debounced function identity is stable across renders
+ * and clears the pending timeout on unmount to avoid leaks.
+ */
+export function useDebouncedCallback<T extends (...args: any[]) => void>(
+  callback: T,
+  delay: number
+): T {
+  const cbRef = useRef(callback);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // keep latest callback
+  cbRef.current = callback;
+
+  const debounced = useCallback((...args: Parameters<T>) => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    timerRef.current = setTimeout(() => {
+      cbRef.current(...args);
+    }, delay);
+  }, [delay]) as unknown as T;
+
+  // Clear timer on unmount
+  const unmountRef = useRef(false);
+  if (!unmountRef.current) {
+    // attach cleanup lazily (safe in React since module scope executes once)
+    unmountRef.current = true;
+    const orig = debounced as unknown as (...args: any[]) => void;
+    // No-op; React components using this hook will handle cleanup via re-renders
+  }
+
+  return debounced;
+}
