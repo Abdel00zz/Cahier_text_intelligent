@@ -7,7 +7,8 @@ import { EditableCell } from './ui/EditableCell';
 import { TOP_LEVEL_TYPE_CONFIG } from '../constants';
 import { EditableTitle } from './ui/EditableTitle';
 import { useIsMobile } from '../hooks/useIsMobile';
-import { MobileDatePicker } from './modals/MobileDatePicker';
+import { SmartDatePicker } from './modals/SmartDatePicker';
+import { QuickDateInput } from './ui/QuickDateInput';
 
 interface TableRowProps {
   data: any;
@@ -25,7 +26,7 @@ interface TableRowProps {
 
 export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, elementType, onCellUpdate, onDeleteItem, onSelectRow, isSelected, isNew = false, showDescriptions, onInitiateInlineEdit, onOpenAddContentModal }) => {
   const [isEditingDate, setIsEditingDate] = useState(false);
-  const [isMobileDateOpen, setMobileDateOpen] = useState(false);
+  const [isSmartDateOpen, setSmartDateOpen] = useState(false);
   const isMobile = useIsMobile();
   const dateInputRef = useRef<HTMLInputElement>(null);
 
@@ -42,13 +43,13 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
 
   const openDateEditor = () => {
     if (isMobile) {
-      setMobileDateOpen(true);
+      setSmartDateOpen(true);
     } else {
       setIsEditingDate(true);
     }
   };
 
-  const saveMobileDate = (value: string | '') => {
+  const saveSmartDate = (value: string | '') => {
     onCellUpdate(indices, 'date', value);
   };
 
@@ -86,13 +87,12 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
             <div className="w-full md:w-[15%] md:p-1 md:border-r md:border-slate-300/50">
                 <div className="relative group/date h-full flex items-center justify-center p-2" onClick={(e) => e.stopPropagation()}>
                     {isEditingDate ? (
-                        <input
-                            ref={dateInputRef} type="date" value={data.date || ''}
-                            onChange={(e) => onCellUpdate(indices, 'date', e.target.value)}
+                        <QuickDateInput
+                            value={data.date || ''}
+                            onChange={(value) => onCellUpdate(indices, 'date', value)}
                             onBlur={() => setIsEditingDate(false)}
                             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === 'Escape') setIsEditingDate(false); }}
                             className="w-full h-full text-center border-2 border-teal-500 rounded-md shadow-inner bg-white z-10 focus:outline-none"
-                            aria-label="Modifier la date"
                         />
                     ) : (
                         <div role="button" tabIndex={0} onClick={openDateEditor} onKeyDown={(e) => { if (e.key === 'Enter') openDateEditor(); }}
@@ -159,11 +159,9 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
         </div>
     <div className="relative group/date h-full flex items-center justify-center p-2 md:p-0" onClick={(e) => e.stopPropagation()}>
             {isEditingDate ? (
-                 <input
-                    ref={dateInputRef}
-                    type="date"
+                 <QuickDateInput
                     value={data.date || ''}
-                    onChange={(e) => onCellUpdate(indices, 'date', e.target.value)}
+                    onChange={(value) => onCellUpdate(indices, 'date', value)}
                     onBlur={() => setIsEditingDate(false)}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === 'Escape') {
@@ -171,7 +169,6 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                         }
                     }}
                     className="w-full h-full text-center border-2 border-teal-500 rounded-md shadow-inner bg-white z-10 focus:outline-none"
-                    aria-label="Modifier la date"
                 />
             ) : (
                 <div 
@@ -233,11 +230,11 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
         </div>
         <EditableCell value={data.remark || ''} onSave={(v) => onCellUpdate(indices, 'remark', v)} className="text-xs text-slate-600 p-2" multiline placeholder="Aucune remarque" />
       </div>
-      <MobileDatePicker
-        isOpen={isMobileDateOpen}
+      <SmartDatePicker
+        isOpen={isSmartDateOpen}
         initialDate={data.date}
-        onClose={() => setMobileDateOpen(false)}
-        onSave={saveMobileDate}
+        onClose={() => setSmartDateOpen(false)}
+        onSave={saveSmartDate}
       />
     </div>
   );

@@ -6,6 +6,7 @@ import { Spinner } from './components/ui/Spinner';
 import { ClassInfo } from './types';
 import { useClassManager } from './hooks/useClassManager';
 import { Analytics } from '@vercel/analytics/react';
+import { MobileOrientationHint } from './components/MobileOrientationHint';
 
 
 declare global {
@@ -53,6 +54,7 @@ const App: React.FC = () => {
       <MathJaxContext config={mathJaxConfig}>
         <div className="min-h-screen bg-slate-100 text-slate-800">
           {renderContent()}
+          <MobileOrientationHint />
         </div>
         <Analytics />
       </MathJaxContext>
