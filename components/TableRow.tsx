@@ -6,6 +6,8 @@ import { ContentRenderer } from './ContentRenderer';
 import { EditableCell } from './ui/EditableCell';
 import { TOP_LEVEL_TYPE_CONFIG } from '../constants';
 import { EditableTitle } from './ui/EditableTitle';
+import { useIsMobile } from '../hooks/useIsMobile';
+import { MobileDatePicker } from './modals/MobileDatePicker';
 
 interface TableRowProps {
   data: any;
@@ -23,18 +25,32 @@ interface TableRowProps {
 
 export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, elementType, onCellUpdate, onDeleteItem, onSelectRow, isSelected, isNew = false, showDescriptions, onInitiateInlineEdit, onOpenAddContentModal }) => {
   const [isEditingDate, setIsEditingDate] = useState(false);
+  const [isMobileDateOpen, setMobileDateOpen] = useState(false);
+  const isMobile = useIsMobile();
   const dateInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (isEditingDate) {
+    if (isEditingDate && !isMobile) {
       dateInputRef.current?.focus();
     }
-  }, [isEditingDate]);
+  }, [isEditingDate, isMobile]);
 
   const handleSelect = useCallback(() => onSelectRow(indices), [indices, onSelectRow]);
   const handleOpenAddModal = useCallback(() => onOpenAddContentModal(indices), [indices, onOpenAddContentModal]);
   const handleInitiateEdit = useCallback(() => onInitiateInlineEdit(indices), [indices, onInitiateInlineEdit]);
   const handleDelete = useCallback(() => onDeleteItem(indices), [indices, onDeleteItem]);
+
+  const openDateEditor = () => {
+    if (isMobile) {
+      setMobileDateOpen(true);
+    } else {
+      setIsEditingDate(true);
+    }
+  };
+
+  const saveMobileDate = (value: string | '') => {
+    onCellUpdate(indices, 'date', value);
+  };
 
   
     const renderDate = (dateString: string) => {
@@ -79,7 +95,7 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                             aria-label="Modifier la date"
                         />
                     ) : (
-                        <div role="button" tabIndex={0} onClick={() => setIsEditingDate(true)} onKeyDown={(e) => { if (e.key === 'Enter') setIsEditingDate(true); }}
+                        <div role="button" tabIndex={0} onClick={openDateEditor} onKeyDown={(e) => { if (e.key === 'Enter') openDateEditor(); }}
                             className="flex-grow h-full flex items-center justify-center text-xs rounded transition-colors cursor-pointer hover:bg-black/10 p-2"
                         >
                             {renderDate(data.date)}
@@ -161,8 +177,8 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                 <div 
                     role="button"
                     tabIndex={0}
-                    onClick={() => setIsEditingDate(true)}
-                    onKeyDown={(e) => { if (e.key === 'Enter') setIsEditingDate(true); }}
+                    onClick={openDateEditor}
+                    onKeyDown={(e) => { if (e.key === 'Enter') openDateEditor(); }}
                     className={`flex-grow h-full flex items-center justify-center text-center text-xs rounded transition-colors cursor-pointer hover:bg-slate-100 ${data.date ? '' : 'text-slate-400'}`}
                     title="Cliquer pour modifier la date"
                 >
@@ -217,6 +233,12 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
         </div>
         <EditableCell value={data.remark || ''} onSave={(v) => onCellUpdate(indices, 'remark', v)} className="text-xs text-slate-600 p-2" multiline placeholder="Aucune remarque" />
       </div>
+      <MobileDatePicker
+        isOpen={isMobileDateOpen}
+        initialDate={data.date}
+        onClose={() => setMobileDateOpen(false)}
+        onSave={saveMobileDate}
+      />
     </div>
   );
 });
