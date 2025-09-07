@@ -4,6 +4,7 @@ import { Indices, LessonItem, TopLevelItem, ElementType, TopLevelType } from '..
 import { TYPE_MAP, BADGE_TEXT_MAP, BADGE_COLOR_MAP, TOP_LEVEL_TYPE_CONFIG } from '../constants';
 import { EditableTitle } from './ui/EditableTitle';
 import { EditableCell } from './ui/EditableCell';
+import { logger } from '../utils/logger';
 import { formatModernDate } from '../utils/dataUtils';
 
 interface ContentRendererProps {
@@ -25,7 +26,7 @@ export const ContentRenderer: React.FC<ContentRendererProps> = React.memo(({ dat
     const config = TOP_LEVEL_TYPE_CONFIG[item.type as TopLevelType];
 
     if (!config) {
-        console.error("ContentRenderer Error: Invalid top-level item type encountered.", { data });
+        logger.error("ContentRenderer Error: Invalid top-level item type encountered.", { data });
         return (
             <div className="text-lg font-bold font-slab text-center py-3 text-red-500 flex items-center justify-center gap-3">
                 <i className="fas fa-exclamation-triangle"></i>

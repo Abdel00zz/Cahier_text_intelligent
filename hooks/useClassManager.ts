@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { ClassInfo } from '../types';
+import { logger } from '../utils/logger';
 
 const STORAGE_KEY = 'classManager_v1';
 const CLASS_DATA_PREFIX = 'classData_v1_';
@@ -22,7 +23,7 @@ export const useClassManager = () => {
                 setClasses(JSON.parse(storedClasses));
             }
         } catch (error) {
-            console.error("Failed to load classes from localStorage", error);
+            logger.error("Failed to load classes from localStorage", error);
         } finally {
             setIsLoading(false);
         }
@@ -33,7 +34,7 @@ export const useClassManager = () => {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedClasses));
             setClasses(updatedClasses);
         } catch (error) {
-            console.error("Failed to save classes to localStorage", error);
+            logger.error("Failed to save classes to localStorage", error);
         }
     }, []);
 

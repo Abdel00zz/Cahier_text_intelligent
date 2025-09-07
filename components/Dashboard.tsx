@@ -8,6 +8,7 @@ import { CreateClassModal } from './modals/CreateClassModal';
 import { ConfigModal } from './modals/ConfigModal';
 import { ImportPlatformModal } from './modals/ImportPlatformModal';
 import { ClassInfo } from '../types';
+import { logger } from '../utils/logger';
 
 interface DashboardProps {
     onSelectClass: (classInfo: ClassInfo) => void;
@@ -90,7 +91,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                     dates[classInfo.id] = null;
                 }
             } catch (e) {
-                console.error(`Failed to parse data for class ${classInfo.id}`, e);
+                logger.error(`Failed to parse data for class ${classInfo.id}`, e);
                 dates[classInfo.id] = null;
             }
         });
@@ -125,7 +126,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         } catch (error) {
-            console.error("Export failed", error);
+            logger.error("Export failed", error);
             alert("L'exportation a échoué.");
         }
     }, [classes, config]);
@@ -156,7 +157,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
             window.location.reload();
 
         } catch (error) {
-            console.error("Import failed", error);
+            logger.error("Import failed", error);
             const message = error instanceof Error ? error.message : 'Erreur inconnue';
             alert(`L'importation a échoué: ${message}`);
         }

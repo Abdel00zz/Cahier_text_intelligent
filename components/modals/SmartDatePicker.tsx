@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, FC } from 'react';
 import { Button } from '../ui/Button';
 
 interface SmartDatePickerProps {
@@ -15,7 +15,7 @@ const MONTHS_FR = [
 
 const WEEKDAYS_FR = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
 
-export const SmartDatePicker: React.FC<SmartDatePickerProps> = ({ isOpen, initialDate, onClose, onSave }) => {
+export const SmartDatePicker: FC<SmartDatePickerProps> = ({ isOpen, initialDate, onClose, onSave }) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [viewMode, setViewMode] = useState<'calendar' | 'quick'>('quick');
 
@@ -40,9 +40,30 @@ export const SmartDatePicker: React.FC<SmartDatePickerProps> = ({ isOpen, initia
   }, [isOpen, initialDate]);
 
   const quickOptions = useMemo(() => [
-    { label: 'Aujourd\'hui', date: today, icon: 'fas fa-calendar-day', color: 'bg-teal-500' },
-    { label: 'Demain', date: tomorrow, icon: 'fas fa-calendar-plus', color: 'bg-blue-500' },
-    { label: 'Dans une semaine', date: nextWeek, icon: 'fas fa-calendar-week', color: 'bg-purple-500' },
+    { 
+      label: 'Aujourd\'hui', 
+      shortLabel: 'Aujourd\'hui',
+      date: today, 
+      icon: 'fas fa-calendar-day', 
+      color: 'bg-teal-500',
+      description: today.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
+    },
+    { 
+      label: 'Demain', 
+      shortLabel: 'Demain',
+      date: tomorrow, 
+      icon: 'fas fa-calendar-plus', 
+      color: 'bg-blue-500',
+      description: tomorrow.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
+    },
+    { 
+      label: 'Dans une semaine', 
+      shortLabel: 'Semaine +',
+      date: nextWeek, 
+      icon: 'fas fa-calendar-week', 
+      color: 'bg-purple-500',
+      description: nextWeek.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
+    },
   ], [today, tomorrow, nextWeek]);
 
   const generateCalendar = () => {
@@ -99,82 +120,114 @@ export const SmartDatePicker: React.FC<SmartDatePickerProps> = ({ isOpen, initia
   const calendarDays = generateCalendar();
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-fade-in" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-slide-in-up" onClick={(e) => e.stopPropagation()}>
-        <div className="p-4 border-b border-slate-200 flex items-center justify-between">
-          <h3 className="text-lg font-semibold font-slab text-slate-900">Choisir une date</h3>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setViewMode(viewMode === 'quick' ? 'calendar' : 'quick')}
-              className="text-slate-500 hover:text-teal-600 transition-colors"
-            >
-              <i className={viewMode === 'quick' ? 'fas fa-calendar-alt' : 'fas fa-bolt'}></i>
-            </button>
-            <button onClick={onClose} className="text-slate-500 hover:text-slate-700">
-              <i className="fas fa-times"></i>
-            </button>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4 animate-fade-in" onClick={onClose}>
+      <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[90vh] sm:max-h-[90vh] overflow-hidden animate-slide-in-up flex flex-col" onClick={(e) => e.stopPropagation()}>
+        
+        {/* Header - Fixed */}
+        <div className="p-4 sm:p-4 border-b border-slate-200 flex-shrink-0 bg-white">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold font-slab text-slate-900">Choisir une date</h3>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setViewMode(viewMode === 'quick' ? 'calendar' : 'quick')}
+                className="w-10 h-10 flex items-center justify-center rounded-full text-slate-500 hover:text-teal-600 hover:bg-slate-100 transition-colors"
+                aria-label={viewMode === 'quick' ? 'Voir calendrier' : 'Sélection rapide'}
+              >
+                <i className={`text-lg ${viewMode === 'quick' ? 'fas fa-calendar-alt' : 'fas fa-bolt'}`}></i>
+              </button>
+              <button 
+                onClick={onClose} 
+                className="w-10 h-10 flex items-center justify-center rounded-full text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                aria-label="Fermer"
+              >
+                <i className="fas fa-times text-lg"></i>
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className="p-4">
+        {/* Content - Scrollable */}
+        <div className="flex-1 overflow-y-auto">
           {viewMode === 'quick' ? (
-            <div className="space-y-3">
-              <h4 className="text-sm font-medium text-slate-700 mb-3">Sélection rapide</h4>
-              {quickOptions.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleQuickSelect(option.date)}
-                  className="w-full flex items-center gap-3 p-3 rounded-lg border border-slate-200 hover:border-teal-300 hover:bg-teal-50 transition-all group"
-                >
-                  <div className={`w-10 h-10 rounded-full ${option.color} flex items-center justify-center text-white`}>
-                    <i className={option.icon}></i>
-                  </div>
-                  <div className="flex-1 text-left">
-                    <p className="font-medium text-slate-800 group-hover:text-teal-700">{option.label}</p>
-                    <p className="text-sm text-slate-500">{option.date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
-                  </div>
-                  <i className="fas fa-chevron-right text-slate-400 group-hover:text-teal-500"></i>
-                </button>
-              ))}
+            <div className="p-4 sm:p-4 space-y-4">
+              <h4 className="text-sm font-medium text-slate-700 mb-4">Sélection rapide</h4>
               
-              <div className="pt-2 border-t border-slate-200">
+              {/* Quick Options - Mobile Optimized */}
+              <div className="space-y-3">
+                {quickOptions.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleQuickSelect(option.date)}
+                    className="w-full flex items-center gap-4 p-4 rounded-xl border border-slate-200 hover:border-teal-300 hover:bg-teal-50 transition-all group active:scale-[0.98] touch-manipulation"
+                  >
+                    <div className={`w-12 h-12 rounded-full ${option.color} flex items-center justify-center text-white flex-shrink-0`}>
+                      <i className={`${option.icon} text-lg`}></i>
+                    </div>
+                    <div className="flex-1 text-left min-w-0">
+                      <p className="font-semibold text-slate-800 group-hover:text-teal-700 text-base">{option.label}</p>
+                      <p className="text-sm text-slate-500 truncate">{option.description}</p>
+                    </div>
+                    <i className="fas fa-chevron-right text-slate-400 group-hover:text-teal-500 text-sm flex-shrink-0"></i>
+                  </button>
+                ))}
+              </div>
+              
+              {/* Custom Date Button */}
+              <div className="pt-4 border-t border-slate-200">
                 <button
                   onClick={() => setViewMode('calendar')}
-                  className="w-full flex items-center justify-center gap-2 p-3 rounded-lg border border-slate-200 hover:border-teal-300 hover:bg-teal-50 text-slate-600 hover:text-teal-700 transition-all"
+                  className="w-full flex items-center justify-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-teal-300 hover:bg-teal-50 text-slate-600 hover:text-teal-700 transition-all touch-manipulation"
                 >
-                  <i className="fas fa-calendar-alt"></i>
-                  <span>Autre date...</span>
+                  <i className="fas fa-calendar-alt text-lg"></i>
+                  <span className="font-medium">Choisir une autre date...</span>
+                </button>
+              </div>
+
+              {/* Clear Date Option */}
+              <div className="pt-2">
+                <button
+                  onClick={() => {
+                    onSave('');
+                    onClose();
+                  }}
+                  className="w-full flex items-center justify-center gap-3 p-3 rounded-xl border border-slate-200 hover:border-red-300 hover:bg-red-50 text-slate-600 hover:text-red-700 transition-all touch-manipulation"
+                >
+                  <i className="fas fa-eraser"></i>
+                  <span className="font-medium">Effacer la date</span>
                 </button>
               </div>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="p-4 sm:p-4 space-y-4">
               {/* Month Navigation */}
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-4">
                 <button
                   onClick={() => navigateMonth('prev')}
-                  className="p-2 rounded-lg hover:bg-slate-100 text-slate-600 hover:text-slate-800"
+                  className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-600 hover:text-slate-800 touch-manipulation"
                 >
-                  <i className="fas fa-chevron-left"></i>
+                  <i className="fas fa-chevron-left text-lg"></i>
                 </button>
-                <h4 className="text-lg font-semibold text-slate-800">
+                <h4 className="text-lg font-semibold text-slate-800 text-center">
                   {MONTHS_FR[selectedDate.getMonth()]} {selectedDate.getFullYear()}
                 </h4>
                 <button
                   onClick={() => navigateMonth('next')}
-                  className="p-2 rounded-lg hover:bg-slate-100 text-slate-600 hover:text-slate-800"
+                  className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-600 hover:text-slate-800 touch-manipulation"
                 >
-                  <i className="fas fa-chevron-right"></i>
+                  <i className="fas fa-chevron-right text-lg"></i>
                 </button>
               </div>
 
               {/* Calendar Grid */}
               <div className="grid grid-cols-7 gap-1">
+                {/* Weekday headers */}
                 {WEEKDAYS_FR.map(day => (
-                  <div key={day} className="h-8 flex items-center justify-center text-xs font-medium text-slate-500">
+                  <div key={day} className="h-10 flex items-center justify-center text-sm font-medium text-slate-500">
                     {day}
                   </div>
                 ))}
+                
+                {/* Calendar days */}
                 {calendarDays.map((day, index) => {
                   const isCurrentMonth = day.getMonth() === selectedDate.getMonth();
                   const isTodayDate = isToday(day);
@@ -185,10 +238,11 @@ export const SmartDatePicker: React.FC<SmartDatePickerProps> = ({ isOpen, initia
                       key={index}
                       onClick={() => handleCalendarSelect(day)}
                       className={`
-                        h-10 flex items-center justify-center text-sm rounded-lg transition-all
+                        h-12 flex items-center justify-center text-sm rounded-xl transition-all touch-manipulation
                         ${isCurrentMonth ? 'text-slate-800' : 'text-slate-400'}
                         ${isTodayDate ? 'bg-teal-100 text-teal-700 font-semibold' : ''}
-                        ${isSelected ? 'bg-teal-600 text-white font-semibold' : 'hover:bg-slate-100'}
+                        ${isSelected ? 'bg-teal-600 text-white font-semibold shadow-lg' : 'hover:bg-slate-100'}
+                        ${!isCurrentMonth ? 'opacity-50' : ''}
                       `}
                     >
                       {day.getDate()}
@@ -200,17 +254,26 @@ export const SmartDatePicker: React.FC<SmartDatePickerProps> = ({ isOpen, initia
           )}
         </div>
 
-        <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Button variant="secondary" size="sm" onClick={() => onSave('')}>
-              <i className="fas fa-eraser mr-1"></i> Effacer
-            </Button>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="secondary" onClick={onClose}>Annuler</Button>
+        {/* Footer - Fixed */}
+        <div className="p-4 bg-slate-50 border-t border-slate-200 flex-shrink-0">
+          <div className="flex items-center gap-3">
             {viewMode === 'calendar' && (
-              <Button variant="primary" onClick={handleSave}>Confirmer</Button>
+              <Button 
+                variant="primary" 
+                onClick={handleSave}
+                className="flex-1 h-12 text-base"
+              >
+                <i className="fas fa-check mr-2"></i>
+                Confirmer
+              </Button>
             )}
+            <Button 
+              variant="secondary" 
+              onClick={onClose}
+              className={`h-12 text-base ${viewMode === 'calendar' ? 'px-6' : 'flex-1'}`}
+            >
+              Annuler
+            </Button>
           </div>
         </div>
       </div>

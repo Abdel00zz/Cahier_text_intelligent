@@ -2,7 +2,9 @@
 
 
 import { produce, Draft } from 'immer';
-import { LessonsData, Indices, TopLevelItem, Section, SubSection, SubSubSection, LessonItem, EmbeddableTopLevelItem } from '../types';
+import { LessonsData, Indices, TopLevelItem, LessonItem, Section, SubSection, SubSubSection, EmbeddableTopLevelItem, Separator } from '../types';
+import { logger } from './logger';
+import { memoize } from './performance';
 
 type DataItem = TopLevelItem | Section | SubSection | SubSubSection | LessonItem;
 
@@ -101,7 +103,7 @@ export const deleteSeparator = (draft: Draft<LessonsData>, itemIndices: Indices)
     }
 };
 
-export const formatModernDate = (dateString: string): { day: string; month: string; year: string } | null => {
+export const formatModernDate = memoize((dateString: string): { day: string; month: string; year: string } | null => {
     try {
         const date = new Date(dateString);
         if (isNaN(date.getTime())) {
@@ -112,13 +114,13 @@ export const formatModernDate = (dateString: string): { day: string; month: stri
         const year = date.toLocaleDateString('fr-FR', { year: 'numeric' });
         return { day, month, year };
     } catch (error) {
-        console.error("Error formatting date:", dateString, error);
+        logger.error("Error formatting date:", dateString, error);
         return null;
     }
-};
+});
 
 // Compact date formatter: returns dd/mm/yyyy from ISO (yyyy-mm-dd) without timezone shifts
-export const formatDateDDMMYYYY = (dateString: string): string | null => {
+export const formatDateDDMMYYYY = memoize((dateString: string): string | null => {
     if (!dateString || typeof dateString !== 'string') return null;
     // Prefer strict ISO split to avoid local timezone issues
     const m = dateString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -137,18 +139,18 @@ export const formatDateDDMMYYYY = (dateString: string): string | null => {
     } catch {
         return null;
     }
-};
+});
 
 export const migrateLessonsData = (data: any): LessonsData => {
     if (!Array.isArray(data)) {
-        console.warn("Migration attempted on non-array data. Returning empty array.", data);
+        logger.warn("Migration attempted on non-array data. Returning empty array.", data);
         return [];
     }
 
     return produce(data, draft => {
         draft.forEach((item: any, index: number) => {
             if (typeof item !== 'object' || item === null) {
-                console.error(`Invalid data at index ${index}, skipping.`, item);
+                logger.error(`Invalid data at index ${index}, skipping.`, item);
                 return;
             }
 

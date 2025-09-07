@@ -15,6 +15,7 @@ import { ManageLessonsModal } from './modals/ManageLessonsModal';
 import { GuideModal } from './modals/GuideModal';
 import { PrintView } from './PrintView';
 import { TOP_LEVEL_TYPE_CONFIG, TYPE_MAP } from '../constants';
+import { logger } from '../utils/logger';
 import { AddContentModal } from './modals/EditItemModal';
 
 interface EditorProps {
@@ -72,7 +73,7 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
       setState(() => migratedLessons, 'initial-load');
       showNotification(`Données pour "${classInfo.name}" chargées`, 'info');
     } catch (error) {
-      console.error("Failed to load data from localStorage", error);
+      logger.error("Failed to load data from localStorage", error);
       showNotification("Erreur lors du chargement des données.", "error");
     } finally {
       setIsClassLoading(false);
@@ -85,7 +86,7 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
       localStorage.setItem(getStorageKey(), JSON.stringify(lessonsData));
       setTimeout(() => setSaveStatus('saved'), 500);
     } catch (error) {
-      console.error("Failed to save data to localStorage", error);
+      logger.error("Failed to save data to localStorage", error);
       showNotification("Erreur de sauvegarde.", "error");
       setSaveStatus('unsaved');
     }
@@ -109,7 +110,7 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
         URL.revokeObjectURL(url);
         showNotification("Données exportées avec succès!", "success");
     } catch (error) {
-        console.error("Failed to export data", error);
+        logger.error("Failed to export data", error);
         showNotification("Erreur lors de l'exportation.", "error");
     }
   }, [classInfo, lessonsData, showNotification]);

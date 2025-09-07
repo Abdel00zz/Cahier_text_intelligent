@@ -1,12 +1,14 @@
 {
   "name": "cahier-de-textes-interactif",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "analyze": "vite build --mode analyze",
+    "optimize": "vite build --mode production"
   },
   "dependencies": {
     "@vercel/analytics": "^1.5.0",

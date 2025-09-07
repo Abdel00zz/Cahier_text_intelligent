@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo, MouseEvent, FC } from 'react';
 import { ClassInfo } from '../types';
 
 interface ClassCardProps {
@@ -15,9 +15,9 @@ const containsArabic = (text: string): boolean => {
     return arabicRegex.test(text);
 };
 
-export const ClassCard: React.FC<ClassCardProps> = ({ classInfo, lastModified, onSelect, onDelete }) => {
-    
-    const handleDeleteClick = (e: React.MouseEvent) => {
+const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSelect, onDelete }) => {
+
+    const handleDeleteClick = (e: MouseEvent) => {
         e.stopPropagation();
         onDelete();
     };
@@ -78,3 +78,6 @@ export const ClassCard: React.FC<ClassCardProps> = ({ classInfo, lastModified, o
         </div>
     );
 };
+
+// Export memoized component for performance
+export const ClassCard = memo(ClassCardComponent);
