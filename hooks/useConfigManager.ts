@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useImmer } from 'use-immer';
 import { AppConfig } from '../types';
 import { logger } from '../utils/logger';
 
@@ -12,7 +13,7 @@ const defaultConfig: AppConfig = {
 };
 
 export const useConfigManager = () => {
-    const [config, setConfig] = useState<AppConfig>(defaultConfig);
+    const [config, setConfig] = useImmer<AppConfig>(defaultConfig);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -20,33 +21,34 @@ export const useConfigManager = () => {
             const storedConfig = localStorage.getItem(CONFIG_STORAGE_KEY);
             if (storedConfig) {
                 const loadedConfig = JSON.parse(storedConfig);
-                // Ensure printShowDescriptions defaults to false if not set
-                if (typeof loadedConfig.printShowDescriptions === 'undefined') {
-                    loadedConfig.printShowDescriptions = false;
-                }
-                setConfig({ ...defaultConfig, ...loadedConfig });
+                setConfig(currentConfig => ({
+                    ...defaultConfig,
+                    ...loadedConfig,
+                    printShowDescriptions: loadedConfig.printShowDescriptions ?? false,
+                }));
             } else {
-                // For new users, explicitly set the default to false
-                setConfig({ ...defaultConfig, printShowDescriptions: false });
+                setConfig(currentConfig => ({
+                    ...currentConfig,
+                    printShowDescriptions: false,
+                }));
             }
         } catch (error) {
             logger.error("Failed to load config from localStorage", error);
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [setConfig]);
 
     const updateConfig = useCallback((newConfig: Partial<AppConfig>) => {
-        setConfig(prevConfig => {
-            const updated = { ...prevConfig, ...newConfig };
+        setConfig(draft => {
+            Object.assign(draft, newConfig);
             try {
-                localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(updated));
+                localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(draft));
             } catch (error) {
                 logger.error("Failed to save config to localStorage", error);
             }
-            return updated;
         });
-    }, []);
+    }, [setConfig]);
 
     return { config, updateConfig, isLoading };
 };

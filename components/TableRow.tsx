@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback, FC, memo } from 'react';
 import { Indices, ElementType, TopLevelItem } from '../types';
 import { formatDateDDMMYYYY } from '../utils/dataUtils';
 import { Button } from './ui/Button';
@@ -7,8 +7,8 @@ import { EditableCell } from './ui/EditableCell';
 import { TOP_LEVEL_TYPE_CONFIG } from '../constants';
 import { EditableTitle } from './ui/EditableTitle';
 import { useIsMobile } from '../hooks/useIsMobile';
-import { SmartDatePicker } from './modals/SmartDatePicker';
 import { QuickDateInput } from './ui/QuickDateInput';
+import { MobileDateModal } from './modals/MobileDateModal';
 
 interface TableRowProps {
   data: any;
@@ -24,9 +24,9 @@ interface TableRowProps {
   onOpenAddContentModal: (indices: Indices) => void;
 }
 
-export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, elementType, onCellUpdate, onDeleteItem, onSelectRow, isSelected, isNew = false, showDescriptions, onInitiateInlineEdit, onOpenAddContentModal }) => {
+export const TableRow: FC<TableRowProps> = memo(({ data, indices, elementType, onCellUpdate, onDeleteItem, onSelectRow, isSelected, isNew = false, showDescriptions, onInitiateInlineEdit, onOpenAddContentModal }) => {
   const [isEditingDate, setIsEditingDate] = useState(false);
-  const [isSmartDateOpen, setSmartDateOpen] = useState(false);
+  const [isMobileDateOpen, setMobileDateOpen] = useState(false);
   const isMobile = useIsMobile();
   const dateInputRef = useRef<HTMLInputElement>(null);
 
@@ -43,14 +43,15 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
 
   const openDateEditor = () => {
     if (isMobile) {
-      setSmartDateOpen(true);
+      setMobileDateOpen(true);
     } else {
       setIsEditingDate(true);
     }
   };
 
-  const saveSmartDate = (value: string | '') => {
+  const saveDate = (value: string) => {
     onCellUpdate(indices, 'date', value);
+    setMobileDateOpen(false);
   };
 
   
@@ -88,10 +89,13 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                 <div className="relative group/date h-full flex items-center justify-center p-2" onClick={(e) => e.stopPropagation()}>
                     {isEditingDate ? (
                         <QuickDateInput
+                            ref={dateInputRef}
                             value={data.date || ''}
-                            onChange={(value) => onCellUpdate(indices, 'date', value)}
-                            onBlur={() => setIsEditingDate(false)}
-                            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === 'Escape') setIsEditingDate(false); }}
+                            onSave={(value) => {
+                                onCellUpdate(indices, 'date', value);
+                                setIsEditingDate(false);
+                            }}
+                            onCancel={() => setIsEditingDate(false)}
                             className="w-full h-full text-center border-2 border-teal-500 rounded-md shadow-inner bg-white z-10 focus:outline-none"
                         />
                     ) : (
@@ -152,90 +156,94 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
   ].filter(Boolean).join(" ");
 
   return (
-    <div className={rowClasses} onClick={(e) => { e.stopPropagation(); handleSelect(); }}>
-      <div className="w-full md:w-[15%] md:p-1 md:border-r md:border-slate-200">
-        <div className="px-2 pt-2 md:hidden">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Date</span>
+    <>
+      <div className={rowClasses} onClick={(e) => { e.stopPropagation(); handleSelect(); }}>
+        <div className="w-full md:w-[15%] md:p-1 md:border-r md:border-slate-200">
+          <div className="px-2 pt-2 md:hidden">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Date</span>
+          </div>
+      <div className="relative group/date h-full flex items-center justify-center p-2 md:p-0" onClick={(e) => e.stopPropagation()}>
+              {isEditingDate && !isMobile ? (
+                   <QuickDateInput
+                      ref={dateInputRef}
+                      value={data.date || ''}
+                      onSave={(value) => {
+                          onCellUpdate(indices, 'date', value);
+                          setIsEditingDate(false);
+                      }}
+                      onCancel={() => setIsEditingDate(false)}
+                      className="w-full h-full text-center border-2 border-teal-500 rounded-md shadow-inner bg-white z-10 focus:outline-none"
+                  />
+              ) : (
+                  <div 
+                      role="button"
+                      tabIndex={0}
+                      onClick={openDateEditor}
+                      onKeyDown={(e) => { if (e.key === 'Enter') openDateEditor(); }}
+                      className={`flex-grow h-full flex items-center justify-center text-center text-xs rounded transition-colors cursor-pointer hover:bg-slate-100 ${data.date ? '' : 'text-slate-400'}`}
+                      title="Cliquer pour modifier la date"
+                  >
+                      {renderDate(data.date)}
+                  </div>
+              )}
+              
+              {!isEditingDate && (
+                  <div className="flex items-center gap-1 transition-opacity md:absolute md:top-1/2 md:right-1 md:-translate-y-1/2 md:opacity-0 md:group-hover/date:opacity-100">
+                      <button onClick={() => onCellUpdate(indices, 'date', new Date().toISOString().slice(0, 10))} className="w-6 h-6 flex items-center justify-center rounded-full text-xs bg-teal-100 hover:bg-teal-200 text-teal-700" data-tippy-content="Aujourd'hui">
+                          <i className="fas fa-calendar-day"></i>
+                      </button>
+                      {data.date &&
+                          <button onClick={() => onCellUpdate(indices, 'date', '')} className="w-6 h-6 flex items-center justify-center rounded-full text-xs bg-slate-100 hover:bg-slate-200 text-slate-600" data-tippy-content="Effacer la date">
+                              <i className="fas fa-times-circle"></i>
+                          </button>
+                      }
+                  </div>
+              )}
+          </div>
         </div>
-    <div className="relative group/date h-full flex items-center justify-center p-2 md:p-0" onClick={(e) => e.stopPropagation()}>
-            {isEditingDate ? (
-                 <QuickDateInput
-                    value={data.date || ''}
-                    onChange={(value) => onCellUpdate(indices, 'date', value)}
-                    onBlur={() => setIsEditingDate(false)}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === 'Escape') {
-                            setIsEditingDate(false);
-                        }
-                    }}
-                    className="w-full h-full text-center border-2 border-teal-500 rounded-md shadow-inner bg-white z-10 focus:outline-none"
-                />
-            ) : (
-                <div 
-                    role="button"
-                    tabIndex={0}
-                    onClick={openDateEditor}
-                    onKeyDown={(e) => { if (e.key === 'Enter') openDateEditor(); }}
-                    className={`flex-grow h-full flex items-center justify-center text-center text-xs rounded transition-colors cursor-pointer hover:bg-slate-100 ${data.date ? '' : 'text-slate-400'}`}
-                    title="Cliquer pour modifier la date"
-                >
-                    {renderDate(data.date)}
-                </div>
-            )}
-            
-            {!isEditingDate && (
-                <div className="flex items-center gap-1 transition-opacity md:absolute md:top-1/2 md:right-1 md:-translate-y-1/2 md:opacity-0 md:group-hover/date:opacity-100">
-                    <button onClick={() => onCellUpdate(indices, 'date', new Date().toISOString().slice(0, 10))} className="w-6 h-6 flex items-center justify-center rounded-full text-xs bg-teal-100 hover:bg-teal-200 text-teal-700" data-tippy-content="Aujourd'hui">
-                        <i className="fas fa-calendar-day"></i>
-                    </button>
-                    {data.date &&
-                        <button onClick={() => onCellUpdate(indices, 'date', '')} className="w-6 h-6 flex items-center justify-center rounded-full text-xs bg-slate-100 hover:bg-slate-200 text-slate-600" data-tippy-content="Effacer la date">
-                            <i className="fas fa-times-circle"></i>
-                        </button>
-                    }
-                </div>
-            )}
-        </div>
-      </div>
-      <div className="w-full md:w-[70%] p-2 md:p-1 relative border-t md:border-t-0 md:border-r border-slate-200" onClick={(e) => e.stopPropagation()}>
-        <div className="md:hidden">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Contenu</span>
-        </div>
-        <div className="md:pr-12">
-            <ContentRenderer 
-                data={data} 
-                indices={indices} 
-                elementType={elementType} 
-                showDescriptions={showDescriptions} 
-                onCellUpdate={onCellUpdate}
-            />
-        </div>
-        <div className="absolute top-1/2 -translate-y-1/2 right-2 flex gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-200 transform scale-90 group-hover:scale-100 print:hidden">
-          <Button variant="icon" size="sm" onClick={(e) => { e.stopPropagation(); handleOpenAddModal(); }} data-tippy-content="Ajouter après" className="w-6 h-6 text-xs bg-green-100 hover:bg-green-200 text-green-700">
-              <i className="fas fa-plus"></i>
-          </Button>
-          {elementType === 'item' && (
-            <Button variant="icon" size="sm" onClick={(e) => { e.stopPropagation(); handleInitiateEdit(); }} data-tippy-content="Modifier" className="w-6 h-6 text-xs bg-blue-100 hover:bg-blue-200 text-blue-700">
-                <i className="fas fa-pencil-alt"></i>
+        <div className="w-full md:w-[70%] p-2 md:p-1 relative border-t md:border-t-0 md:border-r border-slate-200" onClick={(e) => e.stopPropagation()}>
+          <div className="md:hidden">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Contenu</span>
+          </div>
+          <div className="md:pr-12">
+              <ContentRenderer 
+                  data={data} 
+                  indices={indices} 
+                  elementType={elementType} 
+                  showDescriptions={showDescriptions} 
+                  onCellUpdate={onCellUpdate}
+              />
+          </div>
+          <div className="absolute top-1/2 -translate-y-1/2 right-2 flex gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all duration-200 transform scale-90 group-hover:scale-100 print:hidden">
+            <Button variant="icon" size="sm" onClick={(e) => { e.stopPropagation(); handleOpenAddModal(); }} data-tippy-content="Ajouter après" className="w-6 h-6 text-xs bg-green-100 hover:bg-green-200 text-green-700">
+                <i className="fas fa-plus"></i>
             </Button>
-          )}
-          <Button variant="icon" size="sm" onClick={(e) => { e.stopPropagation(); handleDelete(); }} data-tippy-content="Supprimer" className="w-6 h-6 text-xs bg-red-100 hover:bg-red-200 text-red-700">
-            <i className="fas fa-trash-alt"></i>
-          </Button>
+            {elementType === 'item' && (
+              <Button variant="icon" size="sm" onClick={(e) => { e.stopPropagation(); handleInitiateEdit(); }} data-tippy-content="Modifier" className="w-6 h-6 text-xs bg-blue-100 hover:bg-blue-200 text-blue-700">
+                  <i className="fas fa-pencil-alt"></i>
+              </Button>
+            )}
+            <Button variant="icon" size="sm" onClick={(e) => { e.stopPropagation(); handleDelete(); }} data-tippy-content="Supprimer" className="w-6 h-6 text-xs bg-red-100 hover:bg-red-200 text-red-700">
+              <i className="fas fa-trash-alt"></i>
+            </Button>
+          </div>
+        </div>
+        <div className="w-full md:w-[15%] p-1 relative border-t md:border-t-0 border-slate-200" onClick={(e) => e.stopPropagation()}>
+          <div className="px-1 pt-1 md:hidden">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Remarque</span>
+          </div>
+          <EditableCell value={data.remark || ''} onSave={(v) => onCellUpdate(indices, 'remark', v)} className="text-xs text-slate-600 p-2" multiline placeholder="Aucune remarque" />
         </div>
       </div>
-      <div className="w-full md:w-[15%] p-1 relative border-t md:border-t-0 border-slate-200" onClick={(e) => e.stopPropagation()}>
-        <div className="px-1 pt-1 md:hidden">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Remarque</span>
-        </div>
-        <EditableCell value={data.remark || ''} onSave={(v) => onCellUpdate(indices, 'remark', v)} className="text-xs text-slate-600 p-2" multiline placeholder="Aucune remarque" />
-      </div>
-      <SmartDatePicker
-        isOpen={isSmartDateOpen}
-        initialDate={data.date}
-        onClose={() => setSmartDateOpen(false)}
-        onSave={saveSmartDate}
-      />
-    </div>
+
+      {isMobile ? (
+        <MobileDateModal
+          isOpen={isMobileDateOpen}
+          onClose={() => setMobileDateOpen(false)}
+          onSave={saveDate}
+          initialDate={data.date}
+        />
+      ) : null}
+    </>
   );
 });

@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useImmer } from 'use-immer';
 import { ClassInfo } from '../types';
 import { logger } from '../utils/logger';
 
@@ -13,7 +14,7 @@ const generateColor = () => {
 };
 
 export const useClassManager = () => {
-    const [classes, setClasses] = useState<ClassInfo[]>([]);
+    const [classes, setClasses] = useImmer<ClassInfo[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -27,16 +28,25 @@ export const useClassManager = () => {
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [setClasses]);
 
-    const saveClasses = useCallback((updatedClasses: ClassInfo[]) => {
+    const saveClasses = useCallback((updatedClasses: ClassInfo[] | ((draft: ClassInfo[]) => void)) => {
         try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedClasses));
-            setClasses(updatedClasses);
+            // use-immer's updater function can be a new array or a function
+            if (typeof updatedClasses === 'function') {
+                // If it's a function, we need to get the current state to save it
+                setClasses(draft => {
+                    updatedClasses(draft);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+                });
+            } else {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedClasses));
+                setClasses(updatedClasses);
+            }
         } catch (error) {
             logger.error("Failed to save classes to localStorage", error);
         }
-    }, []);
+    }, [setClasses]);
 
     const addClass = useCallback((classDetails: Omit<ClassInfo, 'id' | 'createdAt' | 'color'>) => {
         const newClass: ClassInfo = {
@@ -45,31 +55,38 @@ export const useClassManager = () => {
             createdAt: new Date().toISOString(),
             color: generateColor(),
         };
-        const updatedClasses = [...classes, newClass];
-        saveClasses(updatedClasses);
-        // Also initialize its data store with an empty array
+        
+        saveClasses(draft => {
+            draft.push(newClass);
+        });
+
         localStorage.setItem(`${CLASS_DATA_PREFIX}${newClass.id}`, JSON.stringify([]));
         return newClass;
-    }, [classes, saveClasses]);
+    }, [saveClasses]);
 
     const deleteClass = useCallback((classId: string) => {
         const classToDelete = classes.find(c => c.id === classId);
         if (!classToDelete) return;
 
         if (window.confirm(`Êtes-vous sûr de vouloir supprimer la classe "${classToDelete.name}" ? Cette action est irréversible.`)) {
-            const updatedClasses = classes.filter(c => c.id !== classId);
-            saveClasses(updatedClasses);
-            // Also delete its data
+            saveClasses(draft => {
+                const index = draft.findIndex(c => c.id === classId);
+                if (index !== -1) {
+                    draft.splice(index, 1);
+                }
+            });
             localStorage.removeItem(`${CLASS_DATA_PREFIX}${classId}`);
         }
     }, [classes, saveClasses]);
     
     const updateClass = useCallback((classId: string, updatedInfo: Partial<Omit<ClassInfo, 'id'>>) => {
-        const updatedClasses = classes.map(c => 
-            c.id === classId ? { ...c, ...updatedInfo } : c
-        );
-        saveClasses(updatedClasses);
-    }, [classes, saveClasses]);
+        saveClasses(draft => {
+            const classToUpdate = draft.find(c => c.id === classId);
+            if (classToUpdate) {
+                Object.assign(classToUpdate, updatedInfo);
+            }
+        });
+    }, [saveClasses]);
 
     return { classes, addClass, deleteClass, updateClass, isLoading };
 };

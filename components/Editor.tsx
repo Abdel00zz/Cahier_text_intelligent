@@ -1,6 +1,7 @@
 
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useImmer } from 'use-immer';
 import { Header } from './Header';
 import { Toolbar } from './Toolbar';
 import { MainTable } from './MainTable';
@@ -31,38 +32,49 @@ type ActiveModal =
   | null;
 
 export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onBack }) => {
-  const [classInfo, setClassInfo] = useState<ClassInfo>(initialClassInfo);
   const { state: lessonsData, setState, undo, redo, canUndo, canRedo } = useHistoryState<LessonsData>([]);
-  
-  const [isClassLoading, setIsClassLoading] = useState(true);
   const { config, isLoading: isConfigLoading } = useConfigManager();
 
-  const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved'>('saved');
-  const [notification, setNotification] = useState<{ message: string; type: NotificationType } | null>(null);
-  
-  const [activeModal, setActiveModal] = useState<ActiveModal>(null);
-  const [editingIndices, setEditingIndices] = useState<Indices | null>(null);
+  const [editorState, setEditorState] = useImmer({
+    classInfo: initialClassInfo,
+    isClassLoading: true,
+    saveStatus: 'saved' as 'saved' | 'saving' | 'unsaved',
+    notification: null as { message: string; type: NotificationType } | null,
+    activeModal: null as ActiveModal,
+    editingIndices: null as Indices | null,
+    searchQuery: '',
+    selectedIndices: null as Indices | null,
+    newlyAddedIds: [] as string[],
+  });
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedIndices, setSelectedIndices] = useState<Indices | null>(null);
-  const [newlyAddedIds, setNewlyAddedIds] = useState<string[]>([]);
+  const {
+    classInfo,
+    isClassLoading,
+    saveStatus,
+    notification,
+    activeModal,
+    editingIndices,
+    searchQuery,
+    selectedIndices,
+    newlyAddedIds,
+  } = editorState;
 
   const getStorageKey = useCallback(() => `classData_v1_${classInfo.id}`, [classInfo.id]);
   
   const showNotification = useCallback((message: string, type: NotificationType, duration = 3000) => {
-    setNotification({ message, type });
-  }, []);
+    setEditorState(draft => { draft.notification = { message, type }; });
+  }, [setEditorState]);
 
   const addNewItemHighlight = useCallback((id: string) => {
-    setNewlyAddedIds(prev => [...prev, id]);
+    setEditorState(draft => { draft.newlyAddedIds.push(id); });
     setTimeout(() => {
-        setNewlyAddedIds(prev => prev.filter(i => i !== id));
+        setEditorState(draft => { draft.newlyAddedIds = draft.newlyAddedIds.filter(i => i !== id); });
     }, 2500);
-  }, []);
+  }, [setEditorState]);
 
   // --- Data Persistence ---
   const loadData = useCallback(() => {
-    setIsClassLoading(true);
+    setEditorState(draft => { draft.isClassLoading = true; });
     const storageKey = getStorageKey();
     
     try {
@@ -76,21 +88,21 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
       logger.error("Failed to load data from localStorage", error);
       showNotification("Erreur lors du chargement des données.", "error");
     } finally {
-      setIsClassLoading(false);
+      setEditorState(draft => { draft.isClassLoading = false; });
     }
-  }, [setState, getStorageKey, classInfo.name, showNotification]);
+  }, [setState, getStorageKey, classInfo.name, showNotification, setEditorState]);
 
   const saveData = useCallback(() => {
-    setSaveStatus('saving');
+    setEditorState(draft => { draft.saveStatus = 'saving'; });
     try {
       localStorage.setItem(getStorageKey(), JSON.stringify(lessonsData));
-      setTimeout(() => setSaveStatus('saved'), 500);
+      setTimeout(() => setEditorState(draft => { draft.saveStatus = 'saved'; }), 500);
     } catch (error) {
       logger.error("Failed to save data to localStorage", error);
       showNotification("Erreur de sauvegarde.", "error");
-      setSaveStatus('unsaved');
+      setEditorState(draft => { draft.saveStatus = 'unsaved'; });
     }
-  }, [lessonsData, getStorageKey, showNotification]);
+  }, [lessonsData, getStorageKey, showNotification, setEditorState]);
   
   const handleExportData = useCallback(() => {
     try {
@@ -115,6 +127,23 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
     }
   }, [classInfo, lessonsData, showNotification]);
 
+  const handleClassInfoChange = useCallback((newInfo: Partial<ClassInfo>) => {
+    setEditorState(draft => {
+        Object.assign(draft.classInfo, newInfo);
+        
+        try {
+            const allClasses: ClassInfo[] = JSON.parse(localStorage.getItem('classManager_v1') || '[]');
+            const updatedClasses = allClasses.map(c => 
+                c.id === draft.classInfo.id ? { ...draft.classInfo } : c
+            );
+            localStorage.setItem('classManager_v1', JSON.stringify(updatedClasses));
+        } catch (e) {
+            console.error("Failed to update class info in storage", e);
+            showNotification("Erreur de mise à jour des infos de la classe", "error");
+        }
+    });
+  }, [setEditorState, showNotification]);
+
   useEffect(() => {
     if (isClassLoading || isConfigLoading || saveStatus === 'saved') return;
     const handler = setTimeout(() => {
@@ -127,17 +156,15 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
     loadData();
   }, [loadData]);
   
-  // Mettre à jour le nom de l'enseignant dans les informations de la classe lorsque la configuration change
   useEffect(() => {
     if (config.defaultTeacherName && config.defaultTeacherName !== classInfo.teacherName) {
       handleClassInfoChange({ teacherName: config.defaultTeacherName });
     }
-  }, [config.defaultTeacherName]);
+  }, [config.defaultTeacherName, classInfo.teacherName, handleClassInfoChange]);
 
   useEffect(() => {
-    // If parent component provides a new class info, update it
-    setClassInfo(initialClassInfo);
-  }, [initialClassInfo]);
+    setEditorState(draft => { draft.classInfo = initialClassInfo; });
+  }, [initialClassInfo, setEditorState]);
 
 
   useEffect(() => {
@@ -149,23 +176,6 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
       });
     }
   }, [lessonsData, isClassLoading, searchQuery, selectedIndices, editingIndices, activeModal]);
-
-  const handleClassInfoChange = useCallback((newInfo: Partial<ClassInfo>) => {
-    const updatedClassInfo = { ...classInfo, ...newInfo };
-    setClassInfo(updatedClassInfo);
-    
-    try {
-        const allClasses: ClassInfo[] = JSON.parse(localStorage.getItem('classManager_v1') || '[]');
-        const updatedClasses = allClasses.map(c => 
-            c.id === updatedClassInfo.id ? updatedClassInfo : c
-        );
-        localStorage.setItem('classManager_v1', JSON.stringify(updatedClasses));
-    } catch (e) {
-        console.error("Failed to update class info in storage", e);
-        showNotification("Erreur de mise à jour des infos de la classe", "error");
-    }
-  }, [classInfo, showNotification]);
-
   
   const handleCellUpdate = useCallback((indices: Indices, field: string, value: any) => {
     setState(draft => {
@@ -174,8 +184,8 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
             (item as any)[field] = value;
         }
     }, 'cell-edit');
-    setSaveStatus('unsaved');
-  }, [setState]);
+    setEditorState(draft => { draft.saveStatus = 'unsaved'; });
+  }, [setState, setEditorState]);
 
   const handleDeleteItem = useCallback((indices: Indices) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet élément et tout son contenu ?")) {
@@ -188,64 +198,69 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
         }
       }, 'delete-item');
       showNotification("Élément supprimé.", "success");
-      setSaveStatus('unsaved');
-      setSelectedIndices(null);
+      setEditorState(draft => {
+        draft.saveStatus = 'unsaved';
+        draft.selectedIndices = null;
+      });
     }
-  }, [setState, showNotification]);
+  }, [setState, showNotification, setEditorState]);
 
   const handleOpenAddContentModal = (indices?: Indices) => {
-      setSelectedIndices(indices || null);
-      setActiveModal('addContent');
+      setEditorState(draft => {
+        draft.selectedIndices = indices || null;
+        draft.activeModal = 'addContent';
+      });
   };
   
   const handleModalClose = useCallback(() => {
-    setActiveModal(null);
-    setSelectedIndices(null);
-  }, []);
+    setEditorState(draft => {
+      draft.activeModal = null;
+      draft.selectedIndices = null;
+    });
+  }, [setEditorState]);
 
   const handleConfirmAddContent = useCallback((type: string, data: any) => {
-      const refIndices = selectedIndices;
       let notificationMessage = '';
       const newId = crypto.randomUUID();
       
-      if (TOP_LEVEL_TYPE_CONFIG.hasOwnProperty(type) && type !== 'chapter' && refIndices) {
-          let parentLevelIndices: Indices = { chapterIndex: refIndices.chapterIndex };
-          if (refIndices.sectionIndex !== undefined) parentLevelIndices.sectionIndex = refIndices.sectionIndex;
-          if (refIndices.subsectionIndex !== undefined) parentLevelIndices.subsectionIndex = refIndices.subsectionIndex;
-          if (refIndices.subsubsectionIndex !== undefined) parentLevelIndices.subsubsectionIndex = refIndices.subsubsectionIndex;
-          const insertAfterIndex = refIndices.itemIndex;
+      if (TOP_LEVEL_TYPE_CONFIG.hasOwnProperty(type) && type !== 'chapter' && selectedIndices) {
+          let parentLevelIndices: Indices = { chapterIndex: selectedIndices.chapterIndex };
+          if (selectedIndices.sectionIndex !== undefined) parentLevelIndices.sectionIndex = selectedIndices.sectionIndex;
+          if (selectedIndices.subsectionIndex !== undefined) parentLevelIndices.subsectionIndex = selectedIndices.subsectionIndex;
+          if (selectedIndices.subsubsectionIndex !== undefined) parentLevelIndices.subsubsectionIndex = selectedIndices.subsubsectionIndex;
+          const insertAfterIndex = selectedIndices.itemIndex;
           const newItem: EmbeddableTopLevelItem = { type: type as EmbeddableTopLevelType, title: data.title, _tempId: newId };
           setState(draft => addItem(draft, parentLevelIndices, newItem, insertAfterIndex), 'add-embedded-item');
           notificationMessage = "Bloc inséré.";
           addNewItemHighlight(newId);
       } else if (TOP_LEVEL_TYPE_CONFIG.hasOwnProperty(type)) {
-          const insertAfterIndex = refIndices?.chapterIndex;
+          const insertAfterIndex = selectedIndices?.chapterIndex;
           const newItem: TopLevelItem = { type: type as TopLevelItem['type'], title: data.title, _tempId: newId };
           setState(draft => addTopLevelItem(draft, newItem, insertAfterIndex), 'add-top-level');
           notificationMessage = "Élément principal ajouté.";
           addNewItemHighlight(newId);
-      } else if (type === 'section' && refIndices) {
-          const parentIndices = { chapterIndex: refIndices.chapterIndex };
-          const insertAfterIndex = refIndices.sectionIndex;
+      } else if (type === 'section' && selectedIndices) {
+          const parentIndices = { chapterIndex: selectedIndices.chapterIndex };
+          const insertAfterIndex = selectedIndices.sectionIndex;
           const newSection: Section = { name: data.name, items: [], _tempId: newId };
           setState(draft => addSection(draft, parentIndices, newSection, insertAfterIndex), 'add-section');
           notificationMessage = "Section ajoutée.";
           addNewItemHighlight(newId);
-      } else if (type === 'item' && refIndices) {
-          let parentLevelIndices: Indices = { chapterIndex: refIndices.chapterIndex };
-          if (refIndices.sectionIndex !== undefined) parentLevelIndices.sectionIndex = refIndices.sectionIndex;
-          if (refIndices.subsectionIndex !== undefined) parentLevelIndices.subsectionIndex = refIndices.subsectionIndex;
-          if (refIndices.subsubsectionIndex !== undefined) parentLevelIndices.subsubsectionIndex = refIndices.subsubsectionIndex;
-          const insertAfterIndex = refIndices.itemIndex;
+      } else if (type === 'item' && selectedIndices) {
+          let parentLevelIndices: Indices = { chapterIndex: selectedIndices.chapterIndex };
+          if (selectedIndices.sectionIndex !== undefined) parentLevelIndices.sectionIndex = selectedIndices.sectionIndex;
+          if (selectedIndices.subsectionIndex !== undefined) parentLevelIndices.subsectionIndex = selectedIndices.subsectionIndex;
+          if (selectedIndices.subsubsectionIndex !== undefined) parentLevelIndices.subsubsectionIndex = selectedIndices.subsubsectionIndex;
+          const insertAfterIndex = selectedIndices.itemIndex;
           
           const normalizedType = TYPE_MAP[data.type.toLowerCase()] || data.type;
           const newItem: LessonItem = { ...data, type: normalizedType, _tempId: newId };
           setState(draft => addItem(draft, parentLevelIndices, newItem, insertAfterIndex), 'add-item');
           notificationMessage = "Élément ajouté.";
           addNewItemHighlight(newId);
-      } else if (type === 'separator' && refIndices) {
+      } else if (type === 'separator' && selectedIndices) {
           setState(draft => {
-              const { item } = findItem(draft, refIndices);
+              const { item } = findItem(draft, selectedIndices);
               if (item) {
                   if(item.separatorAfter) {
                       showNotification("Un séparateur existe déjà à cet endroit.", "info");
@@ -261,19 +276,21 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
 
       if (notificationMessage) {
         showNotification(notificationMessage, "success");
-        setSaveStatus('unsaved');
+        setEditorState(draft => { draft.saveStatus = 'unsaved'; });
       }
       handleModalClose();
-  }, [selectedIndices, setState, showNotification, handleModalClose, addNewItemHighlight]);
+  }, [selectedIndices, setState, showNotification, handleModalClose, addNewItemHighlight, setEditorState]);
   
   const handleInitiateInlineEdit = useCallback((indices: Indices) => {
-    setEditingIndices(indices);
-    setSelectedIndices(null); // Deselect row to avoid visual conflicts
-  }, []);
+    setEditorState(draft => {
+      draft.editingIndices = indices;
+      draft.selectedIndices = null;
+    });
+  }, [setEditorState]);
 
   const handleCancelInlineEdit = useCallback(() => {
-    setEditingIndices(null);
-  }, []);
+    setEditorState(draft => { draft.editingIndices = null; });
+  }, [setEditorState]);
 
   const handleConfirmInlineEdit = useCallback((indices: Indices, updatedData: Partial<LessonItem>) => {
       const normalizedType = updatedData.type ? (TYPE_MAP[updatedData.type.toLowerCase()] || updatedData.type) : undefined;
@@ -289,9 +306,11 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
           }
       }, 'inline-edit-item');
       showNotification("Élément mis à jour.", "success");
-      setSaveStatus('unsaved');
-      setEditingIndices(null);
-  }, [setState, showNotification]);
+      setEditorState(draft => {
+        draft.saveStatus = 'unsaved';
+        draft.editingIndices = null;
+      });
+  }, [setState, showNotification, setEditorState]);
 
   const handleImport = useCallback((data: any, mode: 'replace' | 'append') => {
       const lessonsToImport = data.lessonsData || data; // supports full export or raw array
@@ -299,21 +318,21 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
       setState(currentData => (mode === 'replace' ? migratedData : [...currentData, ...migratedData]), 'import-data');
       handleModalClose();
       showNotification("Données importées avec succès!", "success");
-      setSaveStatus('unsaved');
-  }, [setState, showNotification, handleModalClose]);
+      setEditorState(draft => { draft.saveStatus = 'unsaved'; });
+  }, [setState, showNotification, handleModalClose, setEditorState]);
 
   const handleUpdateLessons = useCallback((newLessons: LessonsData) => {
       setState(() => newLessons, 'manage-lessons');
       handleModalClose();
       showNotification(`Leçons mises à jour.`, 'success');
-      setSaveStatus('unsaved');
-  }, [setState, showNotification, handleModalClose]);
+      setEditorState(draft => { draft.saveStatus = 'unsaved'; });
+  }, [setState, showNotification, handleModalClose, setEditorState]);
   
   const handleDeleteSeparator = useCallback((indices: Indices) => {
     setState(draft => deleteSeparator(draft, indices), 'delete-separator');
     showNotification("Séparateur supprimé.", "success");
-    setSaveStatus('unsaved');
-  }, [setState, showNotification]);
+    setEditorState(draft => { draft.saveStatus = 'unsaved'; });
+  }, [setState, showNotification, setEditorState]);
   
   const filteredData = useMemo(() => {
     if (!searchQuery) return lessonsData;
@@ -350,7 +369,6 @@ return (
     <div className="relative p-2 sm:p-5 bg-slate-50">
       <div className="container mx-auto max-w-7xl bg-white shadow-2xl p-3 sm:p-6 min-h-[calc(100vh-2.5rem)] flex flex-col print:shadow-none print:border-none print:p-0">
         
-        {/* Contenu pour l'écran */}
         <div className="print-hidden flex flex-col flex-1">
           <Header 
             classInfo={classInfo}
@@ -365,14 +383,14 @@ return (
             canRedo={canRedo}
             onSave={saveData}
             saveStatus={saveStatus}
-            onOpenImport={() => setActiveModal('import')}
-            onOpenManageLessons={() => setActiveModal('manageLessons')}
-            onOpenGuide={() => setActiveModal('guide')}
+            onOpenImport={() => setEditorState(draft => { draft.activeModal = 'import'; })}
+            onOpenManageLessons={() => setEditorState(draft => { draft.activeModal = 'manageLessons'; })}
+            onOpenGuide={() => setEditorState(draft => { draft.activeModal = 'guide'; })}
             onExportData={handleExportData}
             searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
+            setSearchQuery={value => setEditorState(draft => { draft.searchQuery = value; })}
           />
-          <main className="flex-1" onClick={() => setSelectedIndices(null)}>
+          <main className="flex-1" onClick={() => setEditorState(draft => { draft.selectedIndices = null; })}>
             <MainTable
               lessonsData={filteredData}
               onCellUpdate={handleCellUpdate}
@@ -381,7 +399,7 @@ return (
               onOpenAddContentModal={handleOpenAddContentModal}
               showDescriptions={config.printShowDescriptions}
               selectedIndices={selectedIndices}
-              onSelectRow={setSelectedIndices}
+              onSelectRow={indices => setEditorState(draft => { draft.selectedIndices = indices; })}
               editingIndices={editingIndices}
               onInitiateInlineEdit={handleInitiateInlineEdit}
               onConfirmInlineEdit={handleConfirmInlineEdit}
@@ -391,12 +409,11 @@ return (
           </main>
         </div>
         
-        {/* Contenu pour l'impression */}
         <PrintView lessonsData={filteredData} classInfo={classInfo} config={config} newlyAddedIds={newlyAddedIds} />
         
       </div>
 
-      {notification && <Notification {...notification} onDismiss={() => setNotification(null)} />}
+      {notification && <Notification {...notification} onDismiss={() => setEditorState(draft => { draft.notification = null; })} />}
       
       <ImportModal isOpen={activeModal === 'import'} onClose={handleModalClose} onImport={handleImport} />
       <ManageLessonsModal isOpen={activeModal === 'manageLessons'} onClose={handleModalClose} lessons={lessonsData} onUpdate={handleUpdateLessons} />
