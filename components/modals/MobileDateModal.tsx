@@ -1,4 +1,5 @@
 import React, { FC, useState, useEffect, useRef } from 'react';
+import { formatDateDDMMYYYY } from '../../utils/dataUtils';
 
 interface MobileDateModalProps {
   isOpen: boolean;
@@ -7,9 +8,10 @@ interface MobileDateModalProps {
   onSave: (date: string) => void;
 }
 
-const today = new Date();
-const tomorrow = new Date();
-tomorrow.setDate(today.getDate() + 1);
+// Create timezone-neutral dates for today and tomorrow
+const localNow = new Date();
+const today = new Date(Date.UTC(localNow.getFullYear(), localNow.getMonth(), localNow.getDate()));
+const tomorrow = new Date(Date.UTC(localNow.getFullYear(), localNow.getMonth(), localNow.getDate() + 1));
 
 const quickOptions = [
   { label: 'Aujourd\'hui', date: today },
@@ -17,44 +19,85 @@ const quickOptions = [
   { label: 'Effacer', date: null },
 ];
 
-// Helper to parse YYYY-MM-DD string as local date to avoid timezone issues
+// Helper to parse various date string formats into a UTC date
 const parseDateString = (dateString: string): Date | null => {
   if (!dateString) return null;
-  const parts = dateString.split('-');
-  if (parts.length !== 3) return null;
-  const [year, month, day] = parts.map(Number);
-  const date = new Date(year, month - 1, day);
-  // Check if the created date is valid and corresponds to the input
-  if (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day) {
-    return date;
+
+  // Try DD/MM/YYYY
+  const slashParts = dateString.split('/');
+  if (slashParts.length === 3) {
+    const [day, month, year] = slashParts.map(Number);
+    if (day > 0 && day <= 31 && month > 0 && month <= 12 && year > 1900) {
+        // Create date in UTC to avoid timezone shifts
+        const date = new Date(Date.UTC(year, month - 1, day));
+        if (date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day) {
+            return date;
+        }
+    }
   }
+
+  // Try YYYY-MM-DD
+  const dashParts = dateString.split('-');
+  if (dashParts.length === 3) {
+    const [year, month, day] = dashParts.map(Number);
+    // Create date in UTC
+    const date = new Date(Date.UTC(year, month - 1, day));
+    if (date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day) {
+        return date;
+    }
+  }
+
   return null;
 };
 
-// Helper to format a Date object into a YYYY-MM-DD string
-const formatDate = (date: Date | null): string => {
-  return date ? date.toISOString().slice(0, 10) : '';
+// Helper to format a UTC Date object into a YYYY-MM-DD string for saving
+const formatDateForSave = (date: Date | null): string => {
+  if (!date) return '';
+  // Use getUTC methods to extract components and format manually
+  const year = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day = date.getUTCDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
 };
 
 export const MobileDateModal: FC<MobileDateModalProps> = ({ isOpen, initialDate, onClose, onSave }) => {
-  const [selectedDate, setSelectedDate] = useState(() => parseDateString(initialDate || ''));
+  const [inputValue, setInputValue] = useState('');
   const modalRef = useRef<HTMLDivElement>(null);
+  const dateInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setSelectedDate(parseDateString(initialDate || ''));
+    if (isOpen) {
+      setInputValue(initialDate ? formatDateDDMMYYYY(initialDate) ?? '' : '');
+    }
   }, [initialDate, isOpen]);
 
-  const handleSelect = (date: Date | null) => {
-    onSave(formatDate(date));
+  const handleQuickSelect = (date: Date | null) => {
+    onSave(formatDateForSave(date));
     onClose();
   };
 
-  const handleDateInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const dateValue = e.target.value;
-    const parsed = parseDateString(dateValue);
-    setSelectedDate(parsed);
-    onSave(dateValue); // Save the raw string value from the input
+  const handleSave = () => {
+    const parsedDate = parseDateString(inputValue);
+    onSave(formatDateForSave(parsedDate));
     onClose();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSave();
+    } else if (e.key === 'Escape') {
+      onClose();
+    }
+  };
+
+  const handleNativeDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const dateValue = e.target.value; // YYYY-MM-DD
+    if (dateValue) {
+        const parsed = parseDateString(dateValue);
+        if (parsed) {
+            setInputValue(formatDateDDMMYYYY(dateValue) ?? '');
+        }
+    }
   };
 
   useEffect(() => {
@@ -74,35 +117,65 @@ export const MobileDateModal: FC<MobileDateModalProps> = ({ isOpen, initialDate,
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 animate-fade-in p-4">
       <div 
         ref={modalRef}
-        className="bg-white w-full rounded-t-2xl shadow-lg p-4 animate-slide-in-up-mobile"
+        className="bg-white w-full max-w-xs rounded-2xl shadow-lg p-5 animate-zoom-in"
       >
-        <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-4" />
-        <div className="grid grid-cols-3 gap-3">
+        <h3 className="text-lg font-bold text-center text-slate-800 mb-4">Modifier la date</h3>
+        
+        <div className="grid grid-cols-3 gap-2 mb-4">
           {quickOptions.map(option => (
             <button
               key={option.label}
-              onClick={() => handleSelect(option.date)}
-              className={`
-                p-3 rounded-xl text-center transition-all duration-200
-                ${option.date === null ? 'bg-slate-100 text-slate-700' : 'bg-teal-50 text-teal-800'}
-                ${selectedDate && option.date && selectedDate.toDateString() === option.date.toDateString() ? 'ring-2 ring-teal-500' : ''}
-                active:scale-95
-              `}
+              onClick={() => handleQuickSelect(option.date)}
+              className={`p-2 rounded-lg text-center transition-all duration-200 text-sm font-semibold
+                ${option.date === null ? 'bg-slate-100 hover:bg-slate-200 text-slate-700' : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-800'}
+                active:scale-95`}
             >
-              <span className="font-semibold text-sm">{option.label}</span>
+              {option.label}
             </button>
           ))}
         </div>
-        <div className="mt-4">
-          <input
-            type="date"
-            value={formatDate(selectedDate)}
-            onChange={handleDateInputChange}
-            className="w-full p-3 rounded-xl bg-slate-100 border-transparent focus:ring-2 focus:ring-teal-500 text-center text-slate-800"
-          />
+
+        <div className="relative flex items-center bg-slate-100 rounded-xl focus-within:ring-2 focus-within:ring-indigo-500">
+            <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="JJ/MM/AAAA"
+                className="w-full p-3 bg-transparent text-center text-slate-800 font-medium focus:outline-none"
+                autoFocus
+            />
+            <button 
+                onClick={() => dateInputRef.current?.showPicker()}
+                className="absolute right-0 p-3 text-slate-500 hover:text-indigo-600"
+                aria-label="Ouvrir le calendrier"
+            >
+                <i className="fas fa-calendar-alt"></i>
+            </button>
+            <input
+                ref={dateInputRef}
+                type="date"
+                onChange={handleNativeDateChange}
+                className="opacity-0 w-0 h-0 absolute"
+            />
+        </div>
+
+        <div className="mt-5 flex flex-col gap-2">
+            <button
+                onClick={handleSave}
+                className="w-full px-4 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors duration-200 active:scale-95 shadow-lg shadow-indigo-500/20"
+            >
+                Enregistrer
+            </button>
+            <button
+                onClick={onClose}
+                className="w-full px-4 py-2 text-slate-600 rounded-xl font-medium hover:bg-slate-100 transition-colors duration-200"
+            >
+                Annuler
+            </button>
         </div>
       </div>
     </div>
