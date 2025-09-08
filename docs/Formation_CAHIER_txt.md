@@ -23,15 +23,17 @@ Narration clé: « En quelques minutes, vous créez votre classe, saisissez vos 
 
 
 ### 2) Premiers pas et configuration (2–3 min)
-- Ouverture de l’application: présentation du Tableau de bord (liste des classes, bouton de création, bouton Configuration). 
+- Ouverture de l’application: présentation du Tableau de bord (liste des classes, bouton de création, bouton Configuration, bouton Aide visible).
 - Ouvrir la Configuration: 
 	- Établissement (nom affiché sur les impressions)
 	- Nom de l’enseignant par défaut
-	- Descriptions affichées (nouvelle interface):
+	- Conteu visible (nouvelle interface):
 		- Contexte Application (écran): Tout / Aucune / Sélection par type (badges authentiques)
 		- Contexte Impression (PDF): Tout / Aucune / Sélection par type (badges authentiques)
 		- Actions rapides: Tout sélectionner / Tout désélectionner; sections repliables; design responsive
 - Sauvegarde automatique locale: vos données restent sur votre appareil (LocalStorage).
+
+Note: L’aide intégrée est bilingue (FR/AR) et s’ouvre via le bouton Aide (Tableau de bord) ou depuis le menu … de l’Éditeur.
 
 Astuce: si vous êtes sur mobile en mode portrait, un petit rappel peut suggérer de passer en paysage pour plus de confort (fermez l’alerte si besoin; elle se réaffiche si vous restez en portrait).
 
@@ -52,7 +54,7 @@ Scénario suggéré: « 3e – Mathématiques »
 	- Annuler/Rétablir (Ctrl+Z / Ctrl+Y)
 	- Sauvegarder (manuel, en plus de l’auto)
 	- Recherche (touche « / » ou Ctrl+K)
-	- Menu … : Importer chapitre(s), Exporter les contenus, Gérer les leçons, Imprimer / PDF, Aide
+	- Menu … : Importer chapitre(s), Exporter les contenus, Gérer les leçons, Imprimer / PDF, Aide (dernier)
 - Zone principale (tableau): colonnes Date, Contenu, Remarque.
 
 Note: Le rendu des formules mathématiques est supporté (MathJax) – utile en sciences.
@@ -89,7 +91,7 @@ Démonstration proposée:
 
 ### 8) Imprimer / PDF (1 min)
 - Ouvrir « Imprimer »: aperçu prêt pour A4.
-- Besoin de détails ? Utilisez « Descriptions affichées » dans Configuration pour régler l’affichage des descriptions à l’impression (Tout / Aucune / Sélection par type).
+- Besoin de détails ? Utilisez « Conteu visible » dans Configuration pour régler l’affichage des descriptions à l’impression (Tout / Aucune / Sélection par type).
 - Dans la fenêtre du navigateur: Destination = Enregistrer en PDF; Format = A4; En‑têtes/Pieds = désactivés; Échelle = 100%.
 
 

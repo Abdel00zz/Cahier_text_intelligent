@@ -80,7 +80,7 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-2 sm:p-4" onClick={onClose}>
       <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl flex flex-col max-h-[96vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
         {/* En-tête compact */}
-        <div className="px-3 py-2 border-b border-gray-200 flex items-center justify-between">
+  <div className="px-3 py-2 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
           <h2 className="text-sm sm:text-base font-semibold text-gray-900">Configuration</h2>
           <button
             onClick={onClose}
@@ -92,7 +92,7 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
         </div>
 
         {/* Contenu compact */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto overscroll-contain">
           <div className="p-3 sm:p-4 space-y-4">
             
             {/* Section Informations Générales */}
@@ -394,12 +394,12 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
                   </Button>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            </div> {/* end section */}
+          </div> {/* end inner padding container */}
+        </div> {/* end scroll container */}
 
         {/* Pied de modal compact */}
-        <div className="px-3 py-2 bg-gray-50 border-t border-gray-200 flex justify-end gap-2">
+  <div className="px-3 py-2 bg-gray-50 border-t border-gray-200 flex justify-end gap-2 flex-shrink-0">
           <Button type="button" onClick={onClose} variant="secondary" className="px-3 h-9 text-sm">Annuler</Button>
           <Button type="button" onClick={handleSave} variant="primary" className="px-3 h-9 text-sm">Enregistrer</Button>
         </div>

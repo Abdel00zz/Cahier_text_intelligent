@@ -153,7 +153,7 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
     >
       <div 
         ref={modalRef}
-  className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-5xl h-[92vh] sm:h-[88vh] flex flex-col animate-slide-in-up border border-gray-100 overflow-hidden" 
+        className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-5xl h-[90vh] sm:h-[86vh] flex flex-col animate-slide-in-up border border-gray-100 overflow-hidden" 
         onClick={(e) => e.stopPropagation()}
         tabIndex={0}
         role="dialog"
