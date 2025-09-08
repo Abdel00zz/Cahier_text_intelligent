@@ -36,12 +36,18 @@ export const PromptModal: React.FC<PromptModalProps> = ({ isOpen, onClose, onCon
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4 animate-fade-in" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md animate-slide-in-up" onClick={(e) => e.stopPropagation()}>
-        <form onSubmit={handleSubmit}>
-          <div className="p-5 border-b border-slate-200">
-            <h2 className="text-lg font-semibold font-slab text-slate-900">{title}</h2>
+      <div
+        className="bg-white rounded-2xl shadow-xl w-full max-w-md animate-slide-in-up flex flex-col max-h-[86vh] overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="prompt-modal-title"
+      >
+        <form onSubmit={handleSubmit} className="flex flex-col min-h-0">
+          <div className="px-4 py-3 border-b border-slate-200 flex-shrink-0">
+            <h2 id="prompt-modal-title" className="text-base font-semibold font-slab text-slate-900">{title}</h2>
           </div>
-          <div className="p-6">
+          <div className="p-4 flex-1 overflow-y-auto overscroll-contain">
             <label htmlFor="prompt-input" className={labelClasses}>{label}</label>
             <input
               ref={inputRef}
@@ -53,7 +59,7 @@ export const PromptModal: React.FC<PromptModalProps> = ({ isOpen, onClose, onCon
               required
             />
           </div>
-          <div className="p-4 bg-slate-50 flex justify-end gap-3 rounded-b-2xl border-t border-slate-200">
+          <div className="p-3 bg-slate-50 flex justify-end gap-3 border-t border-slate-200 flex-shrink-0 rounded-b-2xl">
             <Button type="button" onClick={onClose} variant="secondary">Annuler</Button>
             <Button type="submit" variant="primary" disabled={!value.trim()}>Confirmer</Button>
           </div>

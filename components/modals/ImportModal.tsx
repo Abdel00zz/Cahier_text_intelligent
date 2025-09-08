@@ -46,9 +46,9 @@ export const ImportModal: React.FC<ImportModalProps> = ({ isOpen, onClose, onImp
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4 animate-fade-in" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl flex flex-col max-h-[86vh] animate-slide-in-up" onClick={(e) => e.stopPropagation()}>
-    <div className="p-4 border-b border-slate-200 flex-shrink-0">
-  <h2 className="text-lg font-semibold font-slab text-slate-900">Importer un/des chapitre(s) ou une classe</h2>
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl flex flex-col max-h-[86vh] animate-slide-in-up" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="import-modal-title">
+        <div className="p-4 border-b border-slate-200 flex-shrink-0">
+          <h2 id="import-modal-title" className="text-lg font-semibold font-slab text-slate-900">Importer un/des chapitre(s) ou une classe</h2>
         </div>
   <div className="p-5 space-y-4 flex-grow overflow-y-auto">
             <div>

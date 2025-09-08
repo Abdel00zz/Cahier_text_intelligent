@@ -39,12 +39,18 @@ export const CreateClassModal: React.FC<CreateClassModalProps> = ({ isOpen, onCl
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4 animate-fade-in" onClick={onClose}>
-  <div className="bg-white rounded-2xl shadow-xl w-full max-w-md animate-slide-in-up" onClick={(e) => e.stopPropagation()}>
-        <form onSubmit={handleSubmit}>
-          <div className="p-4 border-b border-slate-200">
-            <h2 className="text-lg font-semibold font-slab text-slate-900">Créer une nouvelle classe</h2>
+      <div
+        className="bg-white rounded-2xl shadow-xl w-full max-w-md animate-slide-in-up flex flex-col max-h-[86vh] overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="create-class-title"
+      >
+        <form onSubmit={handleSubmit} className="flex flex-col min-h-0">
+          <div className="px-4 py-3 border-b border-slate-200 flex-shrink-0">
+            <h2 id="create-class-title" className="text-base font-semibold font-slab text-slate-900">Créer une nouvelle classe</h2>
           </div>
-          <div className="p-5 space-y-4">
+          <div className="p-4 space-y-4 flex-1 overflow-y-auto overscroll-contain">
             <div>
               <label htmlFor="className" className={labelClasses}>Nom de la classe *</label>
               <input 
@@ -74,7 +80,7 @@ export const CreateClassModal: React.FC<CreateClassModalProps> = ({ isOpen, onCl
               Le nom de l'enseignant (<span className="font-semibold">{defaultTeacherName || 'non défini'}</span>) sera repris des paramètres par défaut.
             </p>
           </div>
-          <div className="p-3 bg-slate-50 flex justify-end gap-3 rounded-b-2xl border-t border-slate-200">
+          <div className="p-3 bg-slate-50 flex justify-end gap-3 rounded-b-2xl border-t border-slate-200 flex-shrink-0">
             <Button type="button" onClick={onClose} variant="secondary">Annuler</Button>
             <Button type="submit" variant="primary" disabled={!isFormValid}>Créer la classe</Button>
           </div>

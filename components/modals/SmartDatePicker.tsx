@@ -121,12 +121,12 @@ export const SmartDatePicker: FC<SmartDatePickerProps> = ({ isOpen, initialDate,
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4 animate-fade-in" onClick={onClose}>
-      <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[90vh] sm:max-h-[90vh] overflow-hidden animate-slide-in-up flex flex-col" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full sm:max-w-md max-h-[90vh] sm:max-h-[90vh] overflow-hidden animate-slide-in-up flex flex-col" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="smart-date-title">
         
         {/* Header - Fixed */}
         <div className="p-4 sm:p-4 border-b border-slate-200 flex-shrink-0 bg-white">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold font-slab text-slate-900">Choisir une date</h3>
+            <h3 id="smart-date-title" className="text-lg font-semibold font-slab text-slate-900">Choisir une date</h3>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setViewMode(viewMode === 'quick' ? 'calendar' : 'quick')}

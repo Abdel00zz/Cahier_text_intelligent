@@ -120,62 +120,72 @@ export const MobileDateModal: FC<MobileDateModalProps> = ({ isOpen, initialDate,
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 animate-fade-in p-4">
       <div 
         ref={modalRef}
-        className="bg-white w-full max-w-xs rounded-2xl shadow-lg p-5 animate-zoom-in"
+        className="bg-white w-full max-w-xs rounded-2xl shadow-lg animate-zoom-in flex flex-col max-h-[86vh] overflow-hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mobile-date-title"
       >
-        <h3 className="text-lg font-bold text-center text-slate-800 mb-4">Modifier la date</h3>
-        
-        <div className="grid grid-cols-3 gap-2 mb-4">
-          {quickOptions.map(option => (
-            <button
-              key={option.label}
-              onClick={() => handleQuickSelect(option.date)}
-              className={`p-2 rounded-lg text-center transition-all duration-200 text-sm font-semibold
-                ${option.date === null ? 'bg-slate-100 hover:bg-slate-200 text-slate-700' : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-800'}
-                active:scale-95`}
-            >
-              {option.label}
-            </button>
-          ))}
+        {/* Header */}
+        <div className="px-4 py-3 border-b border-slate-200 flex-shrink-0">
+          <h3 id="mobile-date-title" className="text-base font-semibold text-center text-slate-800">Modifier la date</h3>
         </div>
 
-        <div className="relative flex items-center bg-slate-100 rounded-xl focus-within:ring-2 focus-within:ring-indigo-500">
-            <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="JJ/MM/AAAA"
-                className="w-full p-3 bg-transparent text-center text-slate-800 font-medium focus:outline-none"
-                autoFocus
-            />
-            <button 
-                onClick={() => dateInputRef.current?.showPicker()}
-                className="absolute right-0 p-3 text-slate-500 hover:text-indigo-600"
-                aria-label="Ouvrir le calendrier"
-            >
-                <i className="fas fa-calendar-alt"></i>
-            </button>
-            <input
-                ref={dateInputRef}
-                type="date"
-                onChange={handleNativeDateChange}
-                className="opacity-0 w-0 h-0 absolute"
-            />
+        {/* Body */}
+        <div className="p-4 flex-1 overflow-y-auto overscroll-contain">
+          <div className="grid grid-cols-3 gap-2 mb-4">
+            {quickOptions.map(option => (
+              <button
+                key={option.label}
+                onClick={() => handleQuickSelect(option.date)}
+                className={`p-2 rounded-lg text-center transition-all duration-200 text-sm font-semibold
+                  ${option.date === null ? 'bg-slate-100 hover:bg-slate-200 text-slate-700' : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-800'}
+                  active:scale-95`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="relative flex items-center bg-slate-100 rounded-xl focus-within:ring-2 focus-within:ring-indigo-500">
+              <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="JJ/MM/AAAA"
+                  className="w-full p-3 bg-transparent text-center text-slate-800 font-medium focus:outline-none"
+                  autoFocus
+              />
+              <button 
+                  onClick={() => dateInputRef.current?.showPicker()}
+                  className="absolute right-0 p-3 text-slate-500 hover:text-indigo-600"
+                  aria-label="Ouvrir le calendrier"
+              >
+                  <i className="fas fa-calendar-alt"></i>
+              </button>
+              <input
+                  ref={dateInputRef}
+                  type="date"
+                  onChange={handleNativeDateChange}
+                  className="opacity-0 w-0 h-0 absolute"
+              />
+          </div>
         </div>
 
-        <div className="mt-5 flex flex-col gap-2">
-            <button
-                onClick={handleSave}
-                className="w-full px-4 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors duration-200 active:scale-95 shadow-lg shadow-indigo-500/20"
-            >
-                Enregistrer
-            </button>
-            <button
-                onClick={onClose}
-                className="w-full px-4 py-2 text-slate-600 rounded-xl font-medium hover:bg-slate-100 transition-colors duration-200"
-            >
-                Annuler
-            </button>
+        {/* Footer */}
+        <div className="p-3 bg-slate-50 border-t border-slate-200 flex flex-col gap-2 flex-shrink-0 rounded-b-2xl">
+          <button
+              onClick={handleSave}
+              className="w-full px-4 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors duration-200 active:scale-95 shadow-lg shadow-indigo-500/20"
+          >
+              Enregistrer
+          </button>
+          <button
+              onClick={onClose}
+              className="w-full px-4 py-2 text-slate-600 rounded-xl font-medium hover:bg-slate-100 transition-colors duration-200"
+          >
+              Annuler
+          </button>
         </div>
       </div>
     </div>
