@@ -30,40 +30,36 @@ const App: React.FC = () => {
     const [showOrientationModal, setShowOrientationModal] = useState(false);
     const orientationTimerRef = useRef<number | null>(null);
 
+    // Helper to know if we should show the orientation alert (mobile + portrait)
+    const isMobilePortrait = useCallback(() => {
+      const isCoarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      const uaMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+      const isMobile = isCoarsePointer || uaMobile;
+      const isPortrait = window.matchMedia && window.matchMedia('(orientation: portrait)').matches;
+      return isMobile && isPortrait;
+    }, []);
+
+    const clearOrientationTimer = useCallback(() => {
+      if (orientationTimerRef.current !== null) {
+        clearTimeout(orientationTimerRef.current);
+        orientationTimerRef.current = null;
+      }
+    }, []);
+
+    const scheduleOrientationModal = useCallback(() => {
+      if (orientationTimerRef.current !== null) return; // deja programmé
+      orientationTimerRef.current = window.setTimeout(() => {
+        setShowOrientationModal(true);
+        orientationTimerRef.current = null;
+      }, 3000);
+    }, []);
+
     useEffect(() => {
-      const dismissed = localStorage.getItem('orientationModalDismissed') === '1';
-
-      const clearTimer = () => {
-        if (orientationTimerRef.current !== null) {
-          clearTimeout(orientationTimerRef.current);
-          orientationTimerRef.current = null;
-        }
-      };
-
-      const scheduleShow = () => {
-        if (orientationTimerRef.current !== null) return; // déjà programmé
-        orientationTimerRef.current = window.setTimeout(() => {
-          setShowOrientationModal(true);
-          orientationTimerRef.current = null;
-        }, 3000);
-      };
-
       const computeAndSet = () => {
-        if (dismissed) {
-          clearTimer();
-          setShowOrientationModal(false);
-          return;
-        }
-        // Exclusivement mobile: pointer grossier (pas de souris fine) ou UA mobile
-        const isCoarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-        const uaMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
-        const isMobile = isCoarsePointer || uaMobile;
-        const isPortrait = window.matchMedia && window.matchMedia('(orientation: portrait)').matches;
-
-        if (isMobile && isPortrait) {
-          scheduleShow();
+        if (isMobilePortrait()) {
+          scheduleOrientationModal();
         } else {
-          clearTimer();
+          clearOrientationTimer();
           setShowOrientationModal(false);
         }
       };
@@ -75,9 +71,9 @@ const App: React.FC = () => {
       return () => {
         window.removeEventListener('resize', handler);
         window.removeEventListener('orientationchange', handler as any);
-        clearTimer();
+        clearOrientationTimer();
       };
-    }, []);
+    }, [clearOrientationTimer, isMobilePortrait, scheduleOrientationModal]);
 
     const handleSelectClass = useCallback((classInfo: ClassInfo) => {
         setActiveClass(classInfo);
@@ -90,8 +86,12 @@ const App: React.FC = () => {
     }, []);
 
     const handleCloseOrientationModal = () => {
+      // Close now, but if user remains in portrait on mobile, re-prompt after 3s
       setShowOrientationModal(false);
-      localStorage.setItem('orientationModalDismissed', '1');
+      clearOrientationTimer();
+      if (isMobilePortrait()) {
+        scheduleOrientationModal();
+      }
     };
 
     const renderContent = () => {
