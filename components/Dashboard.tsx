@@ -175,21 +175,25 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const teacherName = (config.defaultTeacherName || '').trim();
 
     return (
-        <div className="p-4 sm:p-8" data-dashboard-root>
-            <header className="relative text-center mb-12">
+        <div className="p-4 sm:p-8 touch-manipulation" data-dashboard-root>
+            <header className="relative text-center mb-8 sm:mb-12">
                 {teacherName ? (
                     <>
-                        <h1 className="text-2xl sm:text-4xl font-extrabold tracking-wide text-slate-800 font-slab uppercase">
-                            BIENVENUE MR. {teacherName} DANS VOTRE ESPACE PÉDAGOGIQUE
+                        {/* Mobile: court */}
+                        <h1 className="sm:hidden text-xl font-extrabold text-slate-800 font-slab">
+                            Bienvenue M. {teacherName}
                         </h1>
-                        <p className="text-sm sm:text-lg text-slate-500 mt-2">
-                            Gérez vos classes, créez vos cours et imprimez un cahier clair et professionnel.
-                        </p>
+                        {/* Desktop: concis */}
+                        <h1 className="hidden sm:block text-2xl sm:text-3xl font-extrabold text-slate-800 font-slab">
+                            Bienvenue M. {teacherName} — Espace pédagogique
+                        </h1>
                     </>
                 ) : (
                     <>
-                        <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 font-slab">Votre Espace Pédagogique</h1>
-                        <p className="text-base sm:text-lg text-slate-500 mt-2">Bienvenue ! Organisez, créez et partagez vos leçons avec simplicité et intelligence.</p>
+                        {/* Mobile: très court */}
+                        <h1 className="sm:hidden text-xl font-bold text-slate-800 font-slab">Espace pédagogique</h1>
+                        {/* Desktop */}
+                        <h1 className="hidden sm:block text-3xl sm:text-4xl font-bold text-slate-800 font-slab">Votre Espace Pédagogique</h1>
                     </>
                 )}
                 <div className="absolute top-0 right-0 flex items-center gap-2">
@@ -215,20 +219,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 </div>
             </header>
             <main>
-                {classes.length === 0 ? (
+        {classes.length === 0 ? (
                     <div className="text-center p-10 max-w-lg mx-auto bg-white rounded-lg shadow-md">
                         <i className="fas fa-school text-5xl text-slate-400 mb-4"></i>
                         <h3 className="text-xl font-semibold text-slate-600">Bienvenue !</h3>
                         <p className="text-slate-500 mt-2 mb-4">Vous n'avez pas encore de classe. Commencez par en créer une.</p>
                         <button 
                             onClick={() => setCreateModalOpen(true)}
-                            className="bg-teal-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-teal-700 transition-colors"
+                className="bg-teal-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-teal-700 transition-colors w-full sm:w-auto"
                         >
                             Créer ma première classe
                         </button>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                         {classes.map(classInfo => (
                             <ClassCard 
                                 key={classInfo.id}
