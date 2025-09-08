@@ -174,8 +174,8 @@ export const Toolbar: React.FC<ToolbarProps> = React.memo(({
                 <DropdownItem onClick={onSave} disabled={saveStatus === 'saving'}><i className="fas fa-save w-4 text-center"></i> Sauvegarder</DropdownItem>
                 <DropdownDivider />
             </div>
-            <DropdownItem onClick={onOpenImport}><i className="fas fa-file-import w-4 text-center"></i> Importer JSON</DropdownItem>
-            <DropdownItem onClick={onExportData}><i className="fas fa-file-export w-4 text-center"></i> Exporter JSON</DropdownItem>
+            <DropdownItem onClick={onOpenImport}><i className="fas fa-file-import w-4 text-center"></i> Importer un fichier (restaurer)</DropdownItem>
+            <DropdownItem onClick={onExportData}><i className="fas fa-file-export w-4 text-center"></i> Exporter la classe (sauvegarder)</DropdownItem>
             <DropdownItem onClick={onOpenManageLessons}><i className="fas fa-edit w-4 text-center"></i> Gérer mes leçons</DropdownItem>
             <DropdownDivider />
             <DropdownItem onClick={() => window.print()}><i className="fas fa-print w-4 text-center"></i> Imprimer</DropdownItem>

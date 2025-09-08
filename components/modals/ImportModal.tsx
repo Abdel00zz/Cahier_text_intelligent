@@ -47,14 +47,14 @@ export const ImportModal: React.FC<ImportModalProps> = ({ isOpen, onClose, onImp
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4 animate-fade-in" onClick={onClose}>
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl flex flex-col max-h-[90vh] animate-slide-in-up" onClick={(e) => e.stopPropagation()}>
-        <div className="p-5 border-b border-slate-200 flex-shrink-0">
-            <h2 className="text-lg font-semibold font-slab text-slate-900">Importer des données JSON</h2>
+    <div className="p-5 border-b border-slate-200 flex-shrink-0">
+      <h2 className="text-lg font-semibold font-slab text-slate-900">Importer une classe depuis un fichier</h2>
         </div>
         <div className="p-6 space-y-5 flex-grow overflow-y-auto">
             <div>
                 <label htmlFor="json-file-input" className="w-full inline-block text-center px-4 py-8 bg-slate-50 text-slate-600 rounded-xl border-2 border-dashed border-slate-300 hover:border-teal-500 hover:bg-teal-50/50 hover:text-teal-700 cursor-pointer transition-colors">
                     <i className="fas fa-file-upload text-3xl mb-3"></i>
-                    <p className="font-semibold">{fileName || "Cliquer pour choisir un fichier JSON"}</p>
+                    <p className="font-semibold">{fileName || "Cliquer pour choisir un fichier de sauvegarde"}</p>
                     <p className="text-xs mt-1">...ou collez le contenu ci-dessous</p>
                 </label>
                 <input type="file" id="json-file-input" accept=".json" onChange={handleFileChange} className="sr-only" />
@@ -62,7 +62,7 @@ export const ImportModal: React.FC<ImportModalProps> = ({ isOpen, onClose, onImp
             <textarea
                 value={jsonText}
                 onChange={(e) => setJsonText(e.target.value)}
-                placeholder="Ou collez votre JSON ici..."
+                placeholder="Ou collez le contenu du fichier ici..."
                 className={`${inputClasses} h-40 resize-y`}
             />
             <div className="p-3 bg-slate-100 rounded-lg flex items-center justify-center gap-6">

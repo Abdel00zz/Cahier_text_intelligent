@@ -86,7 +86,7 @@ Bienvenue ! Ce guide pratique explique chaque bouton, badge, menu et écran de l
 ☐ Insérer des Éléments pédagogiques: Définition, Théorème, Exemple, Exercice, Activité…
 ☐ Utiliser la Recherche pour retrouver vite un item (mot-clé, date 2025-09-06, numéro).
 ☐ Laisser la Sauvegarde automatique faire son travail ou cliquer sur « Sauvegarder ».
-☐ Exporter le JSON pour conserver une copie; Importer si besoin de restaurer.
+☐ Exporter la classe (fichier de sauvegarde) pour conserver une copie; Importer un fichier pour restaurer.
 ☐ Imprimer quand tout est prêt pour un rendu propre et lisible.
 
 ## Conseils productivité
@@ -94,8 +94,8 @@ Bienvenue ! Ce guide pratique explique chaque bouton, badge, menu et écran de l
 🔎 Utilisez la recherche contextuelle pour filtrer instantanément le tableau.
 ⌨️ Mémorisez 3 raccourcis: Annuler (Ctrl+Z), Rechercher (/), Enregistrer (clic icône).
 🖨️ Avant d’imprimer, jetez un œil aux Options d’impression dans la Configuration.
-💾 Pensez à Exporter régulièrement votre classe ou toute la plateforme.
-🛡️ En cas d’import, vérifiez la validité du JSON pour éviter les erreurs.
+💾 Pensez à sauvegarder régulièrement votre classe ou toute l’application (fichier).
+🛡️ Lors d’une restauration, utilisez un fichier exporté depuis l’application pour éviter les erreurs.
 
 ## Aperçu de l'interface
 
@@ -110,8 +110,8 @@ Bienvenue ! Ce guide pratique explique chaque bouton, badge, menu et écran de l
 - <i class="fas fa-save"></i> Sauvegarder: force l'enregistrement immédiat. L’application sauvegarde aussi automatiquement après une pause de frappe.
 - <i class="fas fa-search"></i> Rechercher (/ ou Ctrl+K/Ctrl+F): ouvre une barre de recherche. Tapez un mot, une date (ex: 2025-09-06) ou un numéro; l’affichage se filtre en temps réel. Échap pour fermer.
 - <i class="fas fa-ellipsis-v"></i> Plus d’actions:
-  - <i class="fas fa-file-import"></i> Importer JSON: collez ou choisissez un fichier exporté pour l’ajouter (ajouter à la suite) ou remplacer.
-  - <i class="fas fa-file-export"></i> Exporter JSON: télécharge un fichier .json contenant la classe et son contenu.
+  - <i class="fas fa-file-import"></i> Importer un fichier (restaurer) : choisissez un fichier de sauvegarde pour l’ajouter (ajouter à la suite) ou remplacer.
+  - <i class="fas fa-file-export"></i> Exporter la classe (sauvegarder) : télécharge un fichier de sauvegarde de la classe.
   - <i class="fas fa-edit"></i> Gérer mes leçons: réorganise/supprime les contenus principaux (chapitres, devoirs, évaluations) par glisser-déposer.
   - <i class="fas fa-print"></i> Imprimer: active un rendu prêt à l’impression; utilisez l’aperçu avant impression de votre navigateur.
   - <i class="fas fa-question-circle"></i> Aide: ouvre ce guide.
@@ -180,9 +180,9 @@ Astuce: certains types (exemple, exercice, application) affichent le titre en li
 
 ## Données et sauvegardes
 - Stockage local: vos classes et contenus sont enregistrés dans le navigateur (localStorage).
-- Exporter JSON (classe courante): menu Plus d’actions.
-- Importer JSON (classe courante): collez/ouvrez un fichier; choisissez Remplacer ou Ajouter à la suite.
-- Exporter/Importer plateforme (toutes classes + config): via Configuration.
+- Exporter la classe (sauvegarde de la classe courante): via Plus d’actions.
+- Importer une classe (depuis un fichier): ouvrez une sauvegarde; choisissez Remplacer ou Ajouter à la suite.
+- Sauvegarder/Restaurer toute l’application (toutes classes + réglages): depuis la Configuration.
 
 ## Notifications
 Des bulles colorées confirment les actions: succès, info, erreur, etc.
@@ -190,7 +190,7 @@ Des bulles colorées confirment les actions: succès, info, erreur, etc.
 ## Dépannage
 - Rien ne s’affiche: vérifiez que la classe contient des éléments; utilisez “Créer un chapitre” si vide.
 - Icônes d’aide/infobulles absentes: recharger la page peut réinitialiser l’initialisation des infobulles.
-- JSON invalide à l’import: validez votre JSON (guillemets, virgules).
+- Fichier non valide à l’import: vérifiez que le fichier provient de l’application (non modifié).
 
 ## À propos
 Créé par Boudouh Abdelmalek (Maroc). Contact: [bdh.malek@gmail.com](mailto:bdh.malek@gmail.com).
@@ -205,7 +205,7 @@ export const GUIDE_AR = `# مساعدة شاملة – دفتر النصوص ا�
 ## المزايا باختصار
 ✅ إدارة مرنة وحديثة لدفتر النصوص.
 ✅ واجهة ذكية وسلسة لتجربة مستخدم مثالية.
-✅ تنظيم هرمي واضح: حصص، أقسام، عناصر تعليمية.
+✅ تنظيم هرمي واضح: حصصض، أقسام، عناصر تعليمية.
 ✅ إضافة سريعة للأنشطة، التمارين، الأمثلة والتقييمات.
 ✅ طباعة عالية الجودة.
 ✅ بحث فوري في كل المحتوى (كلمة، تاريخ، رقم).
