@@ -35,6 +35,8 @@ interface FlatDataItem {
 
 // Main component
 export const PrintView: React.FC<PrintViewProps> = ({ lessonsData, classInfo, config, newlyAddedIds }) => {
+    const containsArabic = (text: string): boolean => /[\u0600-\u06FF]/.test(text || '');
+    const isArabicClassName = containsArabic(classInfo.name);
     
     const flatData = useMemo(() => {
         const result: FlatDataItem[] = [];
@@ -276,7 +278,9 @@ export const PrintView: React.FC<PrintViewProps> = ({ lessonsData, classInfo, co
                   <h1>{config.establishmentName}</h1>
                 )}
                 <h2>Cahier de Textes : {classInfo.teacherName || 'Non spécifié'}</h2>
-                <h3>Classe: {classInfo.name || 'Non spécifiée'}</h3>
+                                <h3>
+                                    Classe: <span className={isArabicClassName ? 'font-ar' : undefined}>{classInfo.name || 'Non spécifiée'}</span>
+                                </h3>
             </div>
             
             {/* Table */}
@@ -352,7 +356,8 @@ export const PrintView: React.FC<PrintViewProps> = ({ lessonsData, classInfo, co
                                                         indices={item.indices} 
                                                         elementType={item.elementType} 
                                                         isPrint={true} 
-                                                        showDescriptions={config.printShowDescriptions}
+                                                        showDescriptions={config.printDescriptionMode === 'all' ? true : config.printDescriptionMode === 'none' ? false : undefined}
+                                                        descriptionTypes={config.printDescriptionTypes}
                                                         onCellUpdate={() => {}}
                                                     />
                                                 </MathJax>
@@ -390,7 +395,8 @@ export const PrintView: React.FC<PrintViewProps> = ({ lessonsData, classInfo, co
                                                     indices={item.indices} 
                                                     elementType={item.elementType} 
                                                     isPrint={true} 
-                                                    showDescriptions={config.printShowDescriptions}
+                                                    showDescriptions={config.printDescriptionMode === 'all' ? true : config.printDescriptionMode === 'none' ? false : undefined}
+                                                    descriptionTypes={config.printDescriptionTypes}
                                                     onCellUpdate={() => {}}
                                                 />
                                             </MathJax>

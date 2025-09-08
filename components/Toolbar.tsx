@@ -108,7 +108,7 @@ export const Toolbar: React.FC<ToolbarProps> = React.memo(({
         </Button>
       </div>
 
-      <div className="flex items-center gap-2">
+  <div className="flex items-center gap-2">
         <div ref={searchContainerRef} className="relative flex items-center" role="search">
           <Button
             variant="icon"
@@ -174,11 +174,11 @@ export const Toolbar: React.FC<ToolbarProps> = React.memo(({
                 <DropdownItem onClick={onSave} disabled={saveStatus === 'saving'}><i className="fas fa-save w-4 text-center"></i> Sauvegarder</DropdownItem>
                 <DropdownDivider />
             </div>
-            <DropdownItem onClick={onOpenImport}><i className="fas fa-file-import w-4 text-center"></i> Importer un fichier (restaurer)</DropdownItem>
-            <DropdownItem onClick={onExportData}><i className="fas fa-file-export w-4 text-center"></i> Exporter la classe (sauvegarder)</DropdownItem>
-            <DropdownItem onClick={onOpenManageLessons}><i className="fas fa-edit w-4 text-center"></i> Gérer mes leçons</DropdownItem>
+            <DropdownItem onClick={onOpenImport}><i className="fas fa-file-import w-4 text-center"></i> Importer chapitre(s)</DropdownItem>
+            <DropdownItem onClick={onExportData}><i className="fas fa-file-export w-4 text-center"></i> Exporter les contenus</DropdownItem>
+            <DropdownItem onClick={onOpenManageLessons}><i className="fas fa-edit w-4 text-center"></i> Gérer les leçons</DropdownItem>
             <DropdownDivider />
-            <DropdownItem onClick={() => window.print()}><i className="fas fa-print w-4 text-center"></i> Imprimer</DropdownItem>
+            <DropdownItem onClick={() => window.print()}><i className="fas fa-print w-4 text-center"></i> Imprimer / PDF</DropdownItem>
             <DropdownDivider />
             <DropdownItem onClick={onOpenGuide}><i className="fas fa-question-circle w-4 text-center"></i> Aide</DropdownItem>
         </Dropdown>

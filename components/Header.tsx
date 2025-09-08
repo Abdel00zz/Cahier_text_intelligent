@@ -9,6 +9,9 @@ interface HeaderProps {
   onBack?: () => void;
 }
 
+// Helper to detect Arabic characters in a string
+const containsArabic = (text: string): boolean => /[\u0600-\u06FF]/.test(text || '');
+
 const EditableHeader: React.FC<{ value: string; onSave: (value: string) => void }> = ({ value, onSave }) => {
   const handleBlur = (e: React.FocusEvent<HTMLSpanElement>) => {
     onSave(e.currentTarget.textContent || '');
@@ -21,13 +24,15 @@ const EditableHeader: React.FC<{ value: string; onSave: (value: string) => void 
     }
   };
 
+  const isArabic = containsArabic(value);
+
   return (
     <span
       contentEditable
       suppressContentEditableWarning
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
-      className="font-slab inline-block px-2 py-1 -mx-2 -my-1 rounded-md hover:bg-teal-100/50 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-text"
+      className={`inline-block px-2 py-1 -mx-2 -my-1 rounded-md hover:bg-teal-100/50 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-text ${isArabic ? 'font-ar' : 'font-slab'}`}
     >
       {value}
     </span>

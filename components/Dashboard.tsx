@@ -6,6 +6,7 @@ import { Button } from './ui/Button';
 import { ClassCard } from './ClassCard';
 import { CreateClassModal } from './modals/CreateClassModal';
 import { ConfigModal } from './modals/ConfigModal';
+import { GuideModal } from './modals/GuideModal';
 import { ImportPlatformModal } from './modals/ImportPlatformModal';
 import { ClassInfo } from '../types';
 import { logger } from '../utils/logger';
@@ -64,6 +65,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const [isCreateModalOpen, setCreateModalOpen] = useState(false);
     const [isConfigModalOpen, setConfigModalOpen] = useState(false);
     const [isImportModalOpen, setImportModalOpen] = useState(false);
+    const [isGuideOpen, setGuideOpen] = useState(false);
     const [lastModifiedDates, setLastModifiedDates] = useState<Record<string, string | null>>({});
 
     const isLoading = isClassesLoading || isConfigLoading;
@@ -170,12 +172,36 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
         return <Spinner fullPage text="Chargement des classes..." />;
     }
 
+    const teacherName = (config.defaultTeacherName || '').trim();
+
     return (
-        <div className="p-4 sm:p-8">
+        <div className="p-4 sm:p-8" data-dashboard-root>
             <header className="relative text-center mb-12">
-                <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 font-slab">Votre Espace Pédagogique</h1>
-                <p className="text-base sm:text-lg text-slate-500 mt-2">Bienvenue ! Organisez, créez et partagez vos leçons avec simplicité et intelligence.</p>
+                {teacherName ? (
+                    <>
+                        <h1 className="text-2xl sm:text-4xl font-extrabold tracking-wide text-slate-800 font-slab uppercase">
+                            BIENVENUE MR. {teacherName} DANS VOTRE ESPACE PÉDAGOGIQUE
+                        </h1>
+                        <p className="text-sm sm:text-lg text-slate-500 mt-2">
+                            Gérez vos classes, créez vos cours et imprimez un cahier clair et professionnel.
+                        </p>
+                    </>
+                ) : (
+                    <>
+                        <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 font-slab">Votre Espace Pédagogique</h1>
+                        <p className="text-base sm:text-lg text-slate-500 mt-2">Bienvenue ! Organisez, créez et partagez vos leçons avec simplicité et intelligence.</p>
+                    </>
+                )}
                 <div className="absolute top-0 right-0 flex items-center gap-2">
+                    <Button
+                        variant="icon"
+                        size="lg"
+                        onClick={() => setGuideOpen(true)}
+                        data-tippy-content="Aide"
+                        aria-label="Ouvrir l'aide"
+                    >
+                        <i className="fas fa-question-circle text-2xl"></i>
+                    </Button>
                     <Button
                         variant="icon"
                         size="lg"
@@ -230,6 +256,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 onExportPlatform={handleExportPlatform}
                 onOpenImport={() => setImportModalOpen(true)}
             />
+            <GuideModal isOpen={isGuideOpen} onClose={() => setGuideOpen(false)} />
             <ImportPlatformModal
                 isOpen={isImportModalOpen}
                 onClose={() => setImportModalOpen(false)}

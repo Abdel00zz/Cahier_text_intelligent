@@ -6,6 +6,8 @@ import { EditableTitle } from './ui/EditableTitle';
 import { EditableCell } from './ui/EditableCell';
 import { logger } from '../utils/logger';
 import { formatModernDate } from '../utils/dataUtils';
+import { shouldShowDescription } from '../utils/descriptionVisibility';
+import { renderDescriptionWithBold } from '../utils/textFormat';
 
 interface ContentRendererProps {
   data: any;
@@ -13,10 +15,11 @@ interface ContentRendererProps {
   elementType: ElementType;
   onCellUpdate: (indices: Indices, field: string, value: any) => void;
   isPrint?: boolean;
-  showDescriptions?: boolean;
+  showDescriptions?: boolean; // explicit on/off. If undefined, use descriptionTypes (custom mode)
+  descriptionTypes?: string[];
 }
 
-export const ContentRenderer: React.FC<ContentRendererProps> = React.memo(({ data, indices, elementType, onCellUpdate, isPrint = false, showDescriptions = true }) => {
+export const ContentRenderer: React.FC<ContentRendererProps> = React.memo(({ data, indices, elementType, onCellUpdate, isPrint = false, showDescriptions, descriptionTypes = [] }) => {
   const handleUpdate = (field: string) => (value: string) => {
     onCellUpdate(indices, field, value);
   };
@@ -138,35 +141,36 @@ export const ContentRenderer: React.FC<ContentRendererProps> = React.memo(({ dat
     case 'item':
       const item = data as LessonItem;
       const normalizedType = TYPE_MAP[(item.type || '').toLowerCase()] || item.type;
+      const allowDescription = ((): boolean => {
+        if (typeof showDescriptions === 'boolean') return showDescriptions;
+        // custom mode uses descriptionTypes; when empty, treat as none
+        return shouldShowDescription(normalizedType?.toLowerCase(), 'custom', descriptionTypes);
+      })();
       const badgeText = BADGE_TEXT_MAP[normalizedType] || normalizedType;
       const badgeColor = BADGE_COLOR_MAP[normalizedType] || 'bg-slate-200 text-slate-800';
       const isInlineTitleType = ['exercice', 'exemple', 'application'].includes(normalizedType);
 
       const content = (
-          <div className="prose prose-sm max-w-none text-sm text-slate-700 space-y-1">
-              {isInlineTitleType ? (
-                  <div className="flex items-baseline gap-1">
-                      <EditableCell value={item.title || ''} onSave={handleUpdate('title')} className="font-semibold text-slate-800 p-0" placeholder="Titre..." />
-                      {showDescriptions && item.description && (
-                        <span className="ml-1">{item.description}</span>
-                      )}
-                  </div>
-              ) : (
-                  <>
-                      <EditableCell value={item.title || ''} onSave={handleUpdate('title')} className="font-semibold text-slate-800 p-0" placeholder="Titre..." />
-                      {showDescriptions && item.description && (
-                        <div className="whitespace-pre-wrap pt-1">{item.description}</div>
-                      )}
-                  </>
-              )}
-              {item.page && 
-                <div className="flex items-center gap-1 text-xs text-slate-500 italic">
-                  <span>(p.</span>
-                  <EditableCell value={String(item.page || '')} onSave={handleUpdate('page')} className="p-0" placeholder="page" />
-                  <span>)</span>
-                </div>
-              }
-          </div>
+        <div className="prose prose-sm max-w-none text-sm text-slate-700 space-y-1">
+          {/* Titre */}
+          <EditableCell value={item.title || ''} onSave={handleUpdate('title')} className="font-semibold text-slate-800 p-0" placeholder="Titre..." />
+
+          {/* Description juste en dessous, style doux et moderne */}
+          {allowDescription && item.description && (
+            <div className="mt-1 rounded-md border border-slate-200 bg-slate-50/70 p-2 leading-relaxed text-[13px] text-slate-700 whitespace-pre-wrap">
+              {renderDescriptionWithBold(item.description)}
+            </div>
+          )}
+
+          {/* Info page */}
+          {item.page && (
+            <div className="flex items-center gap-1 text-xs text-slate-500 italic">
+              <span>(p.</span>
+              <EditableCell value={String(item.page || '')} onSave={handleUpdate('page')} className="p-0" placeholder="page" />
+              <span>)</span>
+            </div>
+          )}
+        </div>
       );
       
       const contentKey = `${item.type || ''}-${item.number || ''}-${item.title || ''}-${item.description || ''}-${item.page || ''}`;

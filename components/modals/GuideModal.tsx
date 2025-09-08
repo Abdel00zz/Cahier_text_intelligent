@@ -11,13 +11,13 @@ interface GuideModalProps {
 
 export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const lastActiveElement = useRef<HTMLElement | null>(null);
+  const lastActiveElRef = useRef<HTMLElement | null>(null);
 
   // Gestion simplifiée du focus et des événements
   useEffect(() => {
     if (!isOpen) return;
-
-    const lastActiveElement = document.activeElement as HTMLElement;
+    // store element that had focus before opening modal
+    lastActiveElRef.current = document.activeElement as HTMLElement;
     
     // Mettre le focus sur le modal
     modalRef.current?.focus();
@@ -60,7 +60,7 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       // Restaurer le focus sur l'élément précédent
-      lastActiveElement?.focus();
+      lastActiveElRef.current?.focus();
     };
   }, [isOpen, onClose]);
 
@@ -125,56 +125,60 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
     return () => window.removeEventListener('resize', update);
   }, []);
 
+  // Context-aware section focus: detect current page
+  useEffect(() => {
+    if (!isOpen) return;
+    const isEditor = !!document.querySelector('[data-editor-root]');
+    const isDashboard = !!document.querySelector('[data-dashboard-root]');
+    const anchor = isEditor ? '#barre-doutils-haut-de-lediteur' : isDashboard ? '#tableau-de-bord' : null;
+    if (!anchor) return;
+    // try both languages
+    const target = document.getElementById(anchor.replace('#',''))
+      || document.getElementById(encodeURIComponent(anchor.replace('#','')));
+    // Fallback: find by heading text contains
+    if (!target) return;
+    // scroll containers
+    const left = leftRef.current; const right = rightRef.current;
+    left?.scrollTo({ top: target.offsetTop - 24, behavior: 'smooth' });
+    right?.scrollTo({ top: target.offsetTop - 24, behavior: 'smooth' });
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 p-2 sm:p-4 animate-fade-in overflow-hidden" 
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-6 animate-fade-in overflow-hidden" 
       onClick={onClose}
       data-modal-overlay
-      style={{ backdropFilter: 'blur(2px)' }}
     >
       <div 
         ref={modalRef}
-        className="bg-white shadow-2xl w-full max-w-7xl h-[96vh] sm:h-[90vh] flex flex-col animate-slide-in-up border border-slate-300" 
+  className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-5xl h-[92vh] sm:h-[88vh] flex flex-col animate-slide-in-up border border-gray-100 overflow-hidden" 
         onClick={(e) => e.stopPropagation()}
         tabIndex={0}
         role="dialog"
         aria-modal="true"
         aria-labelledby="guide-modal-title"
         aria-describedby="guide-modal-desc"
-        style={{ 
-          outline: '2px solid #0d9488',
-          outlineOffset: '1px',
-          borderRadius: '0px'
-        }}
       >
-        <div className="border-b border-slate-300 flex items-center gap-3 flex-shrink-0 bg-gradient-to-r from-teal-600 to-teal-700 text-white p-3 sm:p-4">
-            <div className="flex-1 min-w-0">
-              <h2 id="guide-modal-title" className="text-lg sm:text-xl font-bold font-slab flex items-center gap-3">
-                <i className="fas fa-book-reader text-teal-200"></i>
-                Guide d'Aide Complet | دليل المساعدة الشامل
-              </h2>
-              <p id="guide-modal-desc" className="text-xs sm:text-sm text-teal-100 mt-1">
-                <i className="fas fa-keyboard mr-1"></i>
-                Navigation: Flèches ↑↓, molette souris, barres de défilement • إغلاق: Échap/ESC • 
-                <i className="fas fa-mouse mr-1"></i>
-                Clic extérieur pour fermer
-              </p>
+        {/* Header modern, aligned with Configuration modal */}
+  <div className="px-3 sm:px-6 py-3 sm:py-4 border-b border-gray-100 flex items-center justify-between bg-gradient-to-r from-gray-50 to-white">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-teal-500 to-emerald-600 text-white flex items-center justify-center rounded-xl sm:rounded-2xl shadow-lg">
+              <i className="fas fa-book-reader text-sm sm:text-base"></i>
             </div>
-            <div className="flex items-center gap-2">
-              <Button 
-                type="button" 
-                aria-label="Fermer le guide (Échap)" 
-                variant="secondary" 
-                size="sm" 
-                onClick={onClose} 
-                className="bg-red-500 hover:bg-red-600 text-white border border-red-400 px-3 py-2"
-              >
-                <i className="fas fa-times mr-1"></i>
-                <span className="hidden sm:inline">Fermer</span>
-              </Button>
+            <div className="min-w-0">
+              <h2 id="guide-modal-title" className="text-lg sm:text-xl font-semibold text-gray-900 truncate">Aide | مساعدة</h2>
+              <p id="guide-modal-desc" className="text-xs sm:text-sm text-gray-500 hidden sm:block">Guide bilingue avec astuces, raccourcis et options d’affichage</p>
             </div>
+          </div>
+          <button 
+            onClick={onClose} 
+            className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200"
+            aria-label="Fermer le guide (Échap)"
+          >
+            <i className="fas fa-times text-sm sm:text-base"></i>
+          </button>
         </div>
         <div className="flex-1 min-h-0 bg-slate-50">
           <div className="h-full grid grid-cols-1 lg:grid-cols-[1fr_2px_1fr]">
@@ -190,18 +194,12 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
               <div className="p-4 sm:p-6">
                 <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: htmlFr }} />
               </div>
-              {leftHasMore && (
-                <div className="pointer-events-none absolute left-0 right-0 bottom-0 h-12 bg-gradient-to-t from-white via-white/80 to-transparent flex items-end justify-center pb-2">
-                  <div className="text-xs text-slate-500 bg-white/90 px-2 py-1 rounded-full border">
-                    <i className="fas fa-chevron-down animate-bounce"></i> Plus de contenu
-                  </div>
-                </div>
-              )}
+              {/* bottom hint removed for compactness */}
             </div>
-            <div className="hidden lg:block bg-gradient-to-b from-slate-300 to-slate-400" aria-hidden="true"></div>
+            <div className="hidden lg:block bg-gradient-to-b from-gray-200 to-gray-300" aria-hidden="true"></div>
             <div
               ref={rightRef}
-              className="relative overflow-y-auto overscroll-contain guide-scroll bg-amber-50/30"
+              className="relative overflow-y-auto overscroll-contain guide-scroll bg-[#FFFBEA]"
               style={{ scrollbarGutter: 'stable' }}
               dir="rtl" lang="ar"
               onScroll={(e) => {
@@ -212,13 +210,7 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
               <div className="p-4 sm:p-6">
                 <div className="prose max-w-none text-right font-ar text-base sm:text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: htmlAr }} />
               </div>
-              {rightHasMore && (
-                <div className="pointer-events-none absolute left-0 right-0 bottom-0 h-12 bg-gradient-to-t from-amber-50 via-amber-50/80 to-transparent flex items-end justify-center pb-2">
-                  <div className="text-xs text-amber-700 bg-amber-100/90 px-2 py-1 rounded-full border border-amber-300 font-ar">
-                    <i className="fas fa-chevron-down animate-bounce"></i> المزيد من المحتوى
-                  </div>
-                </div>
-              )}
+              {/* bottom hint removed for compactness (Arabic) */}
             </div>
           </div>
         </div>

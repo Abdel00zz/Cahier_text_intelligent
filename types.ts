@@ -18,6 +18,11 @@ export interface AppConfig {
   defaultTeacherName: string;
   printShowDescriptions: boolean;
   theme: 'light' | 'dark' | 'system';
+    // New flexible description visibility controls
+    screenDescriptionMode?: 'all' | 'none' | 'custom';
+    screenDescriptionTypes?: string[];
+    printDescriptionMode?: 'all' | 'none' | 'custom';
+    printDescriptionTypes?: string[];
 }
 
 export type TopLevelType = 

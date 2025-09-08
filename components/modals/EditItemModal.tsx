@@ -192,9 +192,9 @@ const EditItemModal: React.FC<AddContentModalProps> = ({ isOpen, onClose, onConf
 
     return (
         <div className="fixed inset-0 z-40 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4 animate-fade-in" onClick={onClose} aria-modal="true" role="dialog" aria-label={modalTitle}>
-            <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-xl w-full sm:max-w-3xl flex flex-col max-h-[94vh] sm:max-h-[90vh] animate-slide-in-up" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-xl w-full sm:max-w-2xl flex flex-col max-h-[92vh] sm:max-h-[86vh] animate-slide-in-up" onClick={(e) => e.stopPropagation()}>
                 <form onSubmit={handleSubmit} className="flex flex-col h-full">
-                    <div className="px-4 sm:px-5 pt-4 pb-3 border-b border-slate-200 flex-shrink-0 flex items-center justify-between gap-2">
+                    <div className="px-3 sm:px-4 pt-3 pb-2 border-b border-slate-200 flex-shrink-0 flex items-center justify-between gap-2">
                         <h2 className="text-base sm:text-lg font-semibold font-slab text-slate-900 line-clamp-1">
                            {modalTitle}
                         </h2>
@@ -209,7 +209,7 @@ const EditItemModal: React.FC<AddContentModalProps> = ({ isOpen, onClose, onConf
                             </Button>
                         </div>
                     </div>
-                    <div className="px-4 sm:px-6 py-4 flex-grow overflow-y-auto overscroll-contain" data-mobile-scroll>
+                    <div className="px-3 sm:px-5 py-3 flex-grow overflow-y-auto overscroll-contain" data-mobile-scroll>
                         {stage === 'select' ? (
                             <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-4">
                                 {Object.entries(TOP_LEVEL_TYPE_CONFIG).map(([type, config]) => (
@@ -232,7 +232,7 @@ const EditItemModal: React.FC<AddContentModalProps> = ({ isOpen, onClose, onConf
                             </div>
                         )}
                     </div>
-                    <div className="sticky bottom-0 sm:static bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-t border-slate-200 px-4 sm:px-5 py-3 flex justify-end gap-3 rounded-b-none sm:rounded-b-2xl">
+                    <div className="sticky bottom-0 sm:static bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-t border-slate-200 px-3 sm:px-4 py-2.5 flex justify-end gap-3 rounded-b-none sm:rounded-b-2xl">
                         {stage === 'form' ? (
                             <>
                                 <Button type="button" onClick={onClose} variant="secondary">Annuler</Button>

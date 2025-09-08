@@ -27,7 +27,10 @@ Narration clé: « En quelques minutes, vous créez votre classe, saisissez vos 
 - Ouvrir la Configuration: 
 	- Établissement (nom affiché sur les impressions)
 	- Nom de l’enseignant par défaut
-	- Option d’impression: « Afficher les descriptions »
+	- Descriptions affichées (nouvelle interface):
+		- Contexte Application (écran): Tout / Aucune / Sélection par type (badges authentiques)
+		- Contexte Impression (PDF): Tout / Aucune / Sélection par type (badges authentiques)
+		- Actions rapides: Tout sélectionner / Tout désélectionner; sections repliables; design responsive
 - Sauvegarde automatique locale: vos données restent sur votre appareil (LocalStorage).
 
 Astuce: si vous êtes sur mobile en mode portrait, un petit rappel peut suggérer de passer en paysage pour plus de confort (fermez l’alerte si besoin; elle se réaffiche si vous restez en portrait).
@@ -49,7 +52,7 @@ Scénario suggéré: « 3e – Mathématiques »
 	- Annuler/Rétablir (Ctrl+Z / Ctrl+Y)
 	- Sauvegarder (manuel, en plus de l’auto)
 	- Recherche (touche « / » ou Ctrl+K)
-	- Menu: Importer un fichier (restaurer), Exporter la classe (sauvegarder), Gérer mes leçons, Imprimer, Aide
+	- Menu … : Importer chapitre(s), Exporter les contenus, Gérer les leçons, Imprimer / PDF, Aide
 - Zone principale (tableau): colonnes Date, Contenu, Remarque.
 
 Note: Le rendu des formules mathématiques est supporté (MathJax) – utile en sciences.
@@ -84,20 +87,20 @@ Démonstration proposée:
 - Refermer la recherche (Échap) et remettre à zéro.
 
 
-### 8) Impression et export PDF (2–3 min)
-- Menu « Imprimer »: aperçu des colonnes (Date, Contenu, Remarque) formatées pour A4.
-- Option d’impression « Afficher les descriptions » (depuis Configuration) pour un rendu plus détaillé ou compact.
-- Export PDF via le dialogue d’impression du navigateur.
+### 8) Imprimer / PDF (1 min)
+- Ouvrir « Imprimer »: aperçu prêt pour A4.
+- Besoin de détails ? Utilisez « Descriptions affichées » dans Configuration pour régler l’affichage des descriptions à l’impression (Tout / Aucune / Sélection par type).
+- Dans la fenêtre du navigateur: Destination = Enregistrer en PDF; Format = A4; En‑têtes/Pieds = désactivés; Échelle = 100%.
 
 
-### 9) Sauvegarde, export et import (2–3 min)
-- Exporter la classe (fichier de sauvegarde): enregistre les données de la classe en cours sur votre ordinateur.
-- Importer une classe depuis un fichier: recharge une sauvegarde dans la classe ouverte.
-- Sauvegarder/Restaurer toute l’application (depuis le Tableau de bord):
-	- Sauvegarde/restaure la configuration et toutes vos classes dans un seul fichier.
-	- Idéal pour transférer vers un autre appareil ou faire une sauvegarde complète.
+### 9) Sauvegarde, import/export (1–2 min)
+- Exporter les contenus: télécharge les chapitres et éléments de la classe en cours.
+- Importer chapitre(s): ajoute des chapitres à la classe (ou Remplacer via l’option du modal).
+- Sauvegarder/Restaurer toute l’application (Tableau de bord):
+	- Un seul fichier pour config + toutes les classes.
+	- Pratique pour changer d’appareil ou archiver.
 
-Conseil: conservez vos sauvegardes dans un dossier « Sauvegardes CAHIER_txt » daté.
+Conseil: rangez vos fichiers dans « Sauvegardes CAHIER_txt/AAAA‑MM‑JJ ».
 
 
 ### 10) Astuces productivité (1–2 min)

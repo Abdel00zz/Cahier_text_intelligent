@@ -10,6 +10,10 @@ const defaultConfig: AppConfig = {
     defaultTeacherName: '',
     printShowDescriptions: false,
     theme: 'system',
+    screenDescriptionMode: 'all',
+    screenDescriptionTypes: [],
+    printDescriptionMode: 'all',
+    printDescriptionTypes: [],
 };
 
 export const useConfigManager = () => {
@@ -24,7 +28,11 @@ export const useConfigManager = () => {
                 setConfig(currentConfig => ({
                     ...defaultConfig,
                     ...loadedConfig,
-                    printShowDescriptions: loadedConfig.printShowDescriptions ?? false,
+                    printShowDescriptions: loadedConfig.printShowDescriptions ?? loadedConfig.printDescriptionMode === 'none' ? false : (loadedConfig.printDescriptionMode === 'all' ? true : (typeof loadedConfig.printShowDescriptions === 'boolean' ? loadedConfig.printShowDescriptions : false)),
+                    screenDescriptionMode: loadedConfig.screenDescriptionMode ?? 'all',
+                    screenDescriptionTypes: loadedConfig.screenDescriptionTypes ?? [],
+                    printDescriptionMode: loadedConfig.printDescriptionMode ?? (typeof loadedConfig.printShowDescriptions === 'boolean' ? (loadedConfig.printShowDescriptions ? 'all' : 'none') : 'all'),
+                    printDescriptionTypes: loadedConfig.printDescriptionTypes ?? [],
                 }));
             } else {
                 setConfig(currentConfig => ({

@@ -36,11 +36,11 @@ export const ImportPlatformModal: React.FC<ImportPlatformModalProps> = ({ isOpen
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4 animate-fade-in" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl flex flex-col max-h-[90vh] animate-slide-in-up" onClick={(e) => e.stopPropagation()}>
-        <div className="p-5 border-b border-slate-200 flex-shrink-0">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl flex flex-col max-h-[86vh] animate-slide-in-up" onClick={(e) => e.stopPropagation()}>
+        <div className="p-4 border-b border-slate-200 flex-shrink-0">
             <h2 className="text-lg font-semibold font-slab text-slate-900">Importer une Sauvegarde Complète</h2>
         </div>
-        <div className="p-6 space-y-5 flex-grow overflow-y-auto">
+  <div className="p-5 space-y-4 flex-grow overflow-y-auto">
             <div className="p-4 bg-red-50/80 border-l-4 border-red-500 text-red-900 rounded-md">
                 <div className="flex">
                     <div className="py-1"><i className="fas fa-exclamation-triangle mr-4 text-xl text-red-500"></i></div>
@@ -74,7 +74,7 @@ export const ImportPlatformModal: React.FC<ImportPlatformModalProps> = ({ isOpen
                 </div>
             )}
         </div>
-        <div className="p-4 bg-slate-50 flex justify-end gap-3 rounded-b-2xl border-t border-slate-200 flex-shrink-0">
+  <div className="p-3 bg-slate-50 flex justify-end gap-3 rounded-b-2xl border-t border-slate-200 flex-shrink-0">
           <Button type="button" onClick={onClose} variant="secondary">Annuler</Button>
           <Button type="button" onClick={handleImport} variant="danger" disabled={!fileContent || !isConfirmed}>
             <i className="fas fa-exclamation-triangle mr-2"></i> Importer et Remplacer

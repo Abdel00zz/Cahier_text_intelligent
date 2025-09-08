@@ -17,12 +17,13 @@ interface TableRowProps {
   onSelectRow: (indices: Indices) => void;
   isSelected: boolean;
   isNew?: boolean;
-  showDescriptions: boolean;
+  showDescriptions?: boolean;
+  descriptionTypes?: string[];
   onInitiateInlineEdit: (indices: Indices) => void;
   onOpenAddContentModal: (indices: Indices) => void;
 }
 
-export const TableRow: FC<TableRowProps> = memo(({ data, indices, elementType, onCellUpdate, onDeleteItem, onSelectRow, isSelected, isNew = false, showDescriptions, onInitiateInlineEdit, onOpenAddContentModal }) => {
+export const TableRow: FC<TableRowProps> = memo(({ data, indices, elementType, onCellUpdate, onDeleteItem, onSelectRow, isSelected, isNew = false, showDescriptions, descriptionTypes = [], onInitiateInlineEdit, onOpenAddContentModal }) => {
   const [isDateModalOpen, setDateModalOpen] = useState(false);
 
   const handleSelect = useCallback(() => onSelectRow(indices), [indices, onSelectRow]);
@@ -152,7 +153,8 @@ export const TableRow: FC<TableRowProps> = memo(({ data, indices, elementType, o
                   data={data} 
                   indices={indices} 
                   elementType={elementType} 
-                  showDescriptions={showDescriptions} 
+                  showDescriptions={showDescriptions}
+                  descriptionTypes={descriptionTypes}
                   onCellUpdate={onCellUpdate}
               />
           </div>

@@ -74,7 +74,8 @@ interface MainTableProps {
   onDeleteItem: (indices: Indices) => void;
   onDeleteSeparator: (indices: Indices) => void;
   onOpenAddContentModal: (indices?: Indices) => void;
-  showDescriptions: boolean;
+    showDescriptions?: boolean; // when undefined in 'custom' mode we'll filter by types
+    descriptionTypes?: string[];
   selectedIndices: Indices | null;
   onSelectRow: (indices: Indices) => void;
   editingIndices: Indices | null;
@@ -102,7 +103,7 @@ const TableHeader: React.FC = React.memo(() => (
   </div>
 ));
 
-export const MainTable: React.FC<MainTableProps> = ({ lessonsData, onOpenAddContentModal, showDescriptions, selectedIndices, onSelectRow, editingIndices, newlyAddedIds, ...props }) => {
+export const MainTable: React.FC<MainTableProps> = ({ lessonsData, onOpenAddContentModal, showDescriptions, descriptionTypes = [], selectedIndices, onSelectRow, editingIndices, newlyAddedIds, ...props }) => {
   const flatData = useMemo(() => {
     const result: FlatDataItem[] = [];
     
@@ -255,6 +256,7 @@ export const MainTable: React.FC<MainTableProps> = ({ lessonsData, onOpenAddCont
                               isSelected={isSelected}
                               isNew={isNew}
                               showDescriptions={showDescriptions}
+                              descriptionTypes={descriptionTypes}
                               onInitiateInlineEdit={props.onInitiateInlineEdit}
                               onOpenAddContentModal={onOpenAddContentModal}
                           />

@@ -366,7 +366,7 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
   }
 
 return (
-    <div className="relative p-2 sm:p-5 bg-slate-50">
+  <div className="relative p-2 sm:p-5 bg-slate-50" data-editor-root>
       <div className="container mx-auto max-w-7xl bg-white shadow-2xl p-3 sm:p-6 min-h-[calc(100vh-2.5rem)] flex flex-col print:shadow-none print:border-none print:p-0">
         
         <div className="print-hidden flex flex-col flex-1">
@@ -397,7 +397,8 @@ return (
               onDeleteItem={handleDeleteItem}
               onDeleteSeparator={handleDeleteSeparator}
               onOpenAddContentModal={handleOpenAddContentModal}
-              showDescriptions={config.printShowDescriptions}
+              showDescriptions={config.screenDescriptionMode === 'all' ? true : config.screenDescriptionMode === 'none' ? false : undefined}
+              descriptionTypes={config.screenDescriptionTypes}
               selectedIndices={selectedIndices}
               onSelectRow={indices => setEditorState(draft => { draft.selectedIndices = indices; })}
               editingIndices={editingIndices}
@@ -409,7 +410,7 @@ return (
           </main>
         </div>
         
-        <PrintView lessonsData={filteredData} classInfo={classInfo} config={config} newlyAddedIds={newlyAddedIds} />
+  <PrintView lessonsData={filteredData} classInfo={classInfo} config={config} newlyAddedIds={newlyAddedIds} />
         
       </div>
 
