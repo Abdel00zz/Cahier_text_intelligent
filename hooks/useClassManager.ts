@@ -68,7 +68,7 @@ export const useClassManager = () => {
                             // Always ensure '1ère année collégiale' demo is present
                             try {
                                 const allClasses: ClassInfo[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-                                const hasMathDemo = allClasses.some(c => c.name === '1ère année collégiale');
+                                const hasMathDemo = allClasses.some(c => c.name === '3ème année collégiale');
                                 if (!hasMathDemo) {
                                     const base = (import.meta as any).env?.BASE_URL || '/';
                                     const demoFilename2 = '1er anne collegial math.json';
@@ -77,7 +77,7 @@ export const useClassManager = () => {
                                         const data2 = await resp2.json();
                                         const demoClass2: ClassInfo = {
                                             id: crypto.randomUUID(),
-                                            name: data2.classInfo?.name || '1ère année collégiale',
+                                            name: data2.classInfo?.name || '3ème année collégiale',
                                             subject: data2.classInfo?.subject || 'Mathématiques',
                                             teacherName: data2.classInfo?.teacherName || 'Professeur',
                                             createdAt: new Date().toISOString(),
@@ -154,7 +154,7 @@ export const useClassManager = () => {
                             const dataMath = await respMath.json();
                             const mathDemo: ClassInfo = {
                                 id: crypto.randomUUID(),
-                                name: dataMath.classInfo?.name || '1ère année collégiale',
+                                name: dataMath.classInfo?.name || '3ème année collégiale',
                                 subject: dataMath.classInfo?.subject || 'Mathématiques',
                                 teacherName: dataMath.classInfo?.teacherName || 'Professeur',
                                 createdAt: new Date().toISOString(),
