@@ -87,15 +87,7 @@ const App: React.FC = () => {
         setView('editor');
     }, []);
 
-  // Auto-open '3ème année collégiale' demo class when available
-  useEffect(() => {
-    if (!isClassManagerLoading && view === 'dashboard' && !activeClass) {
-      const demo = classes.find(c => c.name === '3ème année collégiale');
-      if (demo) {
-        handleSelectClass(demo);
-      }
-    }
-  }, [isClassManagerLoading, classes, view, activeClass, handleSelectClass]);
+  // Removed auto-open: app now stays on dashboard until a class is selected
 
     const handleBackToDashboard = useCallback(() => {
         setActiveClass(null);

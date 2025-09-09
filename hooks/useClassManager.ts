@@ -37,13 +37,15 @@ export const useClassManager = () => {
                 const isFirstLaunch = !localStorage.getItem(FIRST_LAUNCH_KEY);
 
                 if (storedClasses) {
-                    // Always ensure demo class is present
+                    // Load existing classes, then ensure demo classes are present (lycée + collège)
                     const existing: ClassInfo[] = JSON.parse(storedClasses);
-                    const hasDemo = existing.some(c => c.name === 'Tronc commun scientifique');
-                    if (hasDemo) {
-                        setClasses(existing);
-                    } else {
-                        try {
+                    let current = [...existing];
+                    setClasses(existing);
+
+                    // Ensure 'Tronc commun scientifique' (lycée)
+                    try {
+                        const hasLyceeDemo = current.some(c => c.name === 'Tronc commun scientifique');
+                        if (!hasLyceeDemo) {
                             const base = (import.meta as any).env?.BASE_URL || '/';
                             const demoFilename = 'Tronc commun scientifique.json';
                             const resp = await fetch(`${base}Demo/${encodeURIComponent(demoFilename)}`);
@@ -58,45 +60,44 @@ export const useClassManager = () => {
                                     color: '#99f6e4',
                                     cycle: 'lycee',
                                 };
-                                const combined = [...existing, demoClass];
-                                setClasses(combined);
-                                localStorage.setItem(STORAGE_KEY, JSON.stringify(combined));
+                                current = [...current, demoClass];
+                                setClasses(current);
+                                localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
                                 localStorage.setItem(`${CLASS_DATA_PREFIX}${demoClass.id}`, JSON.stringify(defaultClassData.lessonsData || []));
-                            } else {
-                                setClasses(existing);
                             }
-                            // Always ensure '1ère année collégiale' demo is present
-                            try {
-                                const allClasses: ClassInfo[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-                                const hasMathDemo = allClasses.some(c => c.name === '3ème année collégiale');
-                                if (!hasMathDemo) {
-                                    const base = (import.meta as any).env?.BASE_URL || '/';
-                                    const demoFilename2 = '1er anne collegial math.json';
-                                    const resp2 = await fetch(`${base}Demo/${encodeURIComponent(demoFilename2)}`);
-                                    if (resp2.ok) {
-                                        const data2 = await resp2.json();
-                                        const demoClass2: ClassInfo = {
-                                            id: crypto.randomUUID(),
-                                            name: data2.classInfo?.name || '3ème année collégiale',
-                                            subject: data2.classInfo?.subject || 'Mathématiques',
-                                            teacherName: data2.classInfo?.teacherName || 'Professeur',
-                                            createdAt: new Date().toISOString(),
-                                            color: data2.classInfo?.color || generateColor(),
-                                            cycle: data2.classInfo?.cycle || 'college',
-                                        };
-                                        const updated = [...allClasses, demoClass2];
-                                        setClasses(updated);
-                                        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-                                        localStorage.setItem(`${CLASS_DATA_PREFIX}${demoClass2.id}`, JSON.stringify(data2.lessonsData || []));
-                                    }
-                                }
-                            } catch {
-                                // ignore demo math seed errors
-                            }
-                        } catch {
-                            setClasses(existing);
                         }
+                    } catch {
+                        // ignore lycee demo seed errors
                     }
+
+                    // Ensure '3ème année collégiale' (collège)
+                    try {
+                        const hasCollegeDemo = current.some(c => c.name === '3ème année collégiale');
+                        if (!hasCollegeDemo) {
+                            const base = (import.meta as any).env?.BASE_URL || '/';
+                            const demoFilename2 = '3éme anne collegial math.json';
+                            const resp2 = await fetch(`${base}Demo/${encodeURIComponent(demoFilename2)}`);
+                            if (resp2.ok) {
+                                const data2 = await resp2.json();
+                                const demoClass2: ClassInfo = {
+                                    id: crypto.randomUUID(),
+                                    name: data2.classInfo?.name || '3ème année collégiale',
+                                    subject: data2.classInfo?.subject || 'Mathématiques',
+                                    teacherName: data2.classInfo?.teacherName || 'Professeur',
+                                    createdAt: new Date().toISOString(),
+                                    color: data2.classInfo?.color || generateColor(),
+                                    cycle: data2.classInfo?.cycle || 'college',
+                                };
+                                current = [...current, demoClass2];
+                                setClasses(current);
+                                localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
+                                localStorage.setItem(`${CLASS_DATA_PREFIX}${demoClass2.id}`, JSON.stringify(data2.lessonsData || []));
+                            }
+                        }
+                    } catch {
+                        // ignore college demo seed errors
+                    }
+
                 } else if (isFirstLaunch) {
                     // Load default class on first launch
                     let createdDefault = false;
@@ -145,10 +146,10 @@ export const useClassManager = () => {
                         localStorage.setItem(`${CLASS_DATA_PREFIX}${defaultClass.id}`, JSON.stringify([]));
                     }
 
-                    // Also seed '1ère année collégiale' demo class on first launch
+                    // Also seed '3ème année collégiale' demo class on first launch
                     try {
                         const base2 = (import.meta as any).env?.BASE_URL || '/';
-                        const demoFilename2 = '1er anne collegial math.json';
+                        const demoFilename2 = '3éme anne collegial math.json';
                         const respMath = await fetch(`${base2}Demo/${encodeURIComponent(demoFilename2)}`);
                         if (respMath.ok) {
                             const dataMath = await respMath.json();

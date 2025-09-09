@@ -509,7 +509,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                                 onDelete={() => deleteClass(classInfo.id)}
                             />
                         ))}
-            {premiumClasses.filter(p => p.cycle === selectedCycle).filter(p => !dismissedPremiumIds.includes(p.id)).map(premiumClass => (
+            {premiumClasses
+                .filter(p => p.cycle === selectedCycle)
+                .filter(p => !dismissedPremiumIds.includes(p.id))
+                .filter(p => !classes.some(c => (c.cycle || 'college') === selectedCycle && c.name === p.name && c.subject === p.subject))
+                .map(premiumClass => (
                             <LockedClassCard
                                 key={premiumClass.id}
                                 name={premiumClass.name}
