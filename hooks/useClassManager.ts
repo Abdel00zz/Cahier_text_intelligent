@@ -30,8 +30,9 @@ export const useClassManager = () => {
                     // Load default class on first launch
                     let createdDefault = false;
                     try {
-                        // Note: for Vite, place the JSON in /public to be served from '/'
-                        const response = await fetch('/Demo/Tronc commun scientifique.json');
+                        // Use Vite BASE_URL to work under subpaths in production
+                        const base = (import.meta as any).env?.BASE_URL || '/';
+                        const response = await fetch(`${base}Demo/Tronc commun scientifique.json`);
                         if (response.ok) {
                             const defaultClassData = await response.json();
 
