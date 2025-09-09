@@ -66,49 +66,44 @@ const premiumClasses = [
         id: 'premium_1',
         name: '1ère année collégiale',
         subject: 'Français',
-        color: '#a78bfa' // Soft Violet
+    color: '#6d28d9' // Violet-700 (accessible)
     },
     {
         id: 'premium_2', 
         name: '2ème année collégiale',
     subject: 'Physique',
-        color: '#7dd3fc' // Soft Sky Blue
+    color: '#0369a1' // Sky-700 (accessible)
     },
     {
         id: 'premium_3',
         name: '3ème année collégiale',
         subject: 'Mathématiques',
-        color: '#fca5a5' // Soft Red
+    color: '#b91c1c' // Red-700 (accessible)
     },
-    {
-        id: 'premium_4',
-        name: 'Tronc Commun Scientifique',
-    subject: 'Mathématiques',
-        color: '#fdba74' // Soft Orange
-    },
+    
     {
         id: 'premium_5',
         name: '1ère Bac Sciences Économiques',
         subject: 'Économie',
-        color: '#6ee7b7' // Soft Emerald
+    color: '#047857' // Emerald-700 (accessible)
     },
     {
         id: 'premium_6',
         name: '2ème Bac Sciences Physiques (PC)',
         subject: 'Physique',
-        color: '#f9a8d4' // Soft Pink
+    color: '#9d174d' // Pink-700 (accessible)
     },
     {
         id: 'premium_7',
         name: '2ème Bac Sciences Mathématiques \'A\'',
         subject: 'Mathématiques',
-        color: '#5eead4' // Soft Teal
+    color: '#115e59' // Teal-800 (accessible)
     },
     {
         id: 'premium_8',
         name: '2ème Bac SVT',
         subject: 'Sciences de la Vie',
-        color: '#a3e635' // Soft Lime
+    color: '#3f6212' // Lime-700 (accessible)
     }
     ,
     // Additional French (Lycée & Collège Marocain)
@@ -116,74 +111,74 @@ const premiumClasses = [
         id: 'premium_9',
         name: '1ère Bac Sciences Mathématiques B',
         subject: 'Mathématiques',
-        color: '#c4b5fd' // Soft Violet 300
+    color: '#4c1d95' // Violet-900 (accessible)
     },
     {
         id: 'premium_10',
         name: '1ère Bac Sciences Expérimentales',
     subject: 'SVT',
-        color: '#86efac' // Soft Green 300
+    color: '#166534' // Green-800 (accessible)
     },
     {
         id: 'premium_11',
         name: 'Tronc Commun Littéraire',
     subject: 'Mathématiques',
-        color: '#fde68a' // Soft Amber 300
+    color: '#92400e' // Amber-800 (accessible)
     },
     {
         id: 'premium_12',
         name: '2ème Bac Lettres et Sciences Humaines',
         subject: 'Lettres',
-        color: '#f9a8d4' // Soft Pink 300
+    color: '#9d174d' // Pink-700 (accessible)
     },
     {
         id: 'premium_13',
         name: '2ème Bac Sciences Économiques et Gestion',
     subject: 'Économie',
-        color: '#7dd3fc' // Soft Sky 300
+    color: '#075985' // Sky-800 (accessible)
     },
     // Arabic entries (7 classes)
     {
         id: 'premium_14',
         name: 'الجذع المشترك العلمي',
     subject: 'الرياضيات',
-        color: '#93c5fd' // Soft Blue 300
+    color: '#1d4ed8' // Blue-700 (accessible)
     },
     {
         id: 'premium_15',
         name: 'الجذع المشترك الأدبي',
     subject: 'الرياضيات',
-        color: '#fde68a' // Soft Amber 300
+    color: '#92400e' // Amber-800 (accessible)
     },
     {
         id: 'premium_16',
         name: 'الأولى باكالوريا علوم رياضية أ',
         subject: 'رياضيات',
-        color: '#a78bfa' // Soft Violet 400
+    color: '#6d28d9' // Violet-700 (accessible)
     },
     {
         id: 'premium_17',
         name: 'الأولى باكالوريا علوم فيزيائية',
         subject: 'علوم فيزيائية',
-        color: '#7dd3fc' // Soft Sky 300
+    color: '#0369a1' // Sky-700 (accessible)
     },
     {
         id: 'premium_18',
         name: 'الثانية باكالوريا علوم رياضية أ',
         subject: 'رياضيات',
-        color: '#c4b5fd' // Soft Violet 300
+    color: '#4c1d95' // Violet-900 (accessible)
     },
     {
         id: 'premium_19',
         name: 'الثانية باكالوريا علوم الحياة والأرض',
         subject: 'علوم الحياة والأرض',
-        color: '#86efac' // Soft Green 300
+    color: '#166534' // Green-800 (accessible)
     },
     {
         id: 'premium_20',
         name: 'الثالثة إعدادي',
     subject: 'الرياضيات',
-        color: '#fca5a5' // Soft Red 300
+    color: '#b91c1c' // Red-700 (accessible)
     }
 ];
 

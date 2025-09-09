@@ -170,7 +170,26 @@
     .guide-scroll { 
       scrollbar-color: #64748b #e2e8f0; 
       scrollbar-width: auto; 
-    }    /* Print-specific styles */
+    }
+
+    /* Elegant, chic, fine title styling for class cards */
+    .title-chic {
+      font-family: 'Poppins', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      font-weight: 500; /* refined, not too heavy */
+      letter-spacing: 0.3px; /* subtle air between letters */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.12);
+    }
+    .title-ar {
+      font-family: 'Lateef', 'Scheherazade New', 'Amiri', system-ui, sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.2px;
+      -webkit-font-smoothing: antialiased;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.10);
+    }
+
+    /* Print-specific styles */
     @media screen {
       .print-hidden { display: block !important; }
       .print-only { display: none !important; }

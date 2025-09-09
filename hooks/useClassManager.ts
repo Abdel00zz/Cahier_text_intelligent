@@ -54,7 +54,7 @@ export const useClassManager = () => {
                                 subject: defaultClassData.classInfo?.subject || 'Mathématiques',
                                 teacherName: defaultClassData.classInfo?.teacherName || 'Professeur',
                                 createdAt: new Date().toISOString(),
-                                color: '#93c5fd',
+                                color: '#3b82f6',
                             };
 
                             setClasses([defaultClass]);
@@ -76,7 +76,7 @@ export const useClassManager = () => {
                             subject: 'Mathématiques',
                             teacherName: 'Professeur',
                             createdAt: new Date().toISOString(),
-                            color: '#93c5fd',
+                            color: '#3b82f6',
                         };
                         setClasses([defaultClass]);
                         localStorage.setItem(STORAGE_KEY, JSON.stringify([defaultClass]));

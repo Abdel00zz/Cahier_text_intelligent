@@ -100,8 +100,8 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
   const cardClasses = "bg-white rounded-md p-3 border border-gray-200";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-2 sm:p-4" onClick={onClose}>
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl flex flex-col max-h-[96vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4" onClick={onClose}>
+      <div className="bg-white rounded-t-2xl sm:rounded-xl shadow-xl w-full sm:max-w-2xl flex flex-col max-h-[96vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
         {/* En-tête compact */}
   <div className="px-3 py-2 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
           <h2 className="text-sm sm:text-base font-semibold text-gray-900">Configuration</h2>
@@ -114,9 +114,9 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
           </button>
         </div>
 
-        {/* Contenu compact */}
+  {/* Contenu compact */}
   <div ref={modalRef} className="flex-1 overflow-y-auto overscroll-contain">
-          <div className="p-3 sm:p-4 space-y-4">
+    <div className="p-4 sm:p-4 space-y-4">
             
             {/* Section Informations Générales */}
             <div className={sectionClasses}>
@@ -423,10 +423,10 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
           </div> {/* end inner padding container */}
         </div> {/* end scroll container */}
 
-        {/* Pied de modal compact */}
-  <div className="px-3 py-2 bg-gray-50 border-t border-gray-200 flex justify-end gap-2 flex-shrink-0">
-          <Button type="button" onClick={onClose} variant="secondary" className="px-3 h-9 text-sm">Annuler</Button>
-          <Button type="button" onClick={handleSave} variant="primary" className="px-3 h-9 text-sm">Enregistrer</Button>
+  {/* Pied de modal compact */}
+  <div className="px-4 py-3 bg-gray-50 border-t border-gray-200 flex justify-end gap-2 flex-shrink-0">
+    <Button type="button" onClick={onClose} variant="secondary" className="px-4 h-11 sm:h-9 text-sm">Annuler</Button>
+    <Button type="button" onClick={handleSave} variant="primary" className="px-4 h-11 sm:h-9 text-sm">Enregistrer</Button>
         </div>
       </div>
     </div>

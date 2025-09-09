@@ -31,7 +31,8 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
 
     return (
         <div 
-            className="group relative rounded-xl border border-slate-400/30 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col aspect-[5/3] bg-slate-500"
+            className="group relative rounded-xl border border-slate-400/30 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col aspect-[5/3]"
+            style={{ backgroundColor: color }}
             onClick={onContactAdmin}
         >
             {/* Overlay with pattern and blur */}
@@ -46,11 +47,11 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
                 <button
                     type="button"
                     onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                    className="absolute top-2 left-2 sm:top-3 sm:left-3 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-black/30 text-white rounded-full transition-all duration-300 hover:bg-red-500 hover:scale-110 z-10 border border-white/30 backdrop-blur-md"
+                    className="absolute top-2 left-2 sm:top-3 sm:left-3 w-10 h-10 sm:w-8 sm:h-8 flex items-center justify-center bg-black/30 text-white rounded-full transition-all duration-300 hover:bg-red-500 hover:scale-110 z-10 border border-white/30 backdrop-blur-md"
                     data-tippy-content="Supprimer cette carte"
                     aria-label="Supprimer cette carte"
                 >
-                    <i className="fas fa-times text-[11px] sm:text-sm"></i>
+                    <i className="fas fa-times text-sm sm:text-xs"></i>
                 </button>
 
                 {/* Premium badge top-right */}
@@ -63,7 +64,7 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
                 
                 {/* Class Name (Main Content) - centered */}
                 <div className="flex-grow flex items-center justify-center text-center">
-                    <h3 className={`font-bold break-words leading-tight tracking-normal -translate-y-0.5 sm:-translate-y-1 ${isArabic ? 'font-ar text-[1.7rem]' : 'font-chic text-[1.45rem] sm:text-[1.6rem]'}`}>
+                    <h3 className={`font-medium break-words leading-tight tracking-normal -translate-y-0.5 sm:-translate-y-1 ${isArabic ? 'title-ar text-[1.7rem]' : 'title-chic text-[1.45rem] sm:text-[1.6rem]'}`}>
                         {formatSuperscript(name)}
                     </h3>
                 </div>
