@@ -490,9 +490,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                         {classes
                             .filter(c => (c.cycle || 'college') === selectedCycle)
                             .sort((a, b) => {
-                                // Demo class "Tronc commun scientifique" comes first
-                                const isDemoA = a.name.toLowerCase().includes('tronc commun scientifique');
-                                const isDemoB = b.name.toLowerCase().includes('tronc commun scientifique');
+                                // Prioritize demo classes per cycle: 'Tronc commun scientifique' for lycée, '3ème année collégiale' for collège
+                                const isDemoA = (selectedCycle === 'lycee' && a.name.toLowerCase().includes('tronc commun scientifique'))
+                                    || (selectedCycle === 'college' && a.name.toLowerCase().includes('3ème année collégiale'));
+                                const isDemoB = (selectedCycle === 'lycee' && b.name.toLowerCase().includes('tronc commun scientifique'))
+                                    || (selectedCycle === 'college' && b.name.toLowerCase().includes('3ème année collégiale'));
                                 if (isDemoA && !isDemoB) return -1;
                                 if (!isDemoA && isDemoB) return 1;
                                 // Then sort by creation date (newest first)

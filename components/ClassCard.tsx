@@ -16,6 +16,23 @@ const containsArabic = (text: string): boolean => {
     return arabicRegex.test(text);
 };
 
+// Helper to render ordinal suffixes (er, ème, etc.) as superscript
+const formatSuperscript = (text: string) => {
+    const parts = text.split(/(\d+(?:er|ère|ème))/);
+    return parts.map((part, idx) => {
+        if (part.endsWith('er')) {
+            return <span key={idx}>{part.slice(0, -2)}<sup>er</sup></span>;
+        }
+        if (part.endsWith('ère')) {
+            return <span key={idx}>{part.slice(0, -3)}<sup>ère</sup></span>;
+        }
+        if (part.endsWith('ème')) {
+            return <span key={idx}>{part.slice(0, -3)}<sup>ème</sup></span>;
+        }
+        return part;
+    });
+};
+
 const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSelect, onDelete }) => {
 
     const handleDeleteClick = (e: MouseEvent) => {
@@ -76,7 +93,7 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
                 {/* Class Name (Main Content) - centered */}
                 <div className="flex-grow flex items-center justify-center text-center">
                     <h3 className={`font-medium break-words leading-tight tracking-normal -translate-y-0.5 sm:-translate-y-1 ${isArabic ? 'title-ar text-[1.7rem]' : 'title-chic text-[1.45rem] sm:text-[1.6rem]'}`}>
-                        {classInfo.name}
+                        {formatSuperscript(classInfo.name)}
                     </h3>
                 </div>
 
