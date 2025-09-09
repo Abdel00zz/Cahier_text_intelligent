@@ -35,11 +35,1144 @@
               "date": "2025-09-07"
             }
           ]
+        },
+        {
+          "name": "Diviseurs, multiples et Division Euclidienne",
+          "subsections": [
+            {
+              "name": "La division Euclidienne",
+              "items": [
+                {
+                  "type": "proposition",
+                  "number": 1,
+                  "title": "Théorème de la Division Euclidienne pour les entiers naturels",
+                  "description": "Pour un entier $a$ et un entier non nul $b$, il existe un unique couple d'entiers $(q, r)$ tel que :\n$$a = bq + r \\text{ avec } 0 \\le r < b$$\n$q$ est le quotient et $r$ est le reste."
+                },
+                {
+                  "type": "application",
+                  "number": 1,
+                  "title": "Application : Déterminer quotient, reste et restes possibles",
+                  "description": "- Quotient et reste de 12357 par 113 ? (q=109, r=40)\n- Restes possibles dans la division par 7 ? (0, 1, 2, 3, 4, 5, 6)\n- Restes possibles dans la division par 2 ? (0, 1)",
+                  "date": "2025-11-09"
+                }
+              ],
+              "date": ""
+            },
+            {
+              "name": "Diviseurs et Multiples",
+              "items": [
+                {
+                  "type": "définition",
+                  "number": 2,
+                  "title": "Définition d'un diviseur et d'un multiple dans $\\mathbb{N}$",
+                  "description": "Soit $a, b \\in \\mathbb{N}$ avec $b \\neq 0$. On dit que $b$ est un diviseur de $a$ s'il existe un entier $k$ tel que $a = k \\times b$. Dans ce cas, $a$ est un multiple de $b$.",
+                  "date": "2025-09-07"
+                },
+                {
+                  "type": "exemple",
+                  "number": 2,
+                  "title": "Exemple : Identification des diviseurs du nombre 12",
+                  "description": "Les diviseurs de 12 sont $\\{1, 2, 3, 4, 6, 12\\}$ car $12=1\\times12$, $12=2\\times6$, $12=3\\times4$. Le nombre 5 n'est pas un diviseur de 12."
+                }
+              ]
+            },
+            {
+              "name": "Critères de divisibilité usuels",
+              "items": [
+                {
+                  "type": "proposition",
+                  "number": 2,
+                  "title": "Règles pratiques pour tester la divisibilité par 2, 3, 5 et 9",
+                  "description": "Un nombre est divisible par :\n- **2** : si son chiffre des unités est 0, 2, 4, 6, ou 8.\n- **3** : si la somme de ses chiffres est un multiple de 3.\n- **5** : si son chiffre des unités est 0 ou 5.\n- **9** : si la somme de ses chiffres est un multiple de 9."
+                }
+              ]
+            }
+          ],
+          "date": ""
+        },
+        {
+          "name": "Les nombres pairs et impairs",
+          "items": [
+            {
+              "type": "définition",
+              "number": 3,
+              "title": "Définition et écriture algébrique d'un nombre pair",
+              "description": "Un entier $n$ est **pair** s'il est un multiple de 2. Il peut s'écrire sous la forme $n = 2k$ avec $k \\in \\mathbb{N}$."
+            },
+            {
+              "type": "définition",
+              "number": 4,
+              "title": "Définition et écriture algébrique d'un nombre impair",
+              "description": "Un entier $n$ est impair s'il n'est pas pair. Il peut s'écrire sous la forme $n = 2k+1$ avec $k \\in \\mathbb{N}$."
+            },
+            {
+              "type": "application",
+              "number": 2,
+              "title": "Exercice : Démontrer les règles de parité pour la somme et le produit",
+              "description": "1. Démontrer que la somme de deux entiers de même parité est paire.\n2. Démontrer que le produit de deux entiers consécutifs est toujours pair."
+            }
+          ]
+        },
+        {
+          "name": "Les nombres premiers",
+          "subsections": [
+            {
+              "name": "Définition et propriétés",
+              "items": [
+                {
+                  "type": "définition",
+                  "number": 5,
+                  "title": "Définition d'un nombre premier et liste des premiers entiers",
+                  "description": "Un entier naturel est dit **premier** s'il possède exactement deux diviseurs : 1 et lui-même. Les premiers sont 2, 3, 5, 7, 11, 13, 17..."
+                },
+                {
+                  "type": "remarque",
+                  "number": 2,
+                  "title": "Cas particuliers et propriétés importantes des nombres premiers",
+                  "description": "- 1 n'est pas un nombre premier (un seul diviseur).\n- 2 est le seul nombre premier qui soit pair.\n- Il existe une infinité de nombres premiers."
+                }
+              ]
+            },
+            {
+              "name": "Décomposition en produit de facteurs premiers",
+              "items": [
+                {
+                  "type": "théorème",
+                  "number": 1,
+                  "title": "Théorème fondamental : unicité de la décomposition en facteurs premiers",
+                  "description": "Tout entier supérieur à 1 peut être décomposé de manière unique en un produit de nombres premiers. Exemple : $60 = 2^2 \\times 3 \\times 5$."
+                },
+                {
+                  "type": "application",
+                  "number": 3,
+                  "title": "Application : Simplification de fraction et de racine carrée",
+                  "description": "1. Simplifier la fraction $$\\frac{84}{60}$$ en utilisant la décomposition.\n2. Simplifier la racine $$\\sqrt{2100}$$."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Le Plus Grand Commun Diviseur (PGCD)",
+          "subsections": [
+            {
+              "name": "Définition et propriétés",
+              "items": [
+                {
+                  "type": "définition",
+                  "number": 6,
+                  "title": "Définition du Plus Grand Commun Diviseur (PGCD) de deux entiers",
+                  "description": "Le PGCD de deux entiers non nuls $a$ et $b$ est le plus grand entier qui divise à la fois $a$ et $b$. On le note $PGCD(a, b)$."
+                },
+                {
+                  "type": "exemple",
+                  "number": 3,
+                  "title": "Exemple : Calcul du PGCD de 15 et 12 par la méthode des diviseurs",
+                  "description": "Diviseurs de 15 : $\\{1, 3, 5, 15\\}$.\nDiviseurs de 12 : $\\{1, 2, 3, 4, 6, 12\\}$.\nLes diviseurs communs sont $\\{1, 3\\}$. Le plus grand est 3, donc $PGCD(15, 12) = 3$."
+                }
+              ]
+            },
+            {
+              "name": "Méthodes de calcul du PGCD",
+              "items": [
+                {
+                  "type": "théorème",
+                  "number": 2,
+                  "title": "Méthode 1 : Calcul du PGCD par décomposition en facteurs premiers",
+                  "description": "Le PGCD est le produit des facteurs premiers communs, chacun élevé à sa plus petite puissance. Exemple : $PGCD(2^2 \\times 3 \\times 5, 2^3 \\times 3) = 2^2 \\times 3^1 = 12$."
+                },
+                {
+                  "type": "proposition",
+                  "number": 3,
+                  "title": "Méthode 2 : L'Algorithme d'Euclide par divisions successives",
+                  "description": "Le PGCD de $a$ et $b$ est le dernier reste non nul obtenu dans la suite des divisions euclidiennes. On a $PGCD(a, b) = PGCD(b, r)$ où $r$ est le reste de $a$ par $b$."
+                },
+                {
+                  "type": "exemple",
+                  "number": 4,
+                  "title": "Exemple : Calcul de PGCD(15648, 657) avec l'algorithme d'Euclide",
+                  "description": "$15648 = 657 \\times 23 + 537$\n$657 = 537 \\times 1 + 120$\n...\n$6 = 3 \\times 2 + 0$\nLe dernier reste non nul est 3, donc $PGCD(15648, 657) = 3$."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Le Plus Petit Commun Multiple (PPCM)",
+          "items": [
+            {
+              "type": "définition",
+              "number": 7,
+              "title": "Définition du Plus Petit Commun Multiple (PPCM) de deux entiers",
+              "description": "Le PPCM de deux entiers non nuls $a$ et $b$ est le plus petit entier strictement positif qui est à la fois multiple de $a$ et de $b$."
+            },
+            {
+              "type": "proposition",
+              "number": 4,
+              "title": "Propriétés et relation fondamentale entre le PGCD et le PPCM",
+              "description": "- **Calcul** : Le PPCM est le produit de tous les facteurs premiers (communs ou non), chacun élevé à sa plus grande puissance.\n- **Relation clé** : Pour tous entiers $a,b$ non nuls : $$PGCD(a, b) \\times PPCM(a, b) = a \\times b$$"
+            },
+            {
+              "type": "application",
+              "number": 4,
+              "title": "Exercice : Simplifier une expression avec des racines carrées",
+              "description": "Simplifier $B = \\sqrt{63} \\times \\sqrt{105}$ en utilisant la décomposition en facteurs premiers.\n$B = \\sqrt{3^2 \\times 7} \\times \\sqrt{3 \\times 5 \\times 7} = \\sqrt{3^3 \\times 5 \\times 7^2} = 21\\sqrt{15}$."
+            }
+          ]
         }
       ],
       "title": "Notion d'arithmétique et l'Ensemble des nombres entiers",
       "type": "chapter",
       "date": ""
+    },
+    {
+      "sections": [
+        {
+          "name": "Les ensembles de nombres : $\\mathbb{N}, \\mathbb{Z}, \\mathbb{D}, \\mathbb{Q}$ et $\\mathbb{R}$",
+          "items": [
+            {
+              "type": "activité",
+              "number": 1,
+              "title": "Activité : Identifier les ensembles d'appartenance pour chaque nombre",
+              "description": "Pour chaque nombre, énumérez tous ses ensembles d'appartenance : $$-\\frac{\\sqrt{16}}{2} \\; ; \\; \\frac{5}{-2} \\; ; \\; 12,23 \\; ; \\; \\frac{\\pi}{2} \\; ; \\; 8 \\; ; \\; \\sqrt{2} \\; ; \\; -6$$"
+            },
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Ensemble des entiers naturels $\\mathbb{N}$",
+              "description": "Les entiers positifs ou nuls : $\\mathbb{N} = \\{0, 1, 2, 3, ...\\}$."
+            },
+            {
+              "type": "définition",
+              "number": 2,
+              "title": "Ensemble des entiers relatifs $\\mathbb{Z}$",
+              "description": "Les entiers naturels et leurs opposés : $\\mathbb{Z} = \\{..., -2, -1, 0, 1, 2, ...\\}$."
+            },
+            {
+              "type": "définition",
+              "number": 3,
+              "title": "Ensemble des nombres décimaux $\\mathbb{D}$",
+              "description": "Les nombres de la forme $\\frac{a}{10^n}$ avec $a \\in \\mathbb{Z}$ et $n \\in \\mathbb{N}$."
+            },
+            {
+              "type": "définition",
+              "number": 4,
+              "title": "Ensemble des nombres rationnels $\\mathbb{Q}$",
+              "description": "Les nombres de la forme $\\frac{a}{b}$ avec $a \\in \\mathbb{Z}$ et $b \\in \\mathbb{Z}^*$."
+            },
+            {
+              "type": "définition",
+              "number": 5,
+              "title": "Ensemble des nombres réels $\\mathbb{R}$",
+              "description": "L'ensemble qui regroupe les nombres rationnels et irrationnels."
+            },
+            {
+              "type": "remarque",
+              "number": 1,
+              "title": "Relation d'inclusion entre les ensembles de nombres",
+              "description": "Les ensembles sont emboîtés les uns dans les autres : $$\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{D} \\subset \\mathbb{Q} \\subset \\mathbb{R}$$"
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Exercice : Maîtriser les symboles d'appartenance et d'inclusion",
+              "description": "Compléter avec $\\in, \\notin, \\subset, \\not\\subset$ :\n- $10 ... \\mathbb{N}$\n- $\\frac{2\\pi}{3} ... \\mathbb{R}$\n- $\\sqrt{49} ... \\mathbb{N}$\n- $\\pi ... \\mathbb{Q}$\n- $$\\frac{1}{3} ... \\mathbb{D}$$\n- $\\mathbb{N} ... \\mathbb{D}$\n- $\\frac{-\\sqrt{12}}{\\sqrt{3}} ... \\mathbb{Z}$"
+            }
+          ]
+        },
+        {
+          "name": "Opérations dans l'ensemble $\\mathbb{R}$",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Propriétés fondamentales des opérations sur les fractions",
+              "description": "- **Addition** : $$\\frac{a}{b} + \\frac{c}{d} = \\frac{ad+bc}{bd}$$\n- **Multiplication** : $$\\frac{a}{b} \\times \\frac{c}{d} = \\frac{ac}{bd}$$\n- **Division** : $$\\frac{a}{b} \\div \\frac{c}{d} = \\frac{a}{b} \\times \\frac{d}{c}$$\n- **Égalité (Produit en croix)** : $$\\frac{a}{b} = \\frac{c}{d} \\iff ad=bc$$"
+            },
+            {
+              "type": "application",
+              "number": 2,
+              "title": "Exercice : Démontrer une égalité avec des fractions littérales",
+              "description": "Pour $x, y$ des réels non nuls et $x \\neq y$, montrer que : $$\\frac{-1+\\frac{x}{x-y}}{1+\\frac{y}{x-y}} = \\frac{y}{x}$$"
+            }
+          ]
+        },
+        {
+          "name": "Puissances et Écriture Scientifique",
+          "items": [
+            {
+              "type": "définition",
+              "number": 6,
+              "title": "Définition rigoureuse de l'écriture scientifique",
+              "description": "La forme $a \\times 10^n$, avec $n \\in \\mathbb{Z}$ et $a$ un réel tel que $1 \\le |a| < 10$."
+            },
+            {
+              "type": "application",
+              "number": 3,
+              "title": "Exercice : Conversion de nombres en écriture scientifique",
+              "description": "Mettre en écriture scientifique :\n$251,3$ ; $0,095$ ; $27,31 \\times 10^3$ ; $0,012 \\times 10^{-3}$ ; $-34,56 \\times 10^{-2}$"
+            },
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Règles de calcul sur les puissances de nombres réels",
+              "description": "Pour $a, b \\in \\mathbb{R}^*$ et $n, p \\in \\mathbb{Z}$ :\n- $a^n \\times a^p = a^{n+p}$\n- $(a^n)^p = a^{np}$\n- $$\\frac{a^n}{a^p} = a^{n-p}$$\n- $(ab)^n = a^n b^n$"
+            },
+            {
+              "type": "application",
+              "number": 4,
+              "title": "Exercice : Simplification d'expressions avec des puissances",
+              "description": "Simplifier les expressions : $$A = \\frac{6^{15} \\times 25^7}{3^7 \\times 9^4} \\quad ; \\quad B = \\frac{4 \\times (10^{-2})^3 \\times 10}{10^{-5} \\times 16}$$"
+            }
+          ]
+        },
+        {
+          "name": "Racines Carrées",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 3,
+              "title": "Propriétés essentielles pour le calcul avec les racines carrées",
+              "description": "Pour $a, b \\in \\mathbb{R}^+$ :\n- $(\\sqrt{a})^2 = a$ et $\\sqrt{a^2} = a$\n- $\\sqrt{a} \\times \\sqrt{b} = \\sqrt{ab}$\n- $$\\frac{\\sqrt{a}}{\\sqrt{b}} = \\sqrt{\\frac{a}{b}}$$ (avec $b > 0$)"
+            },
+            {
+              "type": "application",
+              "number": 5,
+              "title": "Exercice : Simplifier et calculer des expressions avec racines",
+              "description": "1. Simplifier : $D = (\\sqrt{3}+\\sqrt{6})(1-\\sqrt{2})$\n2. Montrer que $$\\frac{5\\sqrt{2}}{\\sqrt{7}-\\sqrt{2}} + \\frac{5\\sqrt{7}}{\\sqrt{7}+\\sqrt{2}} \\in \\mathbb{Z}$$"
+            }
+          ]
+        },
+        {
+          "name": "Identités Remarquables",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 4,
+              "title": "Formulaire des identités remarquables à connaître",
+              "description": "Pour $a, b \\in \\mathbb{R}$ :\n- $(a \\pm b)^2 = a^2 \\pm 2ab + b^2$\n- $a^2 - b^2 = (a-b)(a+b)$\n- $(a \\pm b)^3 = a^3 \\pm 3a^2b + 3ab^2 \\pm b^3$\n- $a^3 \\pm b^3 = (a \\pm b)(a^2 \\mp ab + b^2)$"
+            },
+            {
+              "type": "application",
+              "number": 6,
+              "title": "Exercice : Développer en utilisant les identités remarquables",
+              "description": "Développer :\n- $(x-1)(x^2 + x + 1)$\n- $(b+2)^3$\n- $(y-5)^3$"
+            },
+            {
+              "type": "application",
+              "number": 7,
+              "title": "Exercice : Factoriser en utilisant les identités remarquables",
+              "description": "Factoriser :\n- $A(x) = x^2 - 9 + (x-1)(x+3) - 2(x+3)^2$\n- $B(x) = 4x^2 - 36x$\n- $C(x) = x^3 - 1000$"
+            }
+          ]
+        }
+      ],
+      "title": "Ensembles de Nombres et Opérations Fondamentales",
+      "type": "chapter"
+    },
+    {
+      "sections": [
+        {
+          "name": "Relation d'ordre dans $\\mathbb{R}$",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition de la comparaison de deux nombres réels",
+              "description": "Comparer deux réels $a$ et $b$ revient à étudier le signe de leur différence $(a-b)$.\n- $a \\le b \\iff b-a \\ge 0$\n- $a < b \\iff b-a > 0$"
+            },
+            {
+              "type": "activité",
+              "number": 1,
+              "title": "Activité : Comparaison de différentes paires de nombres réels",
+              "description": "Comparer les paires de nombres suivantes :\n1. $\\frac{8}{11}$ et $\\frac{5}{11}$\n2. $\\frac{13}{9}$ et $\\frac{13}{6}$\n3. $2\\sqrt{5}$ et $5\\sqrt{2}$"
+            }
+          ]
+        },
+        {
+          "name": "Ordre et Opérations dans $\\mathbb{R}$",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Règles de compatibilité de l'ordre avec les opérations",
+              "description": "Soient $a, b, c \\in \\mathbb{R}$.\n- **Addition** : Si $a \\le b$, alors $a+c \\le b+c$.\n- **Multiplication (c > 0)** : Si $a \\le b$, alors $ac \\le bc$.\n- **Multiplication (c < 0)** : Si $a \\le b$, alors $ac \\ge bc$.\n- **Carré** : Pour $a, b \\ge 0$, $a \\le b \\iff a^2 \\le b^2$.\n- **Inverse** : Pour $a, b$ de même signe, $a \\le b \\iff \\frac{1}{a} \\ge \\frac{1}{b}$."
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Exercice : Comparaison des puissances d'un réel positif",
+              "description": "Soit $a \\in \\mathbb{R}^{+*}$.\n1. Si $a > 1$, montrer que $a^3 > a^2 > a$.\n2. Si $0 < a < 1$, montrer que $a^3 < a^2 < a$."
+            },
+            {
+              "type": "application",
+              "number": 2,
+              "title": "Exercice : Comparaison d'expressions avec racines carrées",
+              "description": "Pour $x \\in \\mathbb{R}^{+}$, comparer :\n $\\sqrt{x+1}-\\sqrt{x}$ et $\\sqrt{x+2}-\\sqrt{x+1}$."
+            }
+          ]
+        },
+        {
+          "name": "La Valeur Absolue et ses Propriétés",
+          "items": [
+            {
+              "type": "définition",
+              "number": 2,
+              "title": "Définition de la valeur absolue d'un nombre réel",
+              "description": "Pour $x \\in \\mathbb{R}$, la valeur absolue $|x|$ est la distance de $x$ à l'origine.\n- $|x|=x$ si $x \\ge 0$\n- $|x|=-x$ si $x \\le 0$"
+            },
+            {
+              "type": "définition",
+              "number": 3,
+              "title": "Distance entre deux points sur un axe gradué",
+              "description": "La distance entre deux points d'abscisses $a$ et $b$ est $AB = |b-a|$."
+            },
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Propriétés fondamentales de la valeur absolue",
+              "description": "Pour tous $x, y \\in \\mathbb{R}$ :\n- $|x| \\ge 0$\n- $|x^2| = |x|^2 = x^2$\n- $\\sqrt{x^2} = |x|$\n- $|xy| = |x||y|$\n- $|x+y| \\le |x| + |y|$"
+            },
+            {
+              "type": "application",
+              "number": 3,
+              "title": "Exercice : Résolution d'équations avec valeur absolue",
+              "description": "Résoudre dans $\\mathbb{R}$ :\n1. $|x-1| = 5$\n2. $|2x+1| = |x-3|$\n3. $|x+2| = -1$"
+            }
+          ]
+        },
+        {
+          "name": "Intervalles dans l'ensemble \\mathbb{R}",
+          "items": [
+            {
+              "type": "définition",
+              "number": 4,
+              "title": "Notation et correspondance des différents types d'intervalles",
+              "description": "Soient $a, b \\in \\mathbb{R}$ avec $a < b$ :\n- $[a, b] \\iff a \\le x \\le b$\n- $]a, b[ \\iff a < x < b$\n- $[a, +\\infty[ \\iff x \\ge a$\n- $]-\\infty, b] \\iff x \\le b$"
+            },
+            {
+              "type": "définition",
+              "number": 5,
+              "title": "Intersection $A \\cap B$ et réunion $A \\cup B$ de deux intervalles",
+              "description": "- **Intersection ($\\cap$)** : Éléments communs aux deux intervalles.\n- **Réunion ($\\cup$)** : Éléments appartenant à l'un ou l'autre des intervalles."
+            },
+            {
+              "type": "application",
+              "number": 4,
+              "title": "Exercice : Calcul d'intersection et de réunion d'intervalles",
+              "description": "Calculer $I \\cap J$ et $I \\cup J$ pour :\n1. $I = [-1, +\\infty[$ et $J = ]-3, 7]$\n2. $I = [4, 10]$ et $J = ]-\\infty, 5[$"
+            }
+          ]
+        },
+        {
+          "name": "Encadrement et Valeur Approchée",
+          "items": [
+            {
+              "type": "définition",
+              "number": 6,
+              "title": "Définition de l'encadrement d'un réel et de son amplitude",
+              "description": "Un encadrement de $x \\in \\mathbb{R}$ est une double inégalité $a \\le x \\le b$. L'amplitude est $b-a$."
+            },
+            {
+              "type": "proposition",
+              "number": 3,
+              "title": "Règles opératoires sur les encadrements",
+              "description": "Si $a < x < b$ et $c < y < d$ :\n- **Addition** : $a+c < x+y < b+d$.\n- **Multiplication (nombres > 0)** : Si $a,c>0$, alors $ac < xy < bd$."
+            },
+            {
+              "type": "application",
+              "number": 5,
+              "title": "Exercice : Déterminer l'encadrement de diverses expressions",
+              "description": "Si $x \\in [1, 3]$ et $y \\in [2, 4]$, encadrer : $x^2$, $-y$, $\\frac{1}{x}$ et $x^2+y^2+2x-3y$."
+            },
+            {
+              "type": "définition",
+              "number": 7,
+              "title": "Définition d'une valeur approchée et de la précision",
+              "description": "$a$ est une valeur approchée de $x$ à $r$ près si $|x-a| \\le r$.\n- **Par défaut** : $a \\le x \\le a+r$\n- **Par excès** : $a-r \\le x \\le a$"
+            },
+            {
+              "type": "définition",
+              "number": 8,
+              "title": "Définition de l'approximation décimale d'un nombre",
+              "description": "Si $N \\times 10^{-p} \\le x \\le (N+1) \\times 10^{-p}$ ($N \\in \\mathbb{Z}, p \\in \\mathbb{N}$), $N \\times 10^{-p}$ est l'approximation par défaut à $10^{-p}$ près."
+            }
+          ]
+        }
+      ],
+      "title": "L'ordre dans l'ensemble des nombres réels",
+      "type": "chapter"
+    },
+    {
+      "sections": [
+        {
+          "name": "Vecteurs du Plan",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition des trois composantes fondamentales d'un vecteur",
+              "description": "Un vecteur $\\vec{AB}$ est défini par trois caractéristiques :\n- une **direction** (celle de la droite (AB)).\n- un **sens** (de A vers B).\n- une **norme** ou longueur, notée $\\|\\vec{AB}\\| = AB$."
+            },
+            {
+              "type": "définition",
+              "number": 2,
+              "title": "Définition du vecteur opposé et du vecteur nul",
+              "description": "- Le **vecteur opposé** de $\\vec{AB}$ est le vecteur $\\vec{BA}$, noté $\\vec{BA} = -\\vec{AB}$.\n- Le **vecteur nul**, noté $\\vec{0}$, est un vecteur dont l'origine et l'extrémité sont confondues : $\\vec{AA} = \\vec{0}$."
+            }
+          ]
+        },
+        {
+          "name": "Égalité de Deux Vecteurs",
+          "items": [
+            {
+              "type": "définition",
+              "number": 3,
+              "title": "Critères d'égalité de deux vecteurs dans le plan",
+              "description": "Deux vecteurs $\\vec{AB}$ et $\\vec{CD}$ sont égaux s'ils ont la même direction, le même sens et la même norme."
+            },
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Caractérisation de l'égalité vectorielle par un parallélogramme",
+              "description": "Pour des points distincts $A, B, C, D$ :\n$$\\vec{AB} = \\vec{CD} \\iff ABDC \\text{ est un parallélogramme}$$"
+            },
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Existence et unicité du représentant d'un vecteur",
+              "description": "Étant donné un point $A$ et un vecteur $\\vec{u}$, il existe un point $M$ unique tel que $\\vec{AM} = \\vec{u}$."
+            }
+          ]
+        },
+        {
+          "name": "Somme de Deux Vecteurs",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 3,
+              "title": "Propriété fondamentale de la somme : la Relation de Chasles",
+              "description": "Pour n'importe quels points $A, B, C$ du plan, on a la relation : $$\\vec{AC} = \\vec{AB} + \\vec{BC}$$"
+            },
+            {
+              "type": "proposition",
+              "number": 4,
+              "title": "Définition de la somme par la Règle du parallélogramme",
+              "description": "La somme des vecteurs $\\vec{AB}$ et $\\vec{AC}$ est le vecteur $\\vec{AD}$ tel que $ABDC$ soit un parallélogramme."
+            },
+            {
+              "type": "remarque",
+              "number": 1,
+              "title": "Définition de la différence de deux vecteurs",
+              "description": "La différence de deux vecteurs $\\vec{u}$ et $\\vec{v}$ est définie par : $$\\vec{u} - \\vec{v} = \\vec{u} + (-\\vec{v})$$"
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Exercice : Écrire des vecteurs en fonction d'une base",
+              "description": "Dans un parallélogramme $ABCD$, on pose $\\vec{AB}=\\vec{i}$ et $\\vec{AC}=\\vec{j}$. Exprimer les vecteurs $\\vec{AD}$ et $\\vec{BD}$ en fonction de $\\vec{i}$ et $\\vec{j}$."
+            }
+          ]
+        },
+        {
+          "name": "Multiplication d'un Vecteur par un Réel",
+          "items": [
+            {
+              "type": "définition",
+              "number": 4,
+              "title": "Définition du produit d'un vecteur par un scalaire réel $k$",
+              "description": "Le vecteur $k\\vec{u}$ a :\n- La même direction que $\\vec{u}$.\n- Le même sens si $k>0$, le sens contraire si $k<0$.\n- La norme $\\|k\\vec{u}\\| = |k| \\times \\|\\vec{u}\\|$."
+            },
+            {
+              "type": "proposition",
+              "number": 5,
+              "title": "Propriétés algébriques de la multiplication par un scalaire",
+              "description": "Pour tous vecteurs $\\vec{u}, \\vec{v}$ et réels $a, b$ :\n- $a(\\vec{u}+\\vec{v}) = a\\vec{u}+a\\vec{v}$\n- $(a+b)\\vec{u} = a\\vec{u}+b\\vec{u}$\n- $a(b\\vec{u}) = (ab)\\vec{u}$"
+            },
+            {
+              "type": "application",
+              "number": 2,
+              "title": "Exercice : Simplification d'expressions vectorielles",
+              "description": "Simplifier les expressions suivantes :\n1. $\\vec{W_1} = 2(\\vec{u}+\\vec{v})-4(\\frac{1}{2}\\vec{u}-\\vec{v})$\n2. $\\vec{W_2} = \\frac{1}{3}(3\\vec{u}-9\\vec{v})+\\frac{1}{2}(2\\vec{u}+6\\vec{v})-2\\vec{u}$"
+            }
+          ]
+        },
+        {
+          "name": "La Colinéarité de Deux Vecteurs",
+          "items": [
+            {
+              "type": "définition",
+              "number": 5,
+              "title": "Définition de deux vecteurs colinéaires dans le plan",
+              "description": "Deux vecteurs $\\vec{u}$ et $\\vec{v}$ sont **colinéaires** s'il existe un nombre réel $k$ tel que $\\vec{u} = k\\vec{v}$."
+            },
+            {
+              "type": "remarque",
+              "number": 2,
+              "title": "Colinéarité, vecteur nul et direction commune",
+              "description": "- Le vecteur nul $\\vec{0}$ est colinéaire à tout vecteur.\n- Deux vecteurs non nuls sont colinéaires si et seulement s'ils ont la même direction."
+            },
+            {
+              "type": "proposition",
+              "number": 6,
+              "title": "Applications géométriques : alignement et parallélisme",
+              "description": "- **Alignement** : Les points $A, B, C$ sont alignés $\\iff \\vec{AB}$ et $\\vec{AC}$ sont colinéaires.\n- **Parallélisme** : Les droites $(AB)$ et $(CD)$ sont parallèles $\\iff \\vec{AB}$ et $\\vec{CD}$ sont colinéaires."
+            },
+            {
+              "type": "application",
+              "number": 3,
+              "title": "Exercice : Démontrer l'alignement de trois points",
+              "description": "Soit $ABC$ un triangle. Les points $E$ et $F$ sont tels que $\\vec{AF} = \\frac{4}{3}\\vec{AC}$ et $\\vec{CE} = \\frac{1}{4}\\vec{AB}$. Montrer que les points $E, F$ et $B$ sont alignés."
+            }
+          ]
+        },
+        {
+          "name": "Milieu d'un Segment",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 7,
+              "title": "Trois caractérisations vectorielles équivalentes du milieu",
+              "description": "$I$ est le milieu du segment $[AB]$ si et seulement si l'une des égalités suivantes est vérifiée :\n1. $\\vec{AI} = \\vec{IB}$\n2. $\\vec{AI} = \\frac{1}{2}\\vec{AB}$\n3. $\\vec{IA} + \\vec{IB} = \\vec{0}$"
+            },
+            {
+              "type": "proposition",
+              "number": 8,
+              "title": "Caractérisation du milieu pour n'importe quel point du plan",
+              "description": "$I$ est le milieu de $[AB]$ si et seulement si, pour tout point $M$ du plan, on a : $$\\vec{MA} + \\vec{MB} = 2\\vec{MI}$$"
+            },
+            {
+              "type": "application",
+              "number": 4,
+              "title": "Exercice : Montrer qu'un point est le milieu d'un segment",
+              "description": "Soit $ABC$ un triangle. Les points $E$ et $F$ sont tels que $\\vec{AF} = \\vec{AB} + \\vec{AC}$ et $\\vec{BE} = \\vec{BA} + \\vec{BC}$. Montrer que $C$ est le milieu du segment $[EF]$."
+            }
+          ]
+        }
+      ],
+      "title": "Calcul Vectoriel dans le Plan",
+      "type": "chapter"
+    },
+    {
+      "sections": [
+        {
+          "name": "Introduction et Vocabulaire",
+          "items": [
+            {
+              "type": "activité",
+              "number": 1,
+              "title": "Activité : Calcul du volume d'un parallélépipède",
+              "description": "Un parallélépipède a pour dimensions $x$, $x+3$ et $x+5$ ($x>0$).\n1. Montrer que son volume est $V(x) = x^3 + 8x^2 + 15x$.\n2. Calculer $V(1)$ et $V(2)$."
+            },
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Vocabulaire de base : degré et coefficients d'un polynôme",
+              "description": "Une expression comme $V(x) = x^3 + 8x^2 + 15x$ est une fonction polynôme.\n- Son **degré** est la plus grande puissance de $x$, noté $d^\\circ(V)=3$.\n- Les nombres réels (ici 1, 8, 15, 0) sont ses **coefficients**."
+            }
+          ]
+        },
+        {
+          "name": "Définition Formelle d'un Polynôme",
+          "items": [
+            {
+              "type": "définition",
+              "number": 2,
+              "title": "Écriture générale d'un polynôme de degré n",
+              "description": "Un polynôme $P(x)$ de degré $n$ est une expression de la forme :\n$$P(x) = a_n x^n + a_{n-1}x^{n-1} + ... + a_1 x + a_0$$\navec $a_n, ..., a_0$ les coefficients ($a_n \\neq 0$) et $a_0$ le terme constant."
+            },
+            {
+              "type": "exemple",
+              "number": 1,
+              "title": "Exemple d'un polynôme de degré 4 et ses coefficients",
+              "description": "Soit $P(x) = -5x^4 + \\sqrt{3}x^2 + 4x - 7$.\nSon degré est $d^\\circ(P)=4$.\nSes coefficients sont $-5$ (pour $x^4$), $0$ (pour $x^3$), $\\sqrt{3}$ (pour $x^2$), $4$ (pour $x$) et $-7$ (terme constant)."
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Exercice : Identifier les expressions qui sont des polynômes",
+              "description": "Parmi $f(x) = x^2 + \\frac{2}{x} - 1$, $g(x) = -x^5 + 3x^3 + x + 6$ et $h(x) = \\sqrt{13-x^2}-2x$, lesquelles sont des polynômes ? Préciser leur degré et leurs coefficients."
+            },
+            {
+              "type": "définition",
+              "number": 3,
+              "title": "Vocabulaire : Trinôme, polynôme du premier degré et nul",
+              "description": "- Un polynôme de degré 2 ($ax^2+bx+c$) est un **trinôme**.\n- Un polynôme de degré 1 ($ax+b$) est un **binôme**.\n- Le polynôme $P(x) = 0$ est le **polynôme nul** (son degré n'est pas défini)."
+            }
+          ]
+        },
+        {
+          "name": "Égalité de Deux Polynômes",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Principe d'égalité : identification des coefficients de même degré",
+              "description": "Deux polynômes $P(x)$ et $Q(x)$ sont égaux si et seulement si les coefficients de leurs termes de même degré sont égaux."
+            },
+            {
+              "type": "application",
+              "number": 2,
+              "title": "Exercice résolu : Déterminer des coefficients par identification",
+              "description": "Déterminer $a, b, c, d$ pour que $P(x) = ax^3 + (b-2)x^2 + (4-c)x + d$ soit égal à $Q(x) = -3x^3 + x^2 + 7$ pour tout $x$."
+            }
+          ]
+        },
+        {
+          "name": "Opérations sur les Polynômes",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Règles sur le degré de la somme et du produit de polynômes",
+              "description": "- $d^\\circ(P+Q) \\le \\sup(d^\\circ(P), d^\\circ(Q))$\n- $d^\\circ(P \\times Q) = d^\\circ(P) + d^\\circ(Q)$"
+            },
+            {
+              "type": "application",
+              "number": 3,
+              "title": "Exercice : Calculer somme, différence et produit de polynômes",
+              "description": "Pour $P(x) = 4x^3 + 3x^2 - 4x+1$ et $Q(x) = 3x^5 - 3x^3 - 6x-3$, calculer $(P+Q)(x)$, $(P-Q)(x)$ et $(P \\times Q)(x)$."
+            }
+          ]
+        },
+        {
+          "name": "Racine et Factorisation d'un Polynôme",
+          "items": [
+            {
+              "type": "définition",
+              "number": 4,
+              "title": "Définition d'une racine (ou zéro) d'un polynôme",
+              "description": "Un réel $\\alpha$ est une **racine** (ou un zéro) d'un polynôme $P$ si $P(\\alpha) = 0$."
+            },
+            {
+              "type": "proposition",
+              "number": 3,
+              "title": "Théorème de factorisation par $(x - α)$",
+              "description": "Un polynôme $P(x)$ est factorisable par $(x - \\alpha)$ si et seulement si $\\alpha$ est une racine de $P(x)$. On a alors $P(x) = (x-\\alpha)Q(x)$, où $d^\\circ(Q) = d^\\circ(P)-1$."
+            },
+            {
+              "type": "proposition",
+              "number": 4,
+              "title": "Théorème du reste : division euclidienne par $(x - a)$",
+              "description": "Le reste de la division d'un polynôme $P(x)$ par $(x-a)$ est égal à $P(a)$. Par conséquent, $P(x)$ est divisible par $(x-a)$ si et seulement si $P(a)=0$."
+            },
+            {
+              "type": "application",
+              "number": 4,
+              "title": "Méthode 1 : Factorisation par division euclidienne",
+              "description": "Soit $P(x) = x^3 + 2x^2 - 5x - 6$. Sachant que $-3$ est une racine, utiliser la division euclidienne de $P(x)$ par $(x+3)$ pour trouver un polynôme $Q(x)$ et factoriser $P(x)$."
+            },
+            {
+              "type": "application",
+              "number": 5,
+              "title": "Méthode 2 : Factorisation par le schéma de Horner",
+              "description": "Le schéma de Horner est une méthode rapide pour calculer $P(a)$ et obtenir les coefficients du quotient dans la division de $P(x)$ par $(x-a)$, permettant une factorisation efficace."
+            }
+          ]
+        }
+      ],
+      "title": "Les Polynômes",
+      "type": "chapter"
+    },
+    {
+      "sections": [
+        {
+          "name": "Équations et Inéquations du Premier Degré",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Équation du premier degré à une inconnue",
+              "description": "Une équation de la forme $ax+b=0$, où $x \\in \\mathbb{R}$ et $a,b \\in \\mathbb{R}$ avec $a \\neq 0$."
+            },
+            {
+              "type": "définition",
+              "number": 2,
+              "title": "Inéquation du premier degré à une inconnue",
+              "description": "Une inéquation de la forme $ax+b \\ge 0$, $ax+b \\le 0$, $ax+b > 0$ ou $ax+b < 0$ ($a \\neq 0$)."
+            },
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Règle du signe d'un binôme du premier degré",
+              "description": "Le binôme $ax+b$ s'annule en $x = -\\frac{b}{a}$.\n- Si $a>0$, le binôme est négatif avant la racine et positif après.\n- Si $a<0$, le binôme est positif avant la racine et négatif après."
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Exercice : Déterminer le signe de binômes et de leur produit",
+              "description": "Donner le signe des expressions suivantes :\n1. $2x+7$\n2. $-3x+4$\n3. $(2x+7)(-3x+4)$"
+            }
+          ]
+        },
+        {
+          "name": "Équations et Inéquations du Second Degré",
+          "items": [
+            {
+              "type": "définition",
+              "number": 3,
+              "title": "Équation du second degré (ou trinôme)",
+              "description": "Une équation de la forme $ax^2+bx+c=0$, où $x \\in \\mathbb{R}$ et $a,b,c \\in \\mathbb{R}$ avec $a \\neq 0$."
+            },
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Forme canonique et discriminant du trinôme",
+              "description": "Tout trinôme $ax^2+bx+c$ s'écrit sous la forme canonique :\n$$a\\left[ \\left(x + \\frac{b}{2a}\\right)^2 - \\frac{\\Delta}{4a^2} \\right]$$\navec le discriminant $\\Delta = b^2 - 4ac$."
+            },
+            {
+              "type": "proposition",
+              "number": 3,
+              "title": "Résolution de l'équation selon le signe du discriminant",
+              "description": "- Si $\\Delta > 0$ : deux solutions distinctes $x_{1,2} = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}$.\n- Si $\\Delta = 0$ : une solution double $x_0 = -\\frac{b}{2a}$.\n- Si $\\Delta < 0$ : aucune solution dans $\\mathbb{R}$ ($S=\\emptyset$)."
+            },
+            {
+              "type": "proposition",
+              "number": 4,
+              "title": "Somme et produit des racines du trinôme",
+              "description": "Si $\\Delta \\ge 0$, les racines $x_1$ et $x_2$ vérifient :\n- **Somme** : $x_1 + x_2 = -\\frac{b}{a}$\n- **Produit** : $x_1 \\times x_2 = \\frac{c}{a}$"
+            },
+            {
+              "type": "proposition",
+              "number": 5,
+              "title": "Factorisation du trinôme selon le signe du discriminant",
+              "description": "- Si $\\Delta > 0$ : $ax^2+bx+c = a(x-x_1)(x-x_2)$.\n- Si $\\Delta = 0$ : $ax^2+bx+c = a(x-x_0)^2$.\n- Si $\\Delta < 0$ : le trinôme n'est pas factorisable dans $\\mathbb{R}$."
+            },
+            {
+              "type": "proposition",
+              "number": 6,
+              "title": "Règle du signe d'un trinôme du second degré",
+              "description": "- Si $\\Delta > 0$ : le trinôme est du signe de '$a$' à l'extérieur des racines et du signe de '$-a$' entre les racines.\n- Si $\\Delta = 0$ : le trinôme est du signe de '$a$' partout, sauf en la racine où il s'annule.\n- Si $\\Delta < 0$ : le trinôme est toujours du signe de '$a$'."
+            },
+            {
+              "type": "application",
+              "number": 2,
+              "title": "Exercice : Analyse complète d'une équation du second degré",
+              "description": "Soit l'équation $(E): 2x^2 + 4x - 6 = 0$.\n1. Résoudre $(E)$.\n2. Factoriser le trinôme $2x^2+4x-6$.\n3. Étudier son signe.\n4. En déduire les solutions de l'inéquation $2x^2+4x-6 \\le 0$."
+            }
+          ]
+        },
+        {
+          "name": "Équations et Inéquations du Premier Degré à Deux Inconnues",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 7,
+              "title": "Résolution graphique d'une inéquation à deux inconnues",
+              "description": "L'ensemble des solutions d'une inéquation $ax+by+c \\ge 0$ est un demi-plan fermé. On le détermine en traçant la droite frontière $(D): ax+by+c=0$ et en testant un point (comme l'origine) pour identifier le bon demi-plan."
+            }
+          ]
+        },
+        {
+          "name": "Systèmes de Deux Équations à Deux Inconnues",
+          "items": [
+            {
+              "type": "définition",
+              "number": 4,
+              "title": "Définition des déterminants d'un système linéaire",
+              "description": "Pour le système $\\begin{cases} ax+by=c \\\\ a'x+b'y=c' \\end{cases}$, on définit les déterminants :\n- $\\Delta = ab' - a'b$\n- $\\Delta_x = cb' - c'b$\n- $\\Delta_y = ac' - a'c$"
+            },
+            {
+              "type": "proposition",
+              "number": 8,
+              "title": "Résolution d'un système par la méthode des déterminants (Cramer)",
+              "description": "- Si $\\Delta \\neq 0$ (système de Cramer) : solution unique $(x,y) = (\\frac{\\Delta_x}{\\Delta}, \\frac{\\Delta_y}{\\Delta})$.\n- Si $\\Delta = 0$ : soit aucune solution (si $\\Delta_x$ ou $\\Delta_y \\neq 0$), soit une infinité de solutions (si $\\Delta_x = \\Delta_y = 0$)."
+            },
+            {
+              "type": "application",
+              "number": 3,
+              "title": "Exercice : Résoudre des systèmes par la méthode des déterminants",
+              "description": "Résoudre les systèmes suivants dans $\\mathbb{R}^2$ :\n1. $\\begin{cases} 2x+y=3 \\\\ -3x+10y=7 \\end{cases}$\n2. $\\begin{cases} x+2y=3 \\\\ 3x+6y=9 \\end{cases}$"
+            }
+          ]
+        }
+      ],
+      "title": "Équations, Inéquations et Systèmes",
+      "type": "chapter"
+    },
+    {
+      "sections": [
+        {
+          "name": "Repère et Coordonnées",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition d'un repère cartésien dans le plan",
+              "description": "Un repère du plan est défini par un point origine $O$ et deux vecteurs de base non colinéaires, $\\vec{i}$ et $\\vec{j}$. On le note $(O, \\vec{i}, \\vec{j})$."
+            },
+            {
+              "type": "remarque",
+              "number": 1,
+              "title": "Cas particulier important : le Repère Orthonormé (R.O.N.)",
+              "description": "Si les vecteurs de base $\\vec{i}$ et $\\vec{j}$ sont orthogonaux et de norme 1, le repère est dit orthonormé."
+            },
+            {
+              "type": "définition",
+              "number": 2,
+              "title": "Définition des coordonnées d'un point dans un repère",
+              "description": "Les coordonnées $(x; y)$ d'un point $M$ sont les uniques réels tels que $\\vec{OM} = x\\vec{i} + y\\vec{j}$. On note $M(x; y)$."
+            },
+            {
+              "type": "définition",
+              "number": 3,
+              "title": "Définition des coordonnées d'un vecteur dans une base",
+              "description": "Les coordonnées $(x; y)$ d'un vecteur $\\vec{u}$ sont les uniques réels tels que $\\vec{u} = x\\vec{i} + y\\vec{j}$. On note $\\vec{u}(x; y)$ ou $\\vec{u}\\binom{x}{y}$."
+            }
+          ]
+        },
+        {
+          "name": "Calcul Analytique avec les Vecteurs",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Condition d'égalité de deux vecteurs par leurs coordonnées",
+              "description": "Deux vecteurs $\\vec{u}\\binom{x}{y}$ et $\\vec{v}\\binom{x'}{y'}$ sont égaux si et seulement si leurs coordonnées sont identiques : $x=x'$ et $y=y'$."
+            },
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Opérations sur les vecteurs à partir de leurs coordonnées",
+              "description": "Si $\\vec{u}\\binom{x}{y}$, $\\vec{v}\\binom{x'}{y'}$ et $\\lambda \\in \\mathbb{R}$ :\n- **Somme** : $\\vec{u} + \\vec{v}$ a pour coordonnées $\\binom{x+x'}{y+y'}$.\n- **Produit par un scalaire** : $\\lambda\\vec{u}$ a pour coordonnées $\\binom{\\lambda x}{\\lambda y}$."
+            },
+            {
+              "type": "proposition",
+              "number": 3,
+              "title": "Formule pour calculer les coordonnées du vecteur $\\overrightarrow{AB}$",
+              "description": "Si $A(x_A; y_A)$ et $B(x_B; y_B)$, alors le vecteur $\\vec{AB}$ a pour coordonnées $\\binom{x_B - x_A}{y_B - y_A}$."
+            },
+            {
+              "type": "proposition",
+              "number": 4,
+              "title": "Formule pour calculer les coordonnées du milieu d'un segment",
+              "description": "Le milieu $I$ du segment $[AB]$ a pour coordonnées $I\\left(\\frac{x_A+x_B}{2} ; \\frac{y_A+y_B}{2}\\right)$."
+            },
+            {
+              "type": "théorème",
+              "number": 1,
+              "title": "Condition de colinéarité de deux vecteurs (déterminant)",
+              "description": "Deux vecteurs $\\vec{u}\\binom{x}{y}$ et $\\vec{v}\\binom{x'}{y'}$ sont colinéaires si et seulement si leur déterminant est nul : $xy' - x'y = 0$."
+            }
+          ]
+        },
+        {
+          "name": "Distance et Géométrie Orthonormée",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 5,
+              "title": "Formule de la distance entre deux points dans un R.O.N.",
+              "description": "Dans un repère orthonormé, la distance entre $A(x_A; y_A)$ et $B(x_B; y_B)$ est :\n$$AB = \\sqrt{(x_B - x_A)^2 + (y_B - y_A)^2}$$"
+            }
+          ]
+        },
+        {
+          "name": "Équations de Droites",
+          "items": [
+            {
+              "type": "définition",
+              "number": 4,
+              "title": "Définition du vecteur directeur d'une droite",
+              "description": "Un **vecteur directeur** d'une droite $(d)$ est un vecteur non nul $\\vec{u}$ qui a la même direction que $(d)$."
+            },
+            {
+              "type": "proposition",
+              "number": 6,
+              "title": "Propriété de l'équation cartésienne d'une droite",
+              "description": "Toute droite $(d)$ du plan a une équation de la forme $ax+by+c=0$, avec $(a;b) \\neq (0;0)$. Un vecteur directeur de $(d)$ est alors $\\vec{u}(-b; a)$."
+            },
+            {
+              "type": "proposition",
+              "number": 7,
+              "title": "Réciproque : Interprétation géométrique d'une équation linéaire",
+              "description": "L'ensemble des points $M(x;y)$ vérifiant $ax+by+c=0$ (avec $(a;b) \\neq (0;0)$) est une droite de vecteur directeur $\\vec{u}(-b; a)$."
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Exercice : Déterminer l'équation d'une droite",
+              "description": "1. Droite passant par $A(1;-1)$ de vecteur directeur $\\vec{u}(-1;3)$.\n2. Droite passant par les points $A(5;13)$ et $B(10;23)$."
+            },
+            {
+              "type": "proposition",
+              "number": 8,
+              "title": "Définition et forme de l'équation réduite d'une droite",
+              "description": "- Si une droite n'est pas verticale, son équation peut s'écrire $y=mx+p$ (**équation réduite**).\n- Si une droite est verticale, son équation est de la forme $x=c$."
+            },
+            {
+              "type": "remarque",
+              "number": 2,
+              "title": "Signification du coefficient directeur et vecteur directeur associé",
+              "description": "Dans $y=mx+p$, $m$ est le **coefficient directeur**. Un vecteur directeur est alors $\\vec{u}(1;m)$."
+            },
+            {
+              "type": "proposition",
+              "number": 9,
+              "title": "Condition de parallélisme de deux droites",
+              "description": "- Pour les équations cartésiennes $ax+by+c=0$ et $a'x+b'y+c'=0$, les droites sont parallèles $\\iff ab' - a'b = 0$.\n- Pour les équations réduites $y=mx+p$ et $y=m'x+p'$, les droites sont parallèles $\\iff m=m'$."
+            }
+          ]
+        }
+      ],
+      "title": "La Droite dans le Plan",
+      "type": "chapter"
+    },
+    {
+      "sections": [
+        {
+          "name": "Unités de Mesure des Angles",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition de la mesure d'un angle en radians",
+              "description": "Sur un cercle trigonométrique (rayon 1), la mesure en radians d'un angle au centre $\\widehat{IOM}$ est la longueur de l'arc qu'il intercepte."
+            },
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Formule de conversion entre degrés, radians et grades",
+              "description": "Relation de proportionnalité : $180^\\circ = \\pi \\text{ rad} = 200 \\text{ gr}$. Pour un angle de $x$ degrés et $y$ radians : $$\\frac{x}{180} = \\frac{y}{\\pi}$$"
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Exercice : Convertir des mesures d'angles",
+              "description": "1. Convertir $45^\\circ$ en radians.\n2. Compléter le tableau de conversion pour $30^\\circ, 60^\\circ, 90^\\circ, 120^\\circ$."
+            }
+          ]
+        },
+        {
+          "name": "Cercle Trigonométrique et Abscisses Curvilignes",
+          "items": [
+            {
+              "type": "définition",
+              "number": 2,
+              "title": "Définition du cercle trigonométrique et du sens direct",
+              "description": "Le cercle trigonométrique est un cercle de centre $O$ et de rayon $1$, orienté dans le sens direct (anti-horaire)."
+            },
+            {
+              "type": "définition",
+              "number": 3,
+              "title": "Définition de l'abscisse curviligne d'un point $M$",
+              "description": "Tout réel $\\alpha$ est associé à un unique point $M$ sur le cercle trigonométrique. Ce réel est une **abscisse curviligne** de $M$."
+            },
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Mesures multiples et abscisse curviligne principale",
+              "description": "Si $\\alpha$ est une abscisse de $M$, tout réel $\\alpha + 2k\\pi$ ($k \\in \\mathbb{Z}$) l'est aussi. L'unique mesure dans $]-\\pi, \\pi]$ est l'**abscisse principale**."
+            },
+            {
+              "type": "application",
+              "number": 2,
+              "title": "Exercice : Déterminer l'abscisse principale d'un point",
+              "description": "Trouver l'abscisse principale de $M(\\frac{37\\pi}{3})$. On a $\\frac{37\\pi}{3} = 12\\pi + \\frac{\\pi}{3} = \\frac{\\pi}{3} \\pmod{2\\pi}$. L'abscisse principale est $\\frac{\\pi}{3}$."
+            }
+          ]
+        },
+        {
+          "name": "Angles Orientés",
+          "items": [
+            {
+              "type": "définition",
+              "number": 4,
+              "title": "Définition de l'angle orienté de deux vecteurs",
+              "description": "L'angle orienté de deux vecteurs $\\vec{u}$ et $\\vec{v}$ est noté $(\\vec{u}, \\vec{v})$. Sa mesure principale est l'unique mesure $\\alpha \\in ]-\\pi, \\pi]$."
+            },
+            {
+              "type": "proposition",
+              "number": 3,
+              "title": "Propriété fondamentale : la Relation de Chasles pour les angles",
+              "description": "Pour tous vecteurs non nuls $\\vec{u}, \\vec{v}, \\vec{w}$ :\n$$(\\vec{u}, \\vec{v}) + (\\vec{v}, \\vec{w}) \\equiv (\\vec{u}, \\vec{w}) \\pmod{2\\pi}$$"
+            },
+            {
+              "type": "proposition",
+              "number": 4,
+              "title": "Conséquences directes de la relation de Chasles",
+              "description": "- $(\\vec{v}, \\vec{u}) \\equiv -(\\vec{u}, \\vec{v}) \\pmod{2\\pi}$\n- $(-\\vec{u}, -\\vec{v}) \\equiv (\\vec{u}, \\vec{v}) \\pmod{2\\pi}$\n- $(-\\vec{u}, \\vec{v}) \\equiv (\\vec{u}, \\vec{v}) + \\pi \\pmod{2\\pi}$"
+            }
+          ]
+        },
+        {
+          "name": "Rapports Trigonométriques",
+          "items": [
+            {
+              "type": "définition",
+              "number": 5,
+              "title": "Définitions du cosinus, sinus et tangente d'un nombre réel",
+              "description": "Soit $M$ le point associé au réel $x$ sur le cercle trigonométrique.\n- **Cosinus** : $\\cos(x)$ est l'abscisse de $M$.\n- **Sinus** : $\\sin(x)$ est l'ordonnée de $M$.\n- **Tangente** : $\\tan(x) = \\frac{\\sin(x)}{\\cos(x)}$ pour $x \\neq \\frac{\\pi}{2} + k\\pi$."
+            },
+            {
+              "type": "proposition",
+              "number": 5,
+              "title": "Propriétés fondamentales des fonctions trigonométriques",
+              "description": "- $-1 \\le \\cos(x) \\le 1$ et $-1 \\le \\sin(x) \\le 1$\n- $\\cos^2(x) + \\sin^2(x) = 1$\n- Les fonctions sont $2\\pi$-périodiques."
+            },
+            {
+              "type": "proposition",
+              "number": 6,
+              "title": "Formules des angles associés à connaître",
+              "description": "- $\\cos(-x) = \\cos(x)$ ; $\\sin(-x) = -\\sin(x)$\n- $\\cos(\\pi-x) = -\\cos(x)$ ; $\\sin(\\pi-x) = \\sin(x)$\n- $\\cos(\\frac{\\pi}{2}-x) = \\sin(x)$ ; $\\sin(\\frac{\\pi}{2}-x) = \\cos(x)$"
+            }
+          ]
+        },
+        {
+          "name": "Équations et Inéquations Trigonométriques Fondamentales",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 7,
+              "title": "Résolution des équations du type $cos(x) = a$",
+              "description": "Si $|a| \\le 1$, il existe $\\alpha$ tel que $\\cos(\\alpha)=a$. Les solutions sont :\n$$x = \\alpha + 2k\\pi \\quad \\text{ou} \\quad x = -\\alpha + 2k\\pi \\quad (k \\in \\mathbb{Z})$$"
+            },
+            {
+              "type": "proposition",
+              "number": 8,
+              "title": "Résolution des équations du type $sin(x) = a$",
+              "description": "Si $|a| \\le 1$, il existe $\\alpha$ tel que $\\sin(\\alpha)=a$. Les solutions sont :\n$$x = \\alpha + 2k\\pi \\quad \\text{ou} \\quad x = \\pi - \\alpha + 2k\\pi \\quad (k \\in \\mathbb{Z})$$"
+            },
+            {
+              "type": "proposition",
+              "number": 9,
+              "title": "Résolution des équations du type $tan(x) = a$",
+              "description": "Pour tout $a \\in \\mathbb{R}$, il existe $\\alpha$ tel que $\\tan(\\alpha)=a$. Les solutions sont :\n$$x = \\alpha + k\\pi \\quad (k \\in \\mathbb{Z})$$"
+            }
+          ]
+        },
+        {
+          "name": "Angles Inscrits et Relations dans le Triangle",
+          "items": [
+            {
+              "type": "théorème",
+              "number": 1,
+              "title": "Théorème de l'angle inscrit et de l'angle au centre",
+              "description": "L'angle au centre est le double de l'angle inscrit interceptant le même arc : $\\widehat{AOB} = 2\\widehat{AMB}$."
+            },
+            {
+              "type": "proposition",
+              "number": 10,
+              "title": "Propriété des angles d'un quadrilatère inscriptible",
+              "description": "Un quadrilatère est inscriptible si et seulement si ses angles opposés sont supplémentaires (somme égale à $\\pi$)."
+            },
+            {
+              "type": "théorème",
+              "number": 2,
+              "title": "Formule de l'aire d'un triangle utilisant le sinus",
+              "description": "L'aire $S$ d'un triangle $ABC$ est : $$S = \\frac{1}{2}ab\\sin(\\widehat{C}) = \\frac{1}{2}ac\\sin(\\widehat{B}) = \\frac{1}{2}bc\\sin(\\widehat{A})$$"
+            },
+            {
+              "type": "théorème",
+              "number": 3,
+              "title": "Théorème de la loi des sinus dans un triangle",
+              "description": "Dans un triangle $ABC$, avec $R$ le rayon du cercle circonscrit :\n$$\\frac{a}{\\sin(\\widehat{A})} = \\frac{b}{\\sin(\\widehat{B})} = \\frac{c}{\\sin(\\widehat{C})} = 2R$$"
+            }
+          ]
+        }
+      ],
+      "title": "Trigonométrie",
+      "type": "chapter"
     }
   ]
 }
