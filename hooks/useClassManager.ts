@@ -65,6 +65,34 @@ export const useClassManager = () => {
                             } else {
                                 setClasses(existing);
                             }
+                            // Always ensure '1ère année collégiale' demo is present
+                            try {
+                                const allClasses: ClassInfo[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                                const hasMathDemo = allClasses.some(c => c.name === '1ère année collégiale');
+                                if (!hasMathDemo) {
+                                    const base = (import.meta as any).env?.BASE_URL || '/';
+                                    const demoFilename2 = '1er anne collegial math.json';
+                                    const resp2 = await fetch(`${base}Demo/${encodeURIComponent(demoFilename2)}`);
+                                    if (resp2.ok) {
+                                        const data2 = await resp2.json();
+                                        const demoClass2: ClassInfo = {
+                                            id: crypto.randomUUID(),
+                                            name: data2.classInfo?.name || '1ère année collégiale',
+                                            subject: data2.classInfo?.subject || 'Mathématiques',
+                                            teacherName: data2.classInfo?.teacherName || 'Professeur',
+                                            createdAt: new Date().toISOString(),
+                                            color: data2.classInfo?.color || generateColor(),
+                                            cycle: data2.classInfo?.cycle || 'college',
+                                        };
+                                        const updated = [...allClasses, demoClass2];
+                                        setClasses(updated);
+                                        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+                                        localStorage.setItem(`${CLASS_DATA_PREFIX}${demoClass2.id}`, JSON.stringify(data2.lessonsData || []));
+                                    }
+                                }
+                            } catch {
+                                // ignore demo math seed errors
+                            }
                         } catch {
                             setClasses(existing);
                         }
@@ -117,6 +145,35 @@ export const useClassManager = () => {
                         localStorage.setItem(`${CLASS_DATA_PREFIX}${defaultClass.id}`, JSON.stringify([]));
                     }
 
+                    // Also seed '1ère année collégiale' demo class on first launch
+                    try {
+                        const base2 = (import.meta as any).env?.BASE_URL || '/';
+                        const demoFilename2 = '1er anne collegial math.json';
+                        const respMath = await fetch(`${base2}Demo/${encodeURIComponent(demoFilename2)}`);
+                        if (respMath.ok) {
+                            const dataMath = await respMath.json();
+                            const mathDemo: ClassInfo = {
+                                id: crypto.randomUUID(),
+                                name: dataMath.classInfo?.name || '1ère année collégiale',
+                                subject: dataMath.classInfo?.subject || 'Mathématiques',
+                                teacherName: dataMath.classInfo?.teacherName || 'Professeur',
+                                createdAt: new Date().toISOString(),
+                                color: dataMath.classInfo?.color || generateColor(),
+                                cycle: dataMath.classInfo?.cycle || 'college',
+                            };
+                            // Append to existing classes
+                            setClasses(draft => {
+                                draft.push(mathDemo);
+                            });
+                            // Save to storage
+                            const updatedList = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                            updatedList.push(mathDemo);
+                            localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedList));
+                            localStorage.setItem(`${CLASS_DATA_PREFIX}${mathDemo.id}`, JSON.stringify(dataMath.lessonsData || []));
+                        }
+                    } catch {
+                        // ignore math demo errors
+                    }
                     // Mark that the app has been launched
                     localStorage.setItem(FIRST_LAUNCH_KEY, 'true');
                 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { SUBJECT_ABBREV_MAP } from '../constants';
 
 interface LockedClassCardProps {
     name: string;
@@ -28,6 +29,8 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
     // Helper to detect Arabic for font switching
     const isArabic = /[\u0600-\u06FF]/.test(name);
     const isSubjectArabic = /[\u0600-\u06FF]/.test(subject);
+    // Determine display text for subject badge
+    const displaySubject = SUBJECT_ABBREV_MAP[subject] || subject;
 
     return (
         <div 
@@ -79,7 +82,7 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
                         return (
                             <div className={`inline-flex items-center ${sizeClasses} rounded-full bg-white/20 text-white/90 backdrop-blur-sm`}>
                                 <i className={`fas fa-book-open ${iconSize}`}></i>
-                                <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{subject}</span>
+                                <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{displaySubject}</span>
                             </div>
                         );
                     })()}

@@ -1,5 +1,6 @@
 import { memo, MouseEvent, FC } from 'react';
 import { ClassInfo } from '../types';
+import { SUBJECT_ABBREV_MAP } from '../constants';
 
 interface ClassCardProps {
     classInfo: ClassInfo;
@@ -43,6 +44,8 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
 
     const isArabic = containsArabic(classInfo.name);
     const isSubjectArabic = containsArabic(classInfo.subject);
+    // Determine display text for subject badge
+    const displaySubject = SUBJECT_ABBREV_MAP[classInfo.subject] || classInfo.subject;
 
     return (
         <div 
@@ -64,7 +67,7 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
                         return (
                             <div className={`inline-flex items-center ${sizeClasses} rounded-full bg-white/20 text-white backdrop-blur-md shadow-sm border border-white/30`}>
                                 <i className={`fas fa-book-open ${iconSize}`}></i>
-                                <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{classInfo.subject}</span>
+                                <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{displaySubject}</span>
                             </div>
                         );
                     })()}

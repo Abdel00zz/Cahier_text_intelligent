@@ -1,0 +1,620 @@
+{
+  "classInfo": {
+    "name": "1ère année collégiale",
+    "subject": "Mathématiques",
+    "cycle": "college",
+    "teacherName": "ahmed",
+    "id": "9f8e1ee8-96c4-4e56-9ba5-18c45caaffe0",
+    "createdAt": "2025-09-09T20:55:54.498Z",
+    "color": "#99f6e4"
+  },
+  "lessonsData": [
+    {
+      "type": "evaluation_diagnostic",
+      "title": "Évaluation diagnostique",
+      "_tempId": "8632e587-5224-4000-b280-4f69093cb23a",
+      "sections": []
+    },
+    {
+      "sections": [
+        {
+          "name": "Notion de Racine Carrée",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition de la racine carrée d'un nombre positif",
+              "description": "Pour un nombre positif $a$, sa racine carrée, notée $\\sqrt{a}$, est l'unique nombre positif dont le carré est $a$."
+            },
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Propriété fondamentale de la racine carrée",
+              "description": "Quel que soit le nombre positif $a$, on a : $$(\\sqrt{a})^2 = \\sqrt{a^2} = a$$"
+            },
+            {
+              "type": "exemple",
+              "number": 1,
+              "title": "Exemples d'application de la propriété fondamentale",
+              "description": "$\\sqrt{7^2} = 7$ ; $(\\sqrt{13})^2 = 13$ ; $\\sqrt{25} = \\sqrt{5^2} = 5$ ; $\\sqrt{\\frac{36}{81}} = \\frac{6}{9} = \\frac{2}{3}$."
+            },
+            {
+              "type": "remarque",
+              "number": 1,
+              "title": "Non-existence dans l'ensemble des nombres réels de la racine d'un nombre négatif",
+              "description": "La racine carrée d'un nombre strictement négatif n'existe pas dans l'ensemble des nombres réels ($\\mathbb{R}$)."
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Calculer des expressions avec racines carrées",
+              "description": "Calculer : $\\sqrt{16}$ ; $\\sqrt{21^2}$ ; $\\sqrt{(-49)^2}$ ; $5\\sqrt{9}$ ; $\\sqrt{31+\\sqrt{21+\\sqrt{9+\\sqrt{49}}}}$"
+            }
+          ]
+        },
+        {
+          "name": "Opérations sur les Racines Carrées",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Règle de multiplication de deux racines carrées",
+              "description": "Pour $a$ et $b$ deux nombres positifs, on a : $$\\sqrt{a \\times b} = \\sqrt{a} \\times \\sqrt{b}$$"
+            },
+            {
+              "type": "exemple",
+              "number": 2,
+              "title": "Exemple de simplification utilisant la multiplication",
+              "description": "$\\sqrt{18} = \\sqrt{9 \\times 2} = \\sqrt{9} \\times \\sqrt{2} = 3\\sqrt{2}$"
+            },
+            {
+              "type": "proposition",
+              "number": 3,
+              "title": "Règle de division de deux racines carrées",
+              "description": "Pour $a$ et $b$ deux nombres positifs avec $b \\neq 0$, on a : $$\\sqrt{\\frac{a}{b}} = \\frac{\\sqrt{a}}{\\sqrt{b}}$$"
+            },
+            {
+              "type": "exemple",
+              "number": 3,
+              "title": "Exemple de simplification utilisant la division",
+              "description": "$\\sqrt{\\frac{49}{25}} = \\frac{\\sqrt{49}}{\\sqrt{25}} = \\frac{7}{5}$"
+            },
+            {
+              "type": "application",
+              "number": 2,
+              "title": "Exercice : Simplifier et réduire des expressions",
+              "description": "1. Simplifier : $\\sqrt{27}$ ; $\\sqrt{50}$ ; $\\sqrt{2} \\times \\sqrt{32}$.\n2. Réduire : $7\\sqrt{3} - \\sqrt{27} + 2\\sqrt{12}$ ; $2\\sqrt{18} + \\sqrt{32} + 3\\sqrt{2}$."
+            }
+          ]
+        },
+        {
+          "name": "Rendre Rationnel le Dénominateur",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 4,
+              "title": "Méthode pour un dénominateur de la forme $\\sqrt{b}$",
+              "description": "On multiplie le numérateur et le dénominateur par $\\sqrt{b}$ pour éliminer le radical. Exemple : $$\\frac{2}{\\sqrt{7}} = \\frac{2 \\times \\sqrt{7}}{\\sqrt{7} \\times \\sqrt{7}} = \\frac{2\\sqrt{7}}{7}$$"
+            },
+            {
+              "type": "proposition",
+              "number": 5,
+              "title": "Méthode du conjugué pour un dénominateur de la forme $a \\pm b$",
+              "description": "On utilise l'expression conjuguée et l'identité remarquable $(a-b)(a+b)=a^2-b^2$ pour éliminer le radical."
+            },
+            {
+              "type": "exemple",
+              "number": 4,
+              "title": "Exemple d'utilisation de la méthode du conjugué",
+              "description": "Pour $\\frac{\\sqrt{6}}{\\sqrt{7}+1}$, on multiplie par le conjugué $(\\sqrt{7}-1)$ :\n$$\\frac{\\sqrt{6}(\\sqrt{7}-1)}{(\\sqrt{7}+1)(\\sqrt{7}-1)} = \\frac{\\sqrt{42}-\\sqrt{6}}{7-1} = \\frac{\\sqrt{42}-\\sqrt{6}}{6}$$"
+            },
+            {
+              "type": "application",
+              "number": 3,
+              "title": "Exercice : Éliminer le radical du dénominateur",
+              "description": "Rendre rationnels les dénominateurs des fractions suivantes :\n1. $\\frac{3}{\\sqrt{11}}$\n2. $\\frac{10}{2\\sqrt{5}}$\n3. $\\frac{1}{\\sqrt{3}+1}$\n4. $\\frac{2\\sqrt{3}}{4-\\sqrt{3}}$"
+            }
+          ]
+        },
+        {
+          "name": "Résolution de l'Équation $x^2 = a$",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 6,
+              "title": "Règle de résolution de l'équation $x^2 = a$ selon le signe de a",
+              "description": "Soit l'équation $x^2 = a$ :\n- Si $a > 0$, l'équation a deux solutions : $x=\\sqrt{a}$ et $x=-\\sqrt{a}$.\n- Si $a = 0$, l'équation a une seule solution : $x=0$.\n- Si $a < 0$, l'équation n'a pas de solution dans $\\mathbb{R}$."
+            },
+            {
+              "type": "application",
+              "number": 4,
+              "title": "Exercice : Résoudre des équations du type $x^2 = a$",
+              "description": "Résoudre les équations suivantes :\n1. $x^2 - 25 = 0$\n2. $x^2 + 9 = 0$\n3. $4x^2 = 16$\n4. $9x^2 - 8 = 0$"
+            }
+          ]
+        }
+      ],
+      "title": "Les Racines Carrées",
+      "type": "chapter"
+    },
+    {
+      "sections": [
+        {
+          "name": "Développement d'Expressions Algébriques",
+          "subsections": [
+            {
+              "name": "Développement par la Distributivité",
+              "items": [
+                {
+                  "type": "proposition",
+                  "number": 1,
+                  "title": "Règles du développement par la distributivité simple et double",
+                  "description": "- $k(a+b) = ka+kb$\n- $k(a-b) = ka-kb$\n- $(a+b)(c+d) = ac+ad+bc+bd$"
+                },
+                {
+                  "type": "exemple",
+                  "number": 1,
+                  "title": "Exemples de développement par la distributivité",
+                  "description": "- $-\\sqrt{3}(\\sqrt{3}+2) = -(\\sqrt{3})^2 - 2\\sqrt{3} = -3-2\\sqrt{3}$\n- $-\\sqrt{2}(\\sqrt{4.5}-\\sqrt{2}) = -\\sqrt{9} + (\\sqrt{2})^2 = -3+2 = -1$\n- $(3+x)(-2x+4) = -6x+12-2x^2+4x = -2x^2-2x+12$"
+                }
+              ]
+            },
+            {
+              "name": "Développement via les Identités Remarquables",
+              "items": [
+                {
+                  "type": "proposition",
+                  "number": 2,
+                  "title": "Formules de développement des trois identités remarquables",
+                  "description": "- $(a+b)^2 = a^2+2ab+b^2$\n- $(a-b)^2 = a^2-2ab+b^2$\n- $(a-b)(a+b) = a^2-b^2$"
+                },
+                {
+                  "type": "exemple",
+                  "number": 2,
+                  "title": "Exemples d'application des identités remarquables",
+                  "description": "- $(x+\\sqrt{3})^2 = x^2+2\\sqrt{3}x+3$\n- $(2x-\\frac{3}{4})^2 = 4x^2 - 3x + \\frac{9}{16}$\n- $(2\\sqrt{5}+7\\sqrt{3})(2\\sqrt{5}-7\\sqrt{3}) = (2\\sqrt{5})^2-(7\\sqrt{3})^2 = 20-147 = -127$"
+                },
+                {
+                  "type": "application",
+                  "number": 1,
+                  "title": "Exercice : Développer en combinant les identités remarquables",
+                  "description": "Développer et simplifier : $(x-2)(x+2) + (2x-\\sqrt{3})^2 + (x+\\frac{\\sqrt{7}}{2})^2$"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Factorisation d'Expressions Algébriques",
+          "subsections": [
+            {
+              "name": "Factorisation par un Facteur Commun",
+              "items": [
+                {
+                  "type": "proposition",
+                  "number": 3,
+                  "title": "Principe de la factorisation par un facteur commun $k$",
+                  "description": "- $ka+kb = k(a+b)$\n- $ka-kb = k(a-b)$"
+                },
+                {
+                  "type": "exemple",
+                  "number": 3,
+                  "title": "Exemples de mise en évidence d'un facteur commun",
+                  "description": "- $30x+15 = 15(2x+1)$\n- $25x^2 - 5xy = 5x(5x-y)$\n- $(x+1)(x+2)+5(x+1) = (x+1)(x+2+5) = (x+1)(x+7)$"
+                },
+                {
+                  "type": "application",
+                  "number": 2,
+                  "title": "Exercice : Factoriser en identifiant un facteur commun",
+                  "description": "Factoriser les expressions suivantes :\n- $(x-5)^2 - 4(x-5)$\n- $(4x-5)(3x-2)+8x-10$"
+                }
+              ]
+            },
+            {
+              "name": "Factorisation à l'aide des Identités Remarquables",
+              "items": [
+                {
+                  "type": "proposition",
+                  "number": 4,
+                  "title": "Formules de factorisation des trois identités remarquables",
+                  "description": "- $a^2+2ab+b^2 = (a+b)^2$\n- $a^2-2ab+b^2 = (a-b)^2$\n- $a^2-b^2 = (a-b)(a+b)$"
+                },
+                {
+                  "type": "exemple",
+                  "number": 4,
+                  "title": "Exemples de factorisation via les identités remarquables",
+                  "description": "- $x^2+2x+1 = (x+1)^2$\n- $x^2-9 = x^2-3^2 = (x-3)(x+3)$\n- $25x^2-50x+25 = 25(x^2-2x+1) = 25(x-1)^2$"
+                },
+                {
+                  "type": "application",
+                  "number": 3,
+                  "title": "Exercice : Factoriser des expressions complexes",
+                  "description": "Factoriser les expressions suivantes :\n- $4x^2 - 16 + (2x-4)(x-3)$\n- $x^2-5$\n- $3x^2-18x+27$"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "title": "Calcul Littéral et Identités Remarquables",
+      "type": "chapter"
+    },
+    {
+      "sections": [
+        {
+          "name": "Développement : $k(a+b)=ka+kb$",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition du développement d'une expression littérale",
+              "description": "Développer un produit, c'est le transformer en une somme ou une différence."
+            },
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Propriétés du développement par la distributivité",
+              "description": "Pour $a, b, c, d, k$ des nombres réels :\n- $k(a+b) = ka+kb$\n- $(a+b)(c+d) = ac+ad+bc+bd$"
+            },
+            {
+              "type": "exemple",
+              "number": 1,
+              "title": "Exemples d'application de la distributivité",
+              "description": "- $2x(3+\\sqrt{2}) = 6x+2\\sqrt{2}x$\n- $-5(2x-3) = -10x+15$\n- $(3\\sqrt{2}-1)(2+\\sqrt{2}) = 6\\sqrt{2}+6-2-\\sqrt{2} = 5\\sqrt{2}+4$"
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Exercice : Développer et réduire des expressions complexes",
+              "description": "Développer puis réduire les expressions suivantes :\n- $-2a(3a-4)$\n- $(3\\sqrt{2}+4)(-2\\sqrt{5}-1)$\n- $(3x-1)(2-x) - (5x+2)(3-x)$"
+            }
+          ]
+        },
+        {
+          "name": "Factorisation : $ka+kb=k(a+b)$",
+          "items": [
+            {
+              "type": "définition",
+              "number": 2,
+              "title": "Définition de la factorisation d'une expression littérale",
+              "description": "Factoriser une somme ou une différence, c'est la transformer en un produit."
+            },
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Propriété de la factorisation par un facteur commun",
+              "description": "Pour $a, b, k$ des nombres réels :\n- $ka+kb = k(a+b)$"
+            },
+            {
+              "type": "exemple",
+              "number": 2,
+              "title": "Exemples de mise en évidence d'un facteur commun",
+              "description": "- $3abc+9a^2bc+15ab^2c = 3abc(1+3a+5b)$\n- $2\\sqrt{3}a - \\sqrt{6}a^2 = \\sqrt{3}a(2-\\sqrt{2}a)$"
+            },
+            {
+              "type": "application",
+              "number": 2,
+              "title": "Exercice : Factoriser et réduire des expressions",
+              "description": "Factoriser puis réduire les expressions suivantes :\n- $15a^2bc^3 - 5abc + 25ab^2c$\n- $(2x+3)^2 + (7-5x)(2x+3)$\n- $(x+1)(2x-5) - (x+1)(6x-9)+x+1$"
+            }
+          ]
+        },
+        {
+          "name": "Les Identités Remarquables : $(a+b)^2=a^2+2ab+b^2$",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 3,
+              "title": "Formules des trois identités remarquables",
+              "description": "Pour $a, b$ des nombres réels :\n- $(a+b)^2 = a^2+2ab+b^2$\n- $(a-b)^2 = a^2-2ab+b^2$\n- $(a-b)(a+b) = a^2-b^2$"
+            },
+            {
+              "type": "application",
+              "number": 3,
+              "title": "Exercice : Développer en utilisant les identités remarquables",
+              "description": "Développer puis réduire :\n- $(\\sqrt{7}-7)^2$\n- $(2\\sqrt{3}+\\sqrt{5})^2$\n- $(3\\sqrt{10}+4\\sqrt{11}x)(3\\sqrt{10}-4\\sqrt{11}x)$"
+            },
+            {
+              "type": "application",
+              "number": 4,
+              "title": "Exercice : Factoriser en utilisant les identités remarquables",
+              "description": "Factoriser les expressions suivantes :\n- $x^2+6x+9$\n- $4x^2-4x+1$\n- $a^2+16-8a$\n- $16x^2-11$\n- $(2x-5)^2 - (x+1)^2$"
+            }
+          ]
+        },
+        {
+          "name": "Les Puissances : $a^m \\times a^n = a^{m+n}$",
+          "items": [
+            {
+              "type": "définition",
+              "number": 3,
+              "title": "Définition de la puissance d'un nombre relatif",
+              "description": "Pour un nombre $a$ et un entier $n \\ge 2$, $a^n = a \\times a \\times ... \\times a$ ($n$ facteurs).\nPar convention, $a^1=a$ et $a^0=1$ (pour $a \\neq 0$)."
+            },
+            {
+              "type": "proposition",
+              "number": 4,
+              "title": "Propriétés des puissances pour les nombres non nuls",
+              "description": "Pour $a,b$ non nuls et $m,n$ entiers :\n- $a^m \\times a^n = a^{m+n}$\n- $\\frac{a^m}{a^n} = a^{m-n}$\n- $(a^m)^n = a^{mn}$\n- $(ab)^n = a^n b^n$\n- $a^{-n} = \\frac{1}{a^n}$"
+            },
+            {
+              "type": "application",
+              "number": 5,
+              "title": "Exercice : Calculer et simplifier des expressions avec puissances",
+              "description": "Calculer ou simplifier :\n- $4^3$\n- $(-2)^4$\n- $-(-\\sqrt{7})^2$\n- $11^5 \\times 11^{-9}$\n- $\\frac{10^{-6}}{10^3}$\n- $(7^5)^2$"
+            }
+          ]
+        },
+        {
+          "name": "L'Écriture Scientifique : La forme $a \\times 10^n$",
+          "items": [
+            {
+              "type": "définition",
+              "number": 4,
+              "title": "Définition de l'écriture scientifique d'un nombre décimal",
+              "description": "La forme $a \\times 10^n$, où $n$ est un entier et $a$ un nombre décimal tel que $1 \\le |a| < 10$."
+            },
+            {
+              "type": "exemple",
+              "number": 3,
+              "title": "Exemples de conversion en écriture scientifique",
+              "description": "- $265900 = 2.659 \\times 10^5$\n- $-8145 \\times 10^{-6} = -8.145 \\times 10^3 \\times 10^{-6} = -8.145 \\times 10^{-3}$\n- $0.0005321 = 5.321 \\times 10^{-4}$"
+            },
+            {
+              "type": "application",
+              "number": 6,
+              "title": "Exercice : Mettre des nombres en écriture scientifique",
+              "description": "Écrire sous forme scientifique :\n- $20000$\n- $2500000$\n- $0.008$\n- $0.00043$"
+            }
+          ]
+        }
+      ],
+      "title": "Identités Remarquables et Puissances",
+      "type": "chapter"
+    },
+    {
+      "sections": [
+        {
+          "name": "Théorème de Thalès : $\\frac{AM}{AB} = \\frac{AN}{AC} = \\frac{MN}{BC}$",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Énoncé du Théorème de Thalès direct",
+              "description": "Soient deux droites sécantes en $A$. Soient $B, M$ deux points de la première droite et $C, N$ deux points de la seconde. Si les droites $(BC)$ et $(MN)$ sont parallèles, alors on a l'égalité des rapports suivants : $$\\frac{AM}{AB} = \\frac{AN}{AC} = \\frac{MN}{BC}$$"
+            },
+            {
+              "type": "remarque",
+              "number": 1,
+              "title": "Les différentes configurations d'application du théorème",
+              "description": "Le théorème s'applique dans la configuration des triangles emboîtés ainsi que dans la configuration dite 'papillon' ou 'nœud papillon'."
+            },
+            {
+              "type": "exemple",
+              "number": 1,
+              "title": "Exemple de calcul de longueurs avec le théorème",
+              "description": "Dans une configuration de Thalès avec $(MN) // (BC)$, si $AM=20$, $AN=25$, $AC=45$ et $BC=27$, on peut calculer $AB$ et $MN$ en utilisant l'égalité des rapports."
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Exercice : Appliquer le théorème dans une configuration donnée",
+              "description": "Sur une figure, on a $M \\in (AB)$, $N \\in (AC)$ et $(MN) // (BC)$. Si $AM=4$, $AB=12$, $AN=3$ et $BC=15$, calculer les longueurs $AC$ et $MN$."
+            },
+            {
+              "type": "application",
+              "number": 2,
+              "title": "Exercice : Utiliser le théorème dans un trapèze",
+              "description": "$ABCD$ est un trapèze avec $(AB) // (CD)$, $AB=3$, $CD=5$. Les droites $(AD)$ et $(BC)$ sont sécantes en $E$. Si $EA=6$ et $EC=15$, calculer $AD$, $EB$ et $BC$."
+            }
+          ]
+        },
+        {
+          "name": "Réciproque du Théorème de Thalès : $(BC) // (MN)$",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Énoncé de la réciproque du Théorème de Thalès",
+              "description": "Soient deux droites sécantes en $A$. Si les points $A, B, M$ d'une part, et $A, C, N$ d'autre part, sont alignés dans le même ordre, et si $$\\frac{AM}{AB} = \\frac{AN}{AC}$$, alors les droites $(BC)$ et $(MN)$ sont parallèles."
+            },
+            {
+              "type": "remarque",
+              "number": 2,
+              "title": "Importance de la condition d'alignement des points",
+              "description": "La condition sur l'ordre d'alignement des points est indispensable pour pouvoir appliquer la réciproque du théorème de Thalès."
+            },
+            {
+              "type": "exemple",
+              "number": 2,
+              "title": "Exemple d'application pour démontrer un parallélisme",
+              "description": "Sur une figure, on a $R, T, P$ et $R, M, S$ alignés dans cet ordre. Si $RT=6, RP=8, RM=4.5, RS=6$, on peut montrer que $(MT) // (SP)$ en vérifiant l'égalité des rapports."
+            },
+            {
+              "type": "application",
+              "number": 3,
+              "title": "Exercice : Démontrer le parallélisme de deux droites",
+              "description": "Dans un triangle $RST$, on a $RS=6$cm, $ST=9$cm et $RT=8$cm. On place $P$ sur $[RS]$ tel que $SP=4$cm et $M$ sur $[ST]$ tel que $TM=3$cm. Démontrer que les droites $(MP)$ et $(RT)$ sont parallèles."
+            }
+          ]
+        }
+      ],
+      "title": "Théorème de Thalès",
+      "type": "chapter"
+    },
+    {
+      "sections": [
+        {
+          "name": "Théorème de Pythagore : $BC^2 = AB^2 + AC^2$",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Énoncé du théorème de Pythagore direct",
+              "description": "Si un triangle $ABC$ est rectangle en $A$, alors le carré de la longueur de l'hypoténuse est égal à la somme des carrés des longueurs des deux autres côtés : $$BC^2 = AB^2 + AC^2$$"
+            },
+            {
+              "type": "remarque",
+              "number": 1,
+              "title": "Application principale : calcul de longueurs",
+              "description": "Le théorème de Pythagore permet de calculer la longueur d'un côté d'un triangle rectangle connaissant les deux autres."
+            },
+            {
+              "type": "exemple",
+              "number": 1,
+              "title": "Exemple de calcul de la longueur d'un côté",
+              "description": "Un triangle $EFG$ est rectangle en $E$ avec $EG = 2\\sqrt{5}$ cm et $FG = 6$ cm. On utilise le théorème pour trouver la longueur $EF$ : $EF^2 = FG^2 - EG^2 = 36 - 20 = 16$, donc $EF=4$ cm."
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Utiliser le théorème dans une figure complexe",
+              "description": "Dans un triangle $ABC$, $H$ est un point de $[AC]$. On donne $AB=3\\sqrt{2}$, $AH=\\sqrt{7}$ et $HC=2$. Calculer la longueur $BH$."
+            },
+            {
+              "type": "application",
+              "number": 2,
+              "title": "Démontrer une égalité de sommes de carrés",
+              "description": "Dans un rectangle $ABCD$, soit un point $M$ quelconque. Démontrer que $MA^2 + MC^2 = MB^2 + MD^2$."
+            }
+          ]
+        },
+        {
+          "name": "Réciproque du Théorème de Pythagore",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Énoncé de la réciproque du théorème de Pythagore",
+              "description": "Si dans un triangle $ABC$, le carré de la longueur du plus grand côté est égal à la somme des carrés des longueurs des deux autres côtés (c'est-à-dire si $BC^2 = AB^2 + AC^2$), alors ce triangle est rectangle en $A$."
+            },
+            {
+              "type": "remarque",
+              "number": 2,
+              "title": "Application principale : démontrer qu'un triangle est rectangle",
+              "description": "La réciproque du théorème de Pythagore sert à prouver qu'un triangle est rectangle, et donc que deux droites sont perpendiculaires."
+            },
+            {
+              "type": "exemple",
+              "number": 2,
+              "title": "Exemple d'application pour identifier un triangle rectangle",
+              "description": "Un triangle $ABC$ est tel que $AB=\\sqrt{7}$, $BC=\\sqrt{3}$ et $AC=2$. On a $AB^2 = 7$ et $AC^2+BC^2 = 4+3=7$. Comme $AB^2 = AC^2+BC^2$, le triangle est rectangle en $C$."
+            },
+            {
+              "type": "application",
+              "number": 3,
+              "title": "Exercice : Démontrer qu'un triangle est rectangle",
+              "description": "Dans un triangle $ABC$, $H$ est le pied de la hauteur issue de $B$. On donne $BH=2$, $AH=4$ et $CH=8$. Montrer que le triangle $ABC$ est rectangle."
+            },
+            {
+              "type": "application",
+              "number": 4,
+              "title": "Exercice : Utiliser la réciproque dans un rectangle",
+              "description": "Soit $ABCD$ un rectangle tel que $AB=6$ et $AD=9$. $I$ est le milieu de $[AB]$ et $J$ est un point de $[AD]$ tel que $AJ=1$. Calculer les longueurs $IJ, IC, JC$ et montrer que le triangle $IJC$ est rectangle en $I$."
+            }
+          ]
+        }
+      ],
+      "title": "Théorème de Pythagore",
+      "type": "chapter"
+    },
+    {
+      "sections": [
+        {
+          "name": "Comparaison de deux nombres réels : $a \\le b \\iff a-b \\le 0$",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Règle fondamentale de la comparaison par la différence",
+              "description": "Pour comparer deux nombres réels, on étudie le signe de leur différence. Si $a-b \\le 0$, alors $a \\le b$."
+            },
+            {
+              "type": "exemple",
+              "number": 1,
+              "title": "Exemple de comparaison de deux expressions",
+              "description": "Pour comparer $2\\sqrt{3}-4$ et $\\sqrt{3}-5$, on calcule la différence : $(2\\sqrt{3}-4) - (\\sqrt{3}-5) = \\sqrt{3}+1 > 0$. Donc, $2\\sqrt{3}-4 > \\sqrt{3}-5$."
+            }
+          ]
+        },
+        {
+          "name": "Ordre et Opérations : Addition et Multiplication",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 2,
+              "title": "Compatibilité de l'ordre avec l'addition et la soustraction",
+              "description": "Si $a \\le b$, alors $a+k \\le b+k$ et $a-k \\le b-k$ pour tout réel $k$."
+            },
+            {
+              "type": "proposition",
+              "number": 3,
+              "title": "Compatibilité de l'ordre avec la multiplication",
+              "description": "- Si $a \\le b$ et $k>0$, alors $ka \\le kb$.\n- Si $a \\le b$ et $k<0$, alors $ka \\ge kb$ (l'ordre change)."
+            },
+            {
+              "type": "exemple",
+              "number": 2,
+              "title": "Exemple d'application des règles de multiplication",
+              "description": "- $45 < 200$ et $6>0 \\implies 6 \\times 45 < 6 \\times 200$, soit $270 < 1200$.\n- $-45 > -200$ et $-\\sqrt{3}<0 \\implies -45(-\\sqrt{3}) < -200(-\\sqrt{3})$, soit $45\\sqrt{3} < 200\\sqrt{3}$."
+            }
+          ]
+        },
+        {
+          "name": "Ordre, Inverse, Carré et Racine Carrée",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 4,
+              "title": "Règle de l'ordre et de l'inverse pour des nombres de même signe",
+              "description": "Si $a$ et $b$ sont deux réels non nuls de même signe, $a \\le b \\iff \\frac{1}{a} \\ge \\frac{1}{b}$."
+            },
+            {
+              "type": "proposition",
+              "number": 5,
+              "title": "Règle de l'ordre et du passage au carré",
+              "description": "- Pour $a,b$ positifs : $a \\le b \\iff a^2 \\le b^2$.\n- Pour $a,b$ négatifs : $a \\le b \\iff a^2 \\ge b^2$."
+            },
+            {
+              "type": "proposition",
+              "number": 6,
+              "title": "Règle de l'ordre et de la racine carrée",
+              "description": "Pour $a,b$ positifs, $a \\le b \\iff \\sqrt{a} \\le \\sqrt{b}$."
+            },
+            {
+              "type": "exemple",
+              "number": 3,
+              "title": "Exemples d'application sur le carré et la racine",
+              "description": "- $5 \\le 11 \\implies 5^2 \\le 11^2$, soit $25 \\le 121$.\n- $7 < 11 \\implies \\sqrt{7} < \\sqrt{11}$."
+            }
+          ]
+        },
+        {
+          "name": "Encadrement et Opérations : $a \\le x \\le b$",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition de l'encadrement d'un nombre réel",
+              "description": "Un encadrement d'un réel $x$ est une double inégalité de la forme $a \\le x \\le b$."
+            },
+            {
+              "type": "proposition",
+              "number": 7,
+              "title": "Règles d'opérations sur les encadrements",
+              "description": "Si $a \\le x \\le b$ et $c \\le y \\le d$ :\n- **Addition** : $a+c \\le x+y \\le b+d$.\n- **Soustraction** : Pour encadrer $x-y$, on encadre d'abord $-y$ ($-d \\le -y \\le -c$) puis on additionne.\n- **Multiplication (nombres positifs)** : Si $a,b,c,d$ sont positifs, $ac \\le xy \\le bd$."
+            },
+            {
+              "type": "application",
+              "number": 1,
+              "title": "Exercice : Manipuler des encadrements",
+              "description": "Soient $3 \\le x \\le 11$, $-11 \\le y \\le -3$, $-25 \\le z \\le 2$ et $4 \\le t \\le 9$. Encadrer les expressions suivantes : $x+y$ ; $x-z$ ; $xy$ ; $x^2$ ; $y^2$ ; $\\sqrt{t}$."
+            }
+          ]
+        }
+      ],
+      "title": "Ordre et Opérations",
+      "type": "chapter"
+    }
+  ]
+}

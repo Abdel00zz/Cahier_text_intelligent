@@ -56,6 +56,17 @@ export const BADGE_TOOLTIP_MAP: { [key: string]: string } = {
   'application': "Exercice d'application",
 };
 
+// Mapping for subject names to concise badge text
+export const SUBJECT_ABBREV_MAP: Record<string, string> = {
+  'Mathématiques': 'Maths',
+  'Physique': 'Phys.',
+  'Économie': 'Écon.',
+  'Français': 'Fr.',
+  'SVT': 'SVT',
+  'Sciences de la Vie': 'SVT',
+  'Sciences de la Vie et de la Terre': 'SVT',
+};
+
 // FIX: Changed type from `{[key: string]: ...}` to `Record<TopLevelItem['type'], ...>`.
 // The previous weak key type (`string`) caused `keyof typeof` to resolve to `string | number`,
 // which broke type narrowing for discriminated unions in `App.tsx`. This change ensures
