@@ -24,9 +24,9 @@ const mathJaxConfig = {
 };
 
 const App: React.FC = () => {
-    const [view, setView] = useState<'dashboard' | 'editor'>('dashboard');
-    const [activeClass, setActiveClass] = useState<ClassInfo | null>(null);
-    const { isLoading: isClassManagerLoading } = useClassManager();
+  const [view, setView] = useState<'dashboard' | 'editor'>('dashboard');
+  const [activeClass, setActiveClass] = useState<ClassInfo | null>(null);
+  const { classes, isLoading: isClassManagerLoading } = useClassManager();
     const [showOrientationModal, setShowOrientationModal] = useState(false);
     const orientationTimerRef = useRef<number | null>(null);
 
@@ -86,6 +86,16 @@ const App: React.FC = () => {
         setActiveClass(classInfo);
         setView('editor');
     }, []);
+
+  // Auto-open '3ème année collégiale' demo class when available
+  useEffect(() => {
+    if (!isClassManagerLoading && view === 'dashboard' && !activeClass) {
+      const demo = classes.find(c => c.name === '3ème année collégiale');
+      if (demo) {
+        handleSelectClass(demo);
+      }
+    }
+  }, [isClassManagerLoading, classes, view, activeClass, handleSelectClass]);
 
     const handleBackToDashboard = useCallback(() => {
         setActiveClass(null);
