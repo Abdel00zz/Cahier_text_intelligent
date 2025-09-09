@@ -45,12 +45,12 @@ export const ImportModal: React.FC<ImportModalProps> = ({ isOpen, onClose, onImp
   const inputClasses = "w-full bg-slate-100 border-slate-200 border rounded-lg px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors";
 
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4 animate-fade-in" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl flex flex-col max-h-[86vh] animate-slide-in-up" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="import-modal-title">
-        <div className="p-4 border-b border-slate-200 flex-shrink-0">
+    <div className="fixed inset-0 z-40 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4 animate-fade-in" onClick={onClose}>
+      <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-xl w-full sm:w-auto sm:max-w-xl flex flex-col h-[92vh] sm:h-auto sm:max-h-[86vh] animate-slide-in-up" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="import-modal-title">
+        <div className="px-4 sm:p-4 pt-3 pb-2 sm:pb-3 border-b border-slate-200 flex-shrink-0">
           <h2 id="import-modal-title" className="text-lg font-semibold font-slab text-slate-900">Importer un/des chapitre(s) ou une classe</h2>
         </div>
-  <div className="p-5 space-y-4 flex-grow overflow-y-auto">
+        <div className="p-4 sm:p-5 space-y-4 flex-grow overflow-y-auto">
             <div>
                 <label htmlFor="json-file-input" className="w-full inline-block text-center px-4 py-8 bg-slate-50 text-slate-600 rounded-xl border-2 border-dashed border-slate-300 hover:border-teal-500 hover:bg-teal-50/50 hover:text-teal-700 cursor-pointer transition-colors">
                     <i className="fas fa-file-upload text-3xl mb-3"></i>
@@ -77,7 +77,7 @@ export const ImportModal: React.FC<ImportModalProps> = ({ isOpen, onClose, onImp
                 </label>
             </div>
         </div>
-  <div className="p-3 bg-slate-50 flex justify-end gap-3 rounded-b-2xl border-t border-slate-200 flex-shrink-0">
+        <div className="p-3 bg-slate-50 flex justify-end gap-3 rounded-b-2xl sm:rounded-b-2xl border-t border-slate-200 flex-shrink-0">
           <Button type="button" onClick={onClose} variant="secondary">Annuler</Button>
           <Button type="button" onClick={handleImport} variant="primary" disabled={!jsonText}>Importer</Button>
         </div>

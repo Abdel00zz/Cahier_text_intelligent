@@ -1,18 +1,20 @@
 
 
 import React, { useState, useEffect, useRef } from 'react';
+import { Cycle } from '../../types';
 import { Button } from '../ui/Button';
 
 interface CreateClassModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreate: (details: { name: string; subject: string; }) => void;
+  onCreate: (details: { name: string; subject: string; cycle?: Cycle; }) => void;
   defaultTeacherName?: string;
 }
 
 export const CreateClassModal: React.FC<CreateClassModalProps> = ({ isOpen, onClose, onCreate, defaultTeacherName = '' }) => {
   const [name, setName] = useState('');
   const [subject, setSubject] = useState('');
+  const [cycle, setCycle] = useState<Cycle>('college');
   const nameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -26,7 +28,7 @@ export const CreateClassModal: React.FC<CreateClassModalProps> = ({ isOpen, onCl
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim() && subject.trim()) {
-      onCreate({ name: name.trim(), subject: subject.trim() });
+  onCreate({ name: name.trim(), subject: subject.trim(), cycle });
     }
   };
   
@@ -63,6 +65,19 @@ export const CreateClassModal: React.FC<CreateClassModalProps> = ({ isOpen, onCl
                 className={inputClasses} 
                 placeholder="Ex: 2ème Bac Scientifique" 
               />
+            </div>
+            <div>
+              <label htmlFor="cycle" className={labelClasses}>Cycle *</label>
+              <select
+                id="cycle"
+                value={cycle}
+                onChange={(e) => setCycle(e.target.value as Cycle)}
+                className="w-full bg-slate-100 border-slate-200 border rounded-lg px-4 py-3 text-base sm:text-sm sm:px-3 sm:py-2 text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
+              >
+                <option value="college">Collège</option>
+                <option value="lycee">Lycée</option>
+                <option value="prepa">Classe préparatoire</option>
+              </select>
             </div>
              <div>
               <label htmlFor="subject" className={labelClasses}>Matière *</label>

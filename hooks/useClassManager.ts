@@ -55,6 +55,7 @@ export const useClassManager = () => {
                                 teacherName: defaultClassData.classInfo?.teacherName || 'Professeur',
                                 createdAt: new Date().toISOString(),
                                 color: '#3b82f6',
+                                cycle: 'college',
                             };
 
                             setClasses([defaultClass]);
@@ -77,6 +78,7 @@ export const useClassManager = () => {
                             teacherName: 'Professeur',
                             createdAt: new Date().toISOString(),
                             color: '#3b82f6',
+                            cycle: 'college',
                         };
                         setClasses([defaultClass]);
                         localStorage.setItem(STORAGE_KEY, JSON.stringify([defaultClass]));
@@ -117,6 +119,7 @@ export const useClassManager = () => {
     const addClass = useCallback((classDetails: Omit<ClassInfo, 'id' | 'createdAt' | 'color'>) => {
         const newClass: ClassInfo = {
             ...classDetails,
+            cycle: classDetails.cycle ?? 'college',
             id: crypto.randomUUID(),
             createdAt: new Date().toISOString(),
             color: generateColor(),

@@ -147,13 +147,13 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-6 animate-fade-in overflow-hidden" 
+      className="fixed inset-0 z-50 flex items-end sm:items-start justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-6 animate-fade-in overflow-hidden" 
       onClick={onClose}
       data-modal-overlay
     >
       <div 
         ref={modalRef}
-        className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-5xl h-[90vh] sm:h-[86vh] flex flex-col animate-slide-in-up border border-gray-100 overflow-hidden" 
+        className="bg-white rounded-t-2xl sm:rounded-3xl shadow-2xl w-full max-w-5xl h-[92vh] sm:h-[86vh] flex flex-col animate-slide-in-up border border-gray-100 overflow-hidden" 
         onClick={(e) => e.stopPropagation()}
         tabIndex={0}
         role="dialog"

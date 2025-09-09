@@ -31,7 +31,7 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
 
     return (
         <div 
-            className="group relative rounded-xl border border-slate-400/30 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col aspect-[5/3]"
+            className="group relative rounded-xl border border-slate-400/30 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3]"
             style={{ backgroundColor: color }}
             onClick={onContactAdmin}
         >
@@ -42,7 +42,7 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
             ></div>
             <div className="absolute inset-0 bg-black/30 backdrop-blur-[1.5px]"></div>
 
-            <div className="relative flex flex-col h-full p-4 pt-10 sm:pt-7 pb-12 sm:pb-6 text-white">
+            <div className="relative flex flex-col h-full p-3 sm:p-4 pt-10 sm:pt-7 pb-10 sm:pb-6 text-white">
                 {/* Delete Button top-left */}
                 <button
                     type="button"

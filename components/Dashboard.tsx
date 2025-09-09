@@ -10,7 +10,7 @@ import { ConfigModal } from './modals/ConfigModal';
 import { GuideModal } from './modals/GuideModal';
 import { ImportPlatformModal } from './modals/ImportPlatformModal';
 import ContactAdminModal from './modals/ContactAdminModal';
-import { ClassInfo } from '../types';
+import { ClassInfo, Cycle } from '../types';
 import { logger } from '../utils/logger';
 
 interface DashboardProps {
@@ -66,121 +66,196 @@ const premiumClasses = [
         id: 'premium_1',
         name: '1ère année collégiale',
         subject: 'Français',
-    color: '#6d28d9' // Violet-700 (accessible)
+        color: '#93c5fd', // Pastel blue
+        cycle: 'college' as Cycle,
     },
     {
-        id: 'premium_2', 
+        id: 'premium_2',
         name: '2ème année collégiale',
-    subject: 'Physique',
-    color: '#0369a1' // Sky-700 (accessible)
+        subject: 'Physique',
+        color: '#fca5a5', // Pastel red
+        cycle: 'college' as Cycle,
     },
     {
         id: 'premium_3',
         name: '3ème année collégiale',
         subject: 'Mathématiques',
-    color: '#b91c1c' // Red-700 (accessible)
+        color: '#fdba74', // Pastel orange
+        cycle: 'college' as Cycle,
     },
     
     {
         id: 'premium_5',
         name: '1ère Bac Sciences Économiques',
         subject: 'Économie',
-    color: '#047857' // Emerald-700 (accessible)
+        color: '#a5f3fc', // Pastel cyan
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_6',
         name: '2ème Bac Sciences Physiques (PC)',
         subject: 'Physique',
-    color: '#9d174d' // Pink-700 (accessible)
+        color: '#c4b5fd', // Pastel violet
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_7',
         name: '2ème Bac Sciences Mathématiques \'A\'',
         subject: 'Mathématiques',
-    color: '#115e59' // Teal-800 (accessible)
+        color: '#bbf7d0', // Pastel green
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_8',
         name: '2ème Bac SVT',
         subject: 'Sciences de la Vie',
-    color: '#3f6212' // Lime-700 (accessible)
-    }
+        color: '#fef08a', // Pastel yellow
+        cycle: 'lycee' as Cycle,
+    },
     ,
     // Additional French (Lycée & Collège Marocain)
     {
         id: 'premium_9',
         name: '1ère Bac Sciences Mathématiques B',
         subject: 'Mathématiques',
-    color: '#4c1d95' // Violet-900 (accessible)
+        color: '#fda4af', // Pastel pink
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_10',
         name: '1ère Bac Sciences Expérimentales',
-    subject: 'SVT',
-    color: '#166534' // Green-800 (accessible)
+        subject: 'SVT',
+        color: '#b5e5f5', // Pastel light blue
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_11',
         name: 'Tronc Commun Littéraire',
-    subject: 'Mathématiques',
-    color: '#92400e' // Amber-800 (accessible)
+        subject: 'Français',
+        color: '#e0bbe0', // Pastel lavender
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_12',
         name: '2ème Bac Lettres et Sciences Humaines',
         subject: 'Lettres',
-    color: '#9d174d' // Pink-700 (accessible)
+        color: '#e6e6fa', // Pastel light lavender
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_13',
         name: '2ème Bac Sciences Économiques et Gestion',
-    subject: 'Économie',
-    color: '#075985' // Sky-800 (accessible)
+        subject: 'Économie',
+        color: '#ffebc0', // Pastel cream
+        cycle: 'lycee' as Cycle,
     },
     // Arabic entries (7 classes)
     {
         id: 'premium_14',
         name: 'الجذع المشترك العلمي',
-    subject: 'الرياضيات',
-    color: '#1d4ed8' // Blue-700 (accessible)
+        subject: 'الرياضيات',
+        color: '#bae1ff', // Pastel light blue
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_15',
         name: 'الجذع المشترك الأدبي',
-    subject: 'الرياضيات',
-    color: '#92400e' // Amber-800 (accessible)
+        subject: 'اللغة العربية',
+        color: '#ffc4c4', // Pastel light red
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_16',
         name: 'الأولى باكالوريا علوم رياضية أ',
         subject: 'رياضيات',
-    color: '#6d28d9' // Violet-700 (accessible)
+        color: '#ffb3ba', // Pastel pink
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_17',
         name: 'الأولى باكالوريا علوم فيزيائية',
         subject: 'علوم فيزيائية',
-    color: '#0369a1' // Sky-700 (accessible)
+        color: '#ffdfba', // Pastel peach
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_18',
         name: 'الثانية باكالوريا علوم رياضية أ',
         subject: 'رياضيات',
-    color: '#4c1d95' // Violet-900 (accessible)
+        color: '#ffffba', // Pastel yellow
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_19',
         name: 'الثانية باكالوريا علوم الحياة والأرض',
         subject: 'علوم الحياة والأرض',
-    color: '#166534' // Green-800 (accessible)
+        color: '#baffc9', // Pastel mint
+        cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_20',
         name: 'الثالثة إعدادي',
-    subject: 'الرياضيات',
-    color: '#b91c1c' // Red-700 (accessible)
-    }
+        subject: 'الرياضيات',
+        color: '#ffb7ce', // Pastel pink
+        cycle: 'college' as Cycle,
+    },
 ];
+
+// Extra premium classes requested (collège scientific subjects, lycée Tronc commun FR, and prépa MPSI/PCSI/TSI)
+premiumClasses.push(
+    // Lycée: Tronc commun Scientifique (FR)
+    {
+        id: 'premium_21',
+        name: 'Tronc Commun Scientifique',
+        subject: 'Mathématiques',
+        color: '#0f766e', // Teal-700
+        cycle: 'lycee' as Cycle,
+    },
+    // Collège: other scientific subjects
+    {
+        id: 'premium_22',
+        name: '1ère année collégiale',
+        subject: 'SVT',
+        color: '#166534', // Green-800
+        cycle: 'college' as Cycle,
+    },
+    {
+        id: 'premium_23',
+        name: '2ème année collégiale',
+        subject: 'Physique-Chimie',
+        color: '#1e40af', // Blue-800
+        cycle: 'college' as Cycle,
+    },
+    {
+        id: 'premium_24',
+        name: '3ème année collégiale',
+        subject: 'Informatique',
+        color: '#0b7285', // Cyan-800-ish
+        cycle: 'college' as Cycle,
+    },
+    // Prépa scientifique
+    {
+        id: 'premium_25',
+        name: 'MPSI',
+        subject: 'Mathématiques',
+        color: '#7c2d12', // Orange-900
+        cycle: 'prepa' as Cycle,
+    },
+    {
+        id: 'premium_26',
+        name: 'PCSI',
+        subject: 'Physique',
+        color: '#14532d', // Emerald-900
+        cycle: 'prepa' as Cycle,
+    },
+    {
+        id: 'premium_27',
+        name: 'TSI',
+        subject: "Sciences de l'Ingénieur",
+        color: '#1f2937', // Gray-800
+        cycle: 'prepa' as Cycle,
+    }
+);
 
 
 export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
@@ -192,6 +267,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const [isGuideOpen, setGuideOpen] = useState(false);
     const [isContactAdminModalOpen, setContactAdminModalOpen] = useState(false);
     const [lastModifiedDates, setLastModifiedDates] = useState<Record<string, string | null>>({});
+    const [selectedCycle, setSelectedCycle] = useState<Cycle>(() => {
+        try {
+            return (localStorage.getItem('selected_cycle_v1') as Cycle) || 'college';
+        } catch { return 'college'; }
+    });
     const [dismissedPremiumIds, setDismissedPremiumIds] = useState<string[]>(() => {
         try {
             const raw = localStorage.getItem('dismissed_premium_cards_v1');
@@ -211,6 +291,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
             });
         }
     }, [isLoading]);
+
+    useEffect(() => {
+        try { localStorage.setItem('selected_cycle_v1', selectedCycle); } catch {}
+    }, [selectedCycle]);
 
     useEffect(() => {
         if (isClassesLoading) return;
@@ -316,7 +400,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const teacherName = (config.defaultTeacherName || '').trim();
 
     return (
-        <div className="p-4 sm:p-8 touch-manipulation" data-dashboard-root>
+    <div className="p-2 sm:p-8 touch-manipulation pb-8" data-dashboard-root>
             <header className="relative text-center mb-8 sm:mb-12">
                 {teacherName ? (
                     <>
@@ -372,10 +456,29 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 </div>
             </header>
             <main>
-            <div className="mt-10 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-6">
+            {/* Cycle selector (scrollable on mobile) */}
+            <div className="overflow-x-auto no-scrollbar mb-3 sm:mb-4">
+                <div className="flex items-center gap-2 sm:gap-3 px-4">
+                {([
+                    { key: 'college', label: 'Collège' },
+                    { key: 'lycee', label: 'Lycée' },
+                    { key: 'prepa', label: 'Classe préparatoire' },
+                ] as {key: Cycle; label: string;}[]).map(opt => (
+                    <button
+                        key={opt.key}
+                        onClick={() => setSelectedCycle(opt.key)}
+                        className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${selectedCycle === opt.key ? 'bg-teal-600 text-white border-teal-600' : 'bg-white text-slate-700 border-slate-300 hover:border-slate-400'}`}
+                        aria-pressed={selectedCycle === opt.key}
+                    >
+                        {opt.label}
+                    </button>
+                ))}
+                </div>
+            </div>
+            <div className="mt-6 sm:mt-16 px-2 sm:px-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-6">
                         {/* Create new class first */}
                         <AddClassCard onClick={() => setCreateModalOpen(true)} />
-                        {classes.map(classInfo => (
+                        {classes.filter(c => (c.cycle || 'college') === selectedCycle).map(classInfo => (
                             <ClassCard 
                                 key={classInfo.id}
                                 classInfo={classInfo}
@@ -384,7 +487,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                                 onDelete={() => deleteClass(classInfo.id)}
                             />
                         ))}
-            {premiumClasses.filter(p => !dismissedPremiumIds.includes(p.id)).map(premiumClass => (
+            {premiumClasses.filter(p => p.cycle === selectedCycle).filter(p => !dismissedPremiumIds.includes(p.id)).map(premiumClass => (
                             <LockedClassCard
                                 key={premiumClass.id}
                                 name={premiumClass.name}

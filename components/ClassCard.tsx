@@ -46,14 +46,14 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
 
     return (
         <div 
-            className="group relative rounded-xl border border-slate-200/50 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col aspect-[5/3]"
+            className="group relative rounded-xl border border-slate-200/50 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3]"
             style={{ backgroundColor: classInfo.color }}
             onClick={onSelect}
         >
             {/* Gradient Overlay for depth */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent"></div>
 
-            <div className="relative flex flex-col h-full p-4 pt-12 sm:pt-8 pb-10 sm:pb-5 text-white">
+            <div className="relative flex flex-col h-full p-3 sm:p-4 pt-12 sm:pt-8 pb-8 sm:pb-5 text-white">
                 {/* Subject badge bottom-right (smaller for Latin/French) */}
                 <div className="absolute bottom-3 right-3">
                     {(() => {

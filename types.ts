@@ -1,5 +1,7 @@
 
 
+export type Cycle = 'college' | 'lycee' | 'prepa';
+
 export interface ClassInfo {
   id: string;
   name: string; // Formerly className
@@ -7,6 +9,7 @@ export interface ClassInfo {
   subject: string;
   createdAt: string;
   color: string;
+    cycle?: Cycle; // optional for backward compatibility
 }
 
 export interface AppSettings {
