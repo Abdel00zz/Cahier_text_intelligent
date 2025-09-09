@@ -1,9 +1,9 @@
 
 
-import { useState, useEffect, FC, ChangeEvent } from 'react';
+import { useState, useEffect, useRef, FC, ChangeEvent } from 'react';
 import { AppConfig } from '../../types';
 import { Button } from '../ui/Button';
-import { TYPE_MAP, BADGE_TEXT_MAP, BADGE_COLOR_MAP } from '../../constants';
+import { TYPE_MAP, BADGE_TEXT_MAP, BADGE_COLOR_MAP, BADGE_TOOLTIP_MAP } from '../../constants';
 
 interface ConfigModalProps {
   isOpen: boolean;
@@ -16,12 +16,27 @@ interface ConfigModalProps {
 
 export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onConfigChange, onExportPlatform, onOpenImport }) => {
   const [localConfig, setLocalConfig] = useState(config);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isOpen) {
       setLocalConfig(config);
     }
   }, [isOpen, config]);
+
+  // Initialize tooltips within the modal on open
+  useEffect(() => {
+    if (!isOpen) return;
+    // @ts-ignore
+    if (typeof window !== 'undefined' && (window as any).tippy && modalRef.current) {
+      const targets = modalRef.current.querySelectorAll('[data-tippy-content]');
+      // @ts-ignore
+      (window as any).tippy(targets, {
+        animation: 'shift-away',
+        theme: 'custom',
+      });
+    }
+  }, [isOpen]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -39,12 +54,20 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
     return Array.from(new Set(Object.values(TYPE_MAP)));
   };
 
+  const defaultSelected = ['exemple', 'application'];
+
   const handleDescriptionModeChange = (context: 'screen' | 'print', mode: 'all' | 'none' | 'custom') => {
-    setLocalConfig(prev => ({
-      ...prev,
-      [`${context}DescriptionMode`]: mode,
-      [`${context}DescriptionTypes`]: mode === 'all' ? getUniqueTypes() : mode === 'none' ? [] : prev[`${context}DescriptionTypes`] || []
-    }));
+    setLocalConfig(prev => {
+      const prevTypes = prev[`${context}DescriptionTypes`] || [];
+      const nextTypes = mode === 'all' ? getUniqueTypes()
+        : mode === 'none' ? []
+        : (prevTypes.length > 0 ? prevTypes : defaultSelected);
+      return {
+        ...prev,
+        [`${context}DescriptionMode`]: mode,
+        [`${context}DescriptionTypes`]: nextTypes,
+      };
+    });
   };
 
   const handleDescriptionTypeToggle = (context: 'screen' | 'print', type: string) => {
@@ -92,7 +115,7 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
         </div>
 
         {/* Contenu compact */}
-        <div className="flex-1 overflow-y-auto overscroll-contain">
+  <div ref={modalRef} className="flex-1 overflow-y-auto overscroll-contain">
           <div className="p-3 sm:p-4 space-y-4">
             
             {/* Section Informations Générales */}
@@ -132,9 +155,9 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
               </div>
             </div>
 
-            {/* Section Conteu visible - compact */}
+            {/* Section Contenu visible - compact */}
             <div className={sectionClasses}>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">Conteu visible</h3>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">Contenu visible</h3>
 
               <div className="space-y-4 xl:space-y-0 xl:grid xl:grid-cols-2 xl:gap-4">
                 
@@ -191,18 +214,19 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
                         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
                           showScreenTypes ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                         }`}>
-                          <div className="flex flex-wrap gap-2 p-2 bg-white rounded-md border border-gray-200">
+        <div className="flex flex-wrap gap-2 p-2 bg-white rounded-md border border-gray-200">
                             {getUniqueTypes().map(type => {
                               const isSelected = (localConfig.screenDescriptionTypes || []).includes(type);
                               return (
                                 <button
                                   key={type}
                                   onClick={() => handleDescriptionTypeToggle('screen', type)}
-                                  className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-[11px] font-medium ${
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-[11px] font-medium ${
                                     isSelected
                                       ? `${BADGE_COLOR_MAP[type] || 'bg-gray-100 text-gray-800'} ring-1 ring-gray-300`
                                       : 'bg-gray-50 text-gray-600 hover:bg-gray-100 border border-gray-200'
-                                  }`}
+          }`}
+                                  data-tippy-content={BADGE_TOOLTIP_MAP[type] || type}
                                 >
                                   <span className={`inline-flex items-center justify-center w-4 h-4 rounded text-[10px] font-bold ${
                                     isSelected ? 'bg-white/30' : 'bg-gray-200 text-gray-600'
@@ -306,7 +330,7 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
                         <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
                           showPrintTypes ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
                         }`}>
-                          <div className="flex flex-wrap gap-2 p-2 bg-white rounded-md border border-gray-200">
+        <div className="flex flex-wrap gap-2 p-2 bg-white rounded-md border border-gray-200">
                             {getUniqueTypes().map(type => {
                               const isSelected = (localConfig.printDescriptionTypes || []).includes(type);
                               return (
@@ -317,7 +341,8 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
                                     isSelected
                                       ? `${BADGE_COLOR_MAP[type] || 'bg-gray-100 text-gray-800'} ring-1 ring-gray-300`
                                       : 'bg-gray-50 text-gray-600 hover:bg-gray-100 border border-gray-200'
-                                  }`}
+          }`}
+                                  data-tippy-content={BADGE_TOOLTIP_MAP[type] || type}
                                 >
                                   <span className={`inline-flex items-center justify-center w-4 h-4 rounded text-[10px] font-bold ${
                                     isSelected ? 'bg-white/30' : 'bg-gray-200 text-gray-600'

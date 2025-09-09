@@ -71,7 +71,7 @@ const premiumClasses = [
     {
         id: 'premium_2', 
         name: '2ème année collégiale',
-        subject: 'Physique & Chimie',
+    subject: 'Physique',
         color: '#7dd3fc' // Soft Sky Blue
     },
     {
@@ -83,7 +83,7 @@ const premiumClasses = [
     {
         id: 'premium_4',
         name: 'Tronc Commun Scientifique',
-        subject: 'Toutes matières',
+    subject: 'Mathématiques',
         color: '#fdba74' // Soft Orange
     },
     {
@@ -121,13 +121,13 @@ const premiumClasses = [
     {
         id: 'premium_10',
         name: '1ère Bac Sciences Expérimentales',
-        subject: 'SVT & Physique',
+    subject: 'SVT',
         color: '#86efac' // Soft Green 300
     },
     {
         id: 'premium_11',
         name: 'Tronc Commun Littéraire',
-        subject: 'Toutes matières',
+    subject: 'Mathématiques',
         color: '#fde68a' // Soft Amber 300
     },
     {
@@ -139,20 +139,20 @@ const premiumClasses = [
     {
         id: 'premium_13',
         name: '2ème Bac Sciences Économiques et Gestion',
-        subject: 'Économie & Gestion',
+    subject: 'Économie',
         color: '#7dd3fc' // Soft Sky 300
     },
     // Arabic entries (7 classes)
     {
         id: 'premium_14',
         name: 'الجذع المشترك العلمي',
-        subject: 'جميع المواد',
+    subject: 'الرياضيات',
         color: '#93c5fd' // Soft Blue 300
     },
     {
         id: 'premium_15',
         name: 'الجذع المشترك الأدبي',
-        subject: 'جميع المواد',
+    subject: 'الرياضيات',
         color: '#fde68a' // Soft Amber 300
     },
     {
@@ -182,7 +182,7 @@ const premiumClasses = [
     {
         id: 'premium_20',
         name: 'الثالثة إعدادي',
-        subject: 'جميع المواد',
+    subject: 'الرياضيات',
         color: '#fca5a5' // Soft Red 300
     }
 ];

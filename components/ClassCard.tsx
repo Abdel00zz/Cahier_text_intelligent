@@ -42,6 +42,7 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
     };
 
     const isArabic = containsArabic(classInfo.name);
+    const isSubjectArabic = containsArabic(classInfo.subject);
 
     return (
         <div 
@@ -52,18 +53,18 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
             {/* Gradient Overlay for depth */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent"></div>
 
-            <div className="relative flex flex-col h-full p-4 text-white">
+            <div className="relative flex flex-col h-full p-4 pt-12 sm:pt-8 pb-12 sm:pb-6 text-white">
                 {/* Subject badge top-right */}
                 <div className="absolute top-3 right-3">
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/20 text-white backdrop-blur-md shadow-sm border border-white/30">
                         <i className="fas fa-book-open text-xs"></i>
-                        <span>{classInfo.subject}</span>
+                        <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{classInfo.subject}</span>
                     </div>
                 </div>
                 
                 {/* Class Name (Main Content) - centered */}
                 <div className="flex-grow flex items-center justify-center text-center">
-                    <h3 className={`font-extrabold break-words leading-tight tracking-tight ${isArabic ? 'font-ar text-[1.9rem]' : 'font-fira text-[1.6rem] sm:text-[1.7rem]'}`}>
+                    <h3 className={`font-extrabold break-words leading-tight tracking-tight ${isArabic ? 'font-ar text-[1.9rem]' : 'font-chic text-[1.6rem] sm:text-[1.7rem]'}`}>
                         {classInfo.name}
                     </h3>
                 </div>

@@ -42,6 +42,20 @@ export const BADGE_COLOR_MAP: { [key: string]: string } = {
     'application': 'bg-cyan-100 text-cyan-800',
 };
 
+export const BADGE_TOOLTIP_MAP: { [key: string]: string } = {
+  'activité': 'Activité',
+  'définition': 'Définition',
+  'théorème': 'Théorème',
+  'proposition': 'Proposition',
+  'lemme': 'Lemme',
+  'corollaire': 'Corollaire',
+  'remarque': 'Remarque',
+  'preuve': 'Preuve',
+  'exemple': 'Exemple',
+  'exercice': 'Exercice',
+  'application': "Exercice d'application",
+};
+
 // FIX: Changed type from `{[key: string]: ...}` to `Record<TopLevelItem['type'], ...>`.
 // The previous weak key type (`string`) caused `keyof typeof` to resolve to `string | number`,
 // which broke type narrowing for discriminated unions in `App.tsx`. This change ensures

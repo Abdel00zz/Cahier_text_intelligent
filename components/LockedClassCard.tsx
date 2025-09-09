@@ -26,6 +26,7 @@ const formatSuperscript = (text: string) => {
 const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color, onContactAdmin }) => {
     // Helper to detect Arabic for font switching
     const isArabic = /[\u0600-\u06FF]/.test(name);
+    const isSubjectArabic = /[\u0600-\u06FF]/.test(subject);
 
     return (
         <div 
@@ -39,34 +40,34 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
             ></div>
             <div className="absolute inset-0 bg-black/30 backdrop-blur-[1.5px]"></div>
 
-            <div className="relative flex flex-col h-full p-4 text-white">
+            <div className="relative flex flex-col h-full p-4 pt-12 sm:pt-8 pb-12 sm:pb-6 text-white">
                 {/* Lock Icon top-left */}
-                <div className="absolute top-3 left-3">
-                    <div className="flex items-center justify-center w-8 h-8 bg-white/20 rounded-full border border-white/30 backdrop-blur-md">
-                        <i className="fas fa-lock text-sm text-white"></i>
+                <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
+                    <div className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 bg-white/20 rounded-full border border-white/30 backdrop-blur-md">
+                        <i className="fas fa-lock text-[11px] sm:text-sm text-white"></i>
                     </div>
                 </div>
 
                 {/* Premium badge top-right */}
-                <div className="absolute top-3 right-3">
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-400/20 text-amber-200 backdrop-blur-md shadow-sm border border-amber-300/30">
-                        <i className="fas fa-crown text-xs"></i>
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
+                    <div className="inline-flex items-center gap-1 px-2 py-0.5 sm:gap-1.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-amber-400/20 text-amber-200 backdrop-blur-md shadow-sm border border-amber-300/30">
+                        <i className="fas fa-crown text-[10px] sm:text-xs"></i>
                         <span>Premium</span>
                     </div>
                 </div>
                 
                 {/* Class Name (Main Content) - centered */}
                 <div className="flex-grow flex items-center justify-center text-center">
-                    <h3 className={`font-extrabold break-words leading-tight tracking-tight ${isArabic ? 'font-ar text-[1.9rem]' : 'font-fira text-[1.6rem] sm:text-[1.7rem]'}`}>
+                    <h3 className={`font-extrabold break-words leading-tight tracking-tight ${isArabic ? 'font-ar text-[1.9rem]' : 'font-chic text-[1.6rem] sm:text-[1.7rem]'}`}>
                         {formatSuperscript(name)}
                     </h3>
                 </div>
 
                 {/* Subject chip */}
                 <div className="flex-shrink-0 text-center pb-1">
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium bg-white/20 text-white/90 backdrop-blur-sm">
-                        <i className="fas fa-book-open"></i>
-                        <span>{subject}</span>
+                    <div className="inline-flex items-center gap-1 px-2 py-0.5 sm:gap-1.5 sm:px-2.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-medium bg-white/20 text-white/90 backdrop-blur-sm">
+                        <i className="fas fa-book-open text-[10px] sm:text-xs"></i>
+                        <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{subject}</span>
                     </div>
                 </div>
             </div>

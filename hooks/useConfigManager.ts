@@ -10,10 +10,10 @@ const defaultConfig: AppConfig = {
     defaultTeacherName: '',
     printShowDescriptions: false,
     theme: 'system',
-    screenDescriptionMode: 'all',
-    screenDescriptionTypes: [],
-    printDescriptionMode: 'all',
-    printDescriptionTypes: [],
+    screenDescriptionMode: 'custom',
+    screenDescriptionTypes: ['exemple', 'application'],
+    printDescriptionMode: 'custom',
+    printDescriptionTypes: ['exemple', 'application'],
 };
 
 export const useConfigManager = () => {
@@ -38,6 +38,10 @@ export const useConfigManager = () => {
                 setConfig(currentConfig => ({
                     ...currentConfig,
                     printShowDescriptions: false,
+                    screenDescriptionMode: 'custom',
+                    screenDescriptionTypes: ['exemple', 'application'],
+                    printDescriptionMode: 'custom',
+                    printDescriptionTypes: ['exemple', 'application'],
                 }));
             }
         } catch (error) {

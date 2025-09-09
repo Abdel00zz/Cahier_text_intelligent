@@ -1,7 +1,7 @@
 import React from 'react';
 import { MathJax } from 'better-react-mathjax';
 import { Indices, LessonItem, TopLevelItem, ElementType, TopLevelType } from '../types';
-import { TYPE_MAP, BADGE_TEXT_MAP, BADGE_COLOR_MAP, TOP_LEVEL_TYPE_CONFIG } from '../constants';
+import { TYPE_MAP, BADGE_TEXT_MAP, BADGE_COLOR_MAP, TOP_LEVEL_TYPE_CONFIG, BADGE_TOOLTIP_MAP } from '../constants';
 import { EditableTitle } from './ui/EditableTitle';
 import { EditableCell } from './ui/EditableCell';
 import { logger } from '../utils/logger';
@@ -178,7 +178,10 @@ export const ContentRenderer: React.FC<ContentRendererProps> = React.memo(({ dat
       // Toujours MathJax en print pour compiler les formules
       return (
         <div className="flex items-baseline gap-2 pl-6 sm:pl-12 py-1">
-          <span className={`flex-shrink-0 select-none text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${badgeColor} ${isPrint ? 'badge-print' : ''}`}>
+          <span
+            className={`flex-shrink-0 select-none text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${badgeColor} ${isPrint ? 'badge-print' : ''}`}
+            data-tippy-content={BADGE_TOOLTIP_MAP[normalizedType] || normalizedType}
+          >
             {badgeText} {item.number || ''}
           </span>
           <div className="flex-grow min-w-0">
