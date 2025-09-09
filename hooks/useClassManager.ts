@@ -37,14 +37,46 @@ export const useClassManager = () => {
                 const isFirstLaunch = !localStorage.getItem(FIRST_LAUNCH_KEY);
 
                 if (storedClasses) {
-                    setClasses(JSON.parse(storedClasses));
+                    // Always ensure demo class is present
+                    const existing: ClassInfo[] = JSON.parse(storedClasses);
+                    const hasDemo = existing.some(c => c.name === 'Tronc commun scientifique');
+                    if (hasDemo) {
+                        setClasses(existing);
+                    } else {
+                        try {
+                            const base = (import.meta as any).env?.BASE_URL || '/';
+                            const demoFilename = 'Tronc commun scientifique.json';
+                            const resp = await fetch(`${base}Demo/${encodeURIComponent(demoFilename)}`);
+                            if (resp.ok) {
+                                const defaultClassData = await resp.json();
+                                const demoClass: ClassInfo = {
+                                    id: crypto.randomUUID(),
+                                    name: defaultClassData.classInfo?.name || 'Tronc commun scientifique',
+                                    subject: defaultClassData.classInfo?.subject || 'Mathématiques',
+                                    teacherName: defaultClassData.classInfo?.teacherName || 'Professeur',
+                                    createdAt: new Date().toISOString(),
+                                    color: '#99f6e4',
+                                    cycle: 'lycee',
+                                };
+                                const combined = [...existing, demoClass];
+                                setClasses(combined);
+                                localStorage.setItem(STORAGE_KEY, JSON.stringify(combined));
+                                localStorage.setItem(`${CLASS_DATA_PREFIX}${demoClass.id}`, JSON.stringify(defaultClassData.lessonsData || []));
+                            } else {
+                                setClasses(existing);
+                            }
+                        } catch {
+                            setClasses(existing);
+                        }
+                    }
                 } else if (isFirstLaunch) {
                     // Load default class on first launch
                     let createdDefault = false;
                     try {
                         // Use Vite BASE_URL to work under subpaths in production
                         const base = (import.meta as any).env?.BASE_URL || '/';
-                        const response = await fetch(`${base}Demo/Tronc commun scientifique.json`);
+                        const demoFilename = 'Tronc commun scientifique.json';
+                        const response = await fetch(`${base}Demo/${encodeURIComponent(demoFilename)}`);
                         if (response.ok) {
                             const defaultClassData = await response.json();
 
@@ -54,8 +86,8 @@ export const useClassManager = () => {
                                 subject: defaultClassData.classInfo?.subject || 'Mathématiques',
                                 teacherName: defaultClassData.classInfo?.teacherName || 'Professeur',
                                 createdAt: new Date().toISOString(),
-                                color: '#3b82f6',
-                                cycle: 'college',
+                                color: '#99f6e4',
+                                cycle: 'lycee',
                             };
 
                             setClasses([defaultClass]);
@@ -77,8 +109,8 @@ export const useClassManager = () => {
                             subject: 'Mathématiques',
                             teacherName: 'Professeur',
                             createdAt: new Date().toISOString(),
-                            color: '#3b82f6',
-                            cycle: 'college',
+                            color: '#99f6e4',
+                            cycle: 'lycee',
                         };
                         setClasses([defaultClass]);
                         localStorage.setItem(STORAGE_KEY, JSON.stringify([defaultClass]));

@@ -203,14 +203,6 @@ const premiumClasses = [
 
 // Extra premium classes requested (collège scientific subjects, lycée Tronc commun FR, and prépa MPSI/PCSI/TSI)
 premiumClasses.push(
-    // Lycée: Tronc commun Scientifique (FR)
-    {
-        id: 'premium_21',
-        name: 'Tronc Commun Scientifique',
-        subject: 'Mathématiques',
-        color: '#0f766e', // Teal-700
-        cycle: 'lycee' as Cycle,
-    },
     // Collège: other scientific subjects
     {
         id: 'premium_22',
@@ -272,6 +264,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
             return (localStorage.getItem('selected_cycle_v1') as Cycle) || 'college';
         } catch { return 'college'; }
     });
+    const [hadStoredCycle] = useState<boolean>(() => {
+        try { return localStorage.getItem('selected_cycle_v1') !== null; } catch { return false; }
+    });
     const [dismissedPremiumIds, setDismissedPremiumIds] = useState<string[]>(() => {
         try {
             const raw = localStorage.getItem('dismissed_premium_cards_v1');
@@ -317,9 +312,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
         setLastModifiedDates(dates);
     }, [classes, isClassesLoading]);
 
+    // On first load without a saved selection, switch to the first available class's cycle
+    useEffect(() => {
+        if (isClassesLoading) return;
+        if (!hadStoredCycle && classes.length > 0) {
+            const firstCycle = (classes[0].cycle || 'college') as Cycle;
+            const hasAnyInSelected = classes.some(c => (c.cycle || 'college') === selectedCycle);
+            if (!hasAnyInSelected || selectedCycle !== firstCycle) {
+                setSelectedCycle(firstCycle);
+            }
+        }
+    }, [classes, isClassesLoading, hadStoredCycle, selectedCycle]);
+
     const handleCreateClass = (details: { name: string; subject: string; }) => {
         addClass({
             ...details,
+            cycle: selectedCycle,
             teacherName: config.defaultTeacherName || 'Enseignant',
         });
         setCreateModalOpen(false);
@@ -456,9 +464,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 </div>
             </header>
             <main>
-            {/* Cycle selector (scrollable on mobile) */}
-            <div className="overflow-x-auto no-scrollbar mb-3 sm:mb-4">
-                <div className="flex items-center gap-2 sm:gap-3 px-4">
+            {/* Cycle selector (centered) */}
+            <div className="w-full flex justify-center mb-3 sm:mb-4">
+                <div className="inline-flex items-center gap-2 sm:gap-3">
                 {([
                     { key: 'college', label: 'Collège' },
                     { key: 'lycee', label: 'Lycée' },
@@ -478,7 +486,19 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
             <div className="mt-6 sm:mt-16 px-2 sm:px-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-6">
                         {/* Create new class first */}
                         <AddClassCard onClick={() => setCreateModalOpen(true)} />
-                        {classes.filter(c => (c.cycle || 'college') === selectedCycle).map(classInfo => (
+                        {/* Sort classes: demo "Tronc commun scientifique" first, then other user classes */}
+                        {classes
+                            .filter(c => (c.cycle || 'college') === selectedCycle)
+                            .sort((a, b) => {
+                                // Demo class "Tronc commun scientifique" comes first
+                                const isDemoA = a.name.toLowerCase().includes('tronc commun scientifique');
+                                const isDemoB = b.name.toLowerCase().includes('tronc commun scientifique');
+                                if (isDemoA && !isDemoB) return -1;
+                                if (!isDemoA && isDemoB) return 1;
+                                // Then sort by creation date (newest first)
+                                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+                            })
+                            .map(classInfo => (
                             <ClassCard 
                                 key={classInfo.id}
                                 classInfo={classInfo}
