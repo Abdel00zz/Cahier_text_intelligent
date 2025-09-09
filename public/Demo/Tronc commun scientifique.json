@@ -1,0 +1,45 @@
+{
+  "classInfo": {
+    "name": "Tronc commun scientifique",
+    "subject": "Mathematique",
+    "teacherName": "Enseignant",
+    "id": "0a5526d2-ccb0-4f9b-8d7a-ca201a96a30d",
+    "createdAt": "2025-09-06T09:21:52.977Z",
+    "color": "#3b82f6"
+  },
+  "lessonsData": [
+    {
+      "sections": [
+        {
+          "name": "L'ensemble des entiers naturels",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition et notation de l'ensemble des entiers naturels $\\mathbb{N}$",
+              "description": "L'ensemble des entiers naturels, noté $\\mathbb{N}$, regroupe les entiers positifs ou nuls.\n$$\\mathbb{N} = \\{0, 1, 2, ...\\}$$\nOn note $\\mathbb{N}^*$ l'ensemble des entiers naturels non nuls ($\\mathbb{N}^* = \\{1, 2, 3, ...\\}$).",
+              "date": "2025-09-08"
+            },
+            {
+              "type": "remarque",
+              "number": 1,
+              "title": "Limites des opérations de soustraction et division dans $\\mathbb{N}$",
+              "description": "Dans $\\mathbb{N}$, la soustraction et la division ne sont pas toujours possibles.\n- $(a-b) \\in \\mathbb{N}$ seulement si $a \\ge b$.\n- $$\\frac{a}{b} \\in \\mathbb{N}$$ seulement si $a$ est un multiple de $b$.",
+              "date": ""
+            },
+            {
+              "type": "exemple",
+              "number": 1,
+              "title": "Exemples illustrant les conditions de soustraction et division dans $\\mathbb{N}$",
+              "description": "- $8-5=3 \\in \\mathbb{N}$ (car $8 \\ge 5$)\n- $5-8=-3 \\notin \\mathbb{N}$ (car $5 < 8$)\n- $$\\frac{12}{3}=4 \\in \\mathbb{N}$$ (car $12 = 4 \\times 3$)",
+              "date": "2025-09-07"
+            }
+          ]
+        }
+      ],
+      "title": "Notion d'arithmétique et l'Ensemble des nombres entiers",
+      "type": "chapter",
+      "date": ""
+    }
+  ]
+}

@@ -45,31 +45,42 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
 
     return (
         <div 
-            className="group relative rounded-lg shadow-md cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 overflow-hidden flex flex-col aspect-[4/3]"
+            className="group relative rounded-xl border border-slate-200/50 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col aspect-[5/3]"
             style={{ backgroundColor: classInfo.color }}
             onClick={onSelect}
         >
-            <div className="flex flex-col h-full p-5 text-white text-center">
-                {/* Class Name (Main Content) */}
-                <div className="flex-grow flex items-center justify-center">
-                    <h3 className={`font-bold break-words leading-tight filter drop-shadow-sm ${isArabic ? 'font-ar text-5xl' : 'font-slab text-4xl'}`}>
+            {/* Gradient Overlay for depth */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent"></div>
+
+            <div className="relative flex flex-col h-full p-4 text-white">
+                {/* Subject badge top-right */}
+                <div className="absolute top-3 right-3">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/20 text-white backdrop-blur-md shadow-sm border border-white/30">
+                        <i className="fas fa-book-open text-xs"></i>
+                        <span>{classInfo.subject}</span>
+                    </div>
+                </div>
+                
+                {/* Class Name (Main Content) - centered */}
+                <div className="flex-grow flex items-center justify-center text-center">
+                    <h3 className={`font-extrabold break-words leading-tight tracking-tight ${isArabic ? 'font-ar text-4xl' : 'font-slab text-3xl'} text-shadow-lg`}>
                         {classInfo.name}
                     </h3>
                 </div>
 
-                {/* Last Modified Date (Footer) */}
-                <div className="flex-shrink-0 mt-auto">
-                    <p className="text-xs text-white/80 transition-opacity group-hover:opacity-100">
-                        <i className="fas fa-history mr-2"></i>
-                        {formatDate(lastModified)}
-                    </p>
+                {/* Last Modified chip */}
+                <div className="flex-shrink-0 text-center pb-1">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium bg-black/25 text-white/90 backdrop-blur-sm">
+                        <i className="fas fa-history"></i>
+                        <span>{formatDate(lastModified)}</span>
+                    </div>
                 </div>
             </div>
 
-            {/* Delete Button (visible on hover) */}
+            {/* Delete Button (visible on hover) - Moved to top-left */}
             <button 
                 onClick={handleDeleteClick}
-                className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-black/25 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500 z-10"
+                className="absolute top-3 left-3 w-8 h-8 flex items-center justify-center bg-black/30 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-red-500 hover:scale-110 z-10"
                 data-tippy-content="Supprimer la classe"
                 aria-label="Supprimer la classe"
             >

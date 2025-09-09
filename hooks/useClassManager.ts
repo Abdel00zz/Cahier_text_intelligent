@@ -5,6 +5,7 @@ import { logger } from '../utils/logger';
 
 const STORAGE_KEY = 'classManager_v1';
 const CLASS_DATA_PREFIX = 'classData_v1_';
+const FIRST_LAUNCH_KEY = 'app_first_launch_v1';
 
 const generateColor = () => {
     const colors = [
@@ -18,16 +19,68 @@ export const useClassManager = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        try {
-            const storedClasses = localStorage.getItem(STORAGE_KEY);
-            if (storedClasses) {
-                setClasses(JSON.parse(storedClasses));
+        const loadClasses = async () => {
+            try {
+                const storedClasses = localStorage.getItem(STORAGE_KEY);
+                const isFirstLaunch = !localStorage.getItem(FIRST_LAUNCH_KEY);
+
+                if (storedClasses) {
+                    setClasses(JSON.parse(storedClasses));
+                } else if (isFirstLaunch) {
+                    // Load default class on first launch
+                    let createdDefault = false;
+                    try {
+                        // Note: for Vite, place the JSON in /public to be served from '/'
+                        const response = await fetch('/Demo/Tronc commun scientifique.json');
+                        if (response.ok) {
+                            const defaultClassData = await response.json();
+
+                            const defaultClass: ClassInfo = {
+                                id: crypto.randomUUID(),
+                                name: defaultClassData.classInfo?.name || 'Tronc commun scientifique',
+                                subject: defaultClassData.classInfo?.subject || 'Mathématiques',
+                                teacherName: defaultClassData.classInfo?.teacherName || 'Professeur',
+                                createdAt: new Date().toISOString(),
+                                color: '#3b82f6',
+                            };
+
+                            setClasses([defaultClass]);
+                            localStorage.setItem(STORAGE_KEY, JSON.stringify([defaultClass]));
+                            localStorage.setItem(`${CLASS_DATA_PREFIX}${defaultClass.id}`, JSON.stringify(defaultClassData.lessonsData || []));
+                            createdDefault = true;
+                            logger.info("Default class 'Tronc commun scientifique' loaded from JSON");
+                        } else {
+                            logger.warn?.("Default JSON not found (HTTP " + response.status + "), creating empty default class.");
+                        }
+                    } catch (error) {
+                        logger.error("Failed to load default class JSON, creating empty default class", error);
+                    }
+
+                    if (!createdDefault) {
+                        const defaultClass: ClassInfo = {
+                            id: crypto.randomUUID(),
+                            name: 'Tronc commun scientifique',
+                            subject: 'Mathématiques',
+                            teacherName: 'Professeur',
+                            createdAt: new Date().toISOString(),
+                            color: '#3b82f6',
+                        };
+                        setClasses([defaultClass]);
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify([defaultClass]));
+                        localStorage.setItem(`${CLASS_DATA_PREFIX}${defaultClass.id}`, JSON.stringify([]));
+                    }
+
+                    // Mark that the app has been launched
+                    localStorage.setItem(FIRST_LAUNCH_KEY, 'true');
+                }
+            } catch (error) {
+                logger.error("Failed to load classes from localStorage", error);
+            } finally {
+                setIsLoading(false);
             }
-        } catch (error) {
-            logger.error("Failed to load classes from localStorage", error);
-        } finally {
-            setIsLoading(false);
-        }
+        };
+
+        loadClasses();
     }, [setClasses]);
 
     const saveClasses = useCallback((updatedClasses: ClassInfo[] | ((draft: ClassInfo[]) => void)) => {

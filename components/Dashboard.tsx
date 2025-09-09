@@ -4,10 +4,12 @@ import { useConfigManager } from '../hooks/useConfigManager';
 import { Spinner } from './ui/Spinner';
 import { Button } from './ui/Button';
 import { ClassCard } from './ClassCard';
+import LockedClassCard from './LockedClassCard';
 import { CreateClassModal } from './modals/CreateClassModal';
 import { ConfigModal } from './modals/ConfigModal';
 import { GuideModal } from './modals/GuideModal';
 import { ImportPlatformModal } from './modals/ImportPlatformModal';
+import ContactAdminModal from './modals/ContactAdminModal';
 import { ClassInfo } from '../types';
 import { logger } from '../utils/logger';
 
@@ -21,10 +23,10 @@ const AddClassCard: React.FC<{ onClick: () => void }> = ({ onClick }) => (
         tabIndex={0}
         onClick={onClick}
         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
-        className="w-full h-full flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 text-slate-500 hover:border-teal-500 hover:text-teal-600 transition-all duration-200 aspect-[4/3] group cursor-pointer focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+    className="w-full h-full flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 text-slate-500 hover:border-teal-500 hover:text-teal-600 transition-all duration-200 aspect-[5/3] group cursor-pointer focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
     >
-        <i className="fas fa-plus text-4xl mb-3 transition-transform group-hover:scale-110"></i>
-        <span className="font-semibold text-center">Créer une nouvelle classe</span>
+    <i className="fas fa-plus text-2xl mb-1 transition-transform group-hover:scale-110"></i>
+    <span className="font-semibold text-center text-xs">Créer une nouvelle classe</span>
     </div>
 );
 
@@ -58,6 +60,58 @@ const findLatestDate = (data: any): string | null => {
     return latestDate;
 };
 
+// Premium locked classes data
+const premiumClasses = [
+    {
+        id: 'premium_1',
+        name: '1ère année collégiale',
+        subject: 'Français',
+        color: '#a78bfa' // Soft Violet
+    },
+    {
+        id: 'premium_2', 
+        name: '2ème année collégiale',
+        subject: 'Physique & Chimie',
+        color: '#7dd3fc' // Soft Sky Blue
+    },
+    {
+        id: 'premium_3',
+        name: '3ème année collégiale',
+        subject: 'Mathématiques',
+        color: '#fca5a5' // Soft Red
+    },
+    {
+        id: 'premium_4',
+        name: 'Tronc Commun Scientifique',
+        subject: 'Toutes matières',
+        color: '#fdba74' // Soft Orange
+    },
+    {
+        id: 'premium_5',
+        name: '1ère Bac Sciences Économiques',
+        subject: 'Économie',
+        color: '#6ee7b7' // Soft Emerald
+    },
+    {
+        id: 'premium_6',
+        name: '2ème Bac Sciences Physiques (PC)',
+        subject: 'Physique',
+        color: '#f9a8d4' // Soft Pink
+    },
+    {
+        id: 'premium_7',
+        name: '2ème Bac Sciences Mathématiques \'A\'',
+        subject: 'Mathématiques',
+        color: '#5eead4' // Soft Teal
+    },
+    {
+        id: 'premium_8',
+        name: '2ème Bac SVT',
+        subject: 'Sciences de la Vie',
+        color: '#a3e635' // Soft Lime
+    }
+];
+
 
 export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const { classes, addClass, deleteClass, isLoading: isClassesLoading } = useClassManager();
@@ -66,6 +120,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const [isConfigModalOpen, setConfigModalOpen] = useState(false);
     const [isImportModalOpen, setImportModalOpen] = useState(false);
     const [isGuideOpen, setGuideOpen] = useState(false);
+    const [isContactAdminModalOpen, setContactAdminModalOpen] = useState(false);
     const [lastModifiedDates, setLastModifiedDates] = useState<Record<string, string | null>>({});
 
     const isLoading = isClassesLoading || isConfigLoading;
@@ -219,20 +274,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 </div>
             </header>
             <main>
-        {classes.length === 0 ? (
-                    <div className="text-center p-10 max-w-lg mx-auto bg-white rounded-lg shadow-md">
-                        <i className="fas fa-school text-5xl text-slate-400 mb-4"></i>
-                        <h3 className="text-xl font-semibold text-slate-600">Bienvenue !</h3>
-                        <p className="text-slate-500 mt-2 mb-4">Vous n'avez pas encore de classe. Commencez par en créer une.</p>
-                        <button 
-                            onClick={() => setCreateModalOpen(true)}
-                className="bg-teal-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-teal-700 transition-colors w-full sm:w-auto"
-                        >
-                            Créer ma première classe
-                        </button>
-                    </div>
-                ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+            <div className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                         {classes.map(classInfo => (
                             <ClassCard 
                                 key={classInfo.id}
@@ -242,9 +284,17 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                                 onDelete={() => deleteClass(classInfo.id)}
                             />
                         ))}
+                        {premiumClasses.map(premiumClass => (
+                            <LockedClassCard
+                                key={premiumClass.id}
+                                name={premiumClass.name}
+                                subject={premiumClass.subject}
+                                color={premiumClass.color}
+                                onContactAdmin={() => setContactAdminModalOpen(true)}
+                            />
+                        ))}
                          <AddClassCard onClick={() => setCreateModalOpen(true)} />
                     </div>
-                )}
             </main>
             <CreateClassModal 
                 isOpen={isCreateModalOpen}
@@ -265,6 +315,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 isOpen={isImportModalOpen}
                 onClose={() => setImportModalOpen(false)}
                 onImport={handleImportPlatform}
+            />
+            <ContactAdminModal
+                isOpen={isContactAdminModalOpen}
+                onClose={() => setContactAdminModalOpen(false)}
             />
         </div>
     );
