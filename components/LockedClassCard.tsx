@@ -5,6 +5,7 @@ interface LockedClassCardProps {
     subject: string;
     color: string;
     onContactAdmin: () => void;
+    onDelete: () => void;
 }
 
 const formatSuperscript = (text: string) => {
@@ -23,7 +24,7 @@ const formatSuperscript = (text: string) => {
     });
 };
 
-const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color, onContactAdmin }) => {
+const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color, onContactAdmin, onDelete }) => {
     // Helper to detect Arabic for font switching
     const isArabic = /[\u0600-\u06FF]/.test(name);
     const isSubjectArabic = /[\u0600-\u06FF]/.test(subject);
@@ -40,13 +41,17 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
             ></div>
             <div className="absolute inset-0 bg-black/30 backdrop-blur-[1.5px]"></div>
 
-            <div className="relative flex flex-col h-full p-4 pt-12 sm:pt-8 pb-12 sm:pb-6 text-white">
-                {/* Lock Icon top-left */}
-                <div className="absolute top-2 left-2 sm:top-3 sm:left-3">
-                    <div className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 bg-white/20 rounded-full border border-white/30 backdrop-blur-md">
-                        <i className="fas fa-lock text-[11px] sm:text-sm text-white"></i>
-                    </div>
-                </div>
+            <div className="relative flex flex-col h-full p-4 pt-10 sm:pt-7 pb-12 sm:pb-6 text-white">
+                {/* Delete Button top-left */}
+                <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); onDelete(); }}
+                    className="absolute top-2 left-2 sm:top-3 sm:left-3 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-black/30 text-white rounded-full transition-all duration-300 hover:bg-red-500 hover:scale-110 z-10 border border-white/30 backdrop-blur-md"
+                    data-tippy-content="Supprimer cette carte"
+                    aria-label="Supprimer cette carte"
+                >
+                    <i className="fas fa-times text-[11px] sm:text-sm"></i>
+                </button>
 
                 {/* Premium badge top-right */}
                 <div className="absolute top-2 right-2 sm:top-3 sm:right-3">
@@ -58,17 +63,25 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
                 
                 {/* Class Name (Main Content) - centered */}
                 <div className="flex-grow flex items-center justify-center text-center">
-                    <h3 className={`font-extrabold break-words leading-tight tracking-tight ${isArabic ? 'font-ar text-[1.9rem]' : 'font-chic text-[1.6rem] sm:text-[1.7rem]'}`}>
+                    <h3 className={`font-bold break-words leading-tight tracking-normal -translate-y-0.5 sm:-translate-y-1 ${isArabic ? 'font-ar text-[1.7rem]' : 'font-chic text-[1.45rem] sm:text-[1.6rem]'}`}>
                         {formatSuperscript(name)}
                     </h3>
                 </div>
 
-                {/* Subject chip */}
-                <div className="flex-shrink-0 text-center pb-1">
-                    <div className="inline-flex items-center gap-1 px-2 py-0.5 sm:gap-1.5 sm:px-2.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-medium bg-white/20 text-white/90 backdrop-blur-sm">
-                        <i className="fas fa-book-open text-[10px] sm:text-xs"></i>
-                        <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{subject}</span>
-                    </div>
+                {/* Subject chip (smaller for Latin/French) */}
+                <div className="flex-shrink-0 text-center pb-1 absolute bottom-3 right-3">
+                    {(() => {
+                        const sizeClasses = isSubjectArabic
+                            ? 'gap-1.5 px-2.5 py-1 text-[10px] sm:text-[11px] font-semibold'
+                            : 'gap-1 px-2 py-0.5 text-[8px] sm:text-[9px] font-medium'; // ~40% smaller
+                        const iconSize = isSubjectArabic ? 'text-[11px] sm:text-xs' : 'text-[9px] sm:text-[10px]';
+                        return (
+                            <div className={`inline-flex items-center ${sizeClasses} rounded-full bg-white/20 text-white/90 backdrop-blur-sm`}>
+                                <i className={`fas fa-book-open ${iconSize}`}></i>
+                                <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{subject}</span>
+                            </div>
+                        );
+                    })()}
                 </div>
             </div>
         </div>

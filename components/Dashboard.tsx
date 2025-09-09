@@ -197,6 +197,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const [isGuideOpen, setGuideOpen] = useState(false);
     const [isContactAdminModalOpen, setContactAdminModalOpen] = useState(false);
     const [lastModifiedDates, setLastModifiedDates] = useState<Record<string, string | null>>({});
+    const [dismissedPremiumIds, setDismissedPremiumIds] = useState<string[]>(() => {
+        try {
+            const raw = localStorage.getItem('dismissed_premium_cards_v1');
+            return raw ? JSON.parse(raw) : [];
+        } catch {
+            return [];
+        }
+    });
 
     const isLoading = isClassesLoading || isConfigLoading;
 
@@ -296,6 +304,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
         setImportModalOpen(false);
     }, []);
 
+    const handleDismissPremium = useCallback((id: string) => {
+        setDismissedPremiumIds(prev => {
+            const next = Array.from(new Set([...prev, id]));
+            localStorage.setItem('dismissed_premium_cards_v1', JSON.stringify(next));
+            return next;
+        });
+    }, []);
+
     const needsConfiguration = !config.establishmentName || !config.defaultTeacherName;
 
     if (isLoading) {
@@ -310,20 +326,32 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 {teacherName ? (
                     <>
                         {/* Mobile: court */}
-                        <h1 className="sm:hidden text-xl font-extrabold text-slate-800 font-slab">
+                        <h1 className="sm:hidden text-2xl font-extrabold text-slate-800 font-slab">
                             Bienvenue M. {teacherName}
                         </h1>
+                        <p className="sm:hidden mt-1 text-slate-600 text-sm font-medium">
+                            Inspirez, simplifiez, progressez — visons +110% d’impact aujourd’hui.
+                        </p>
                         {/* Desktop: concis */}
-                        <h1 className="hidden sm:block text-2xl sm:text-3xl font-extrabold text-slate-800 font-slab">
+                        <h1 className="hidden sm:block text-3xl sm:text-4xl font-extrabold text-slate-800 font-slab">
                             Bienvenue M. {teacherName} — Espace pédagogique
                         </h1>
+                        <p className="hidden sm:block mt-2 text-slate-600 text-base font-medium">
+                            Objectif du jour: inspirer vos élèves et gagner en efficacité — +110% d’impact.
+                        </p>
                     </>
                 ) : (
                     <>
                         {/* Mobile: très court */}
-                        <h1 className="sm:hidden text-xl font-bold text-slate-800 font-slab">Espace pédagogique</h1>
+                        <h1 className="sm:hidden text-2xl font-extrabold text-slate-800 font-slab">Espace pédagogique</h1>
+                        <p className="sm:hidden mt-1 text-slate-600 text-sm font-medium">
+                            Inspirez vos élèves, simplifiez vos cours, visez +110%.
+                        </p>
                         {/* Desktop */}
-                        <h1 className="hidden sm:block text-3xl sm:text-4xl font-bold text-slate-800 font-slab">Votre Espace Pédagogique</h1>
+                        <h1 className="hidden sm:block text-3xl sm:text-4xl font-extrabold text-slate-800 font-slab">Votre Espace Pédagogique</h1>
+                        <p className="hidden sm:block mt-2 text-slate-600 text-base font-medium">
+                            Enseignez avec clarté et impact — allons au-delà de 110% aujourd’hui.
+                        </p>
                     </>
                 )}
                 <div className="absolute top-0 right-0 flex items-center gap-2">
@@ -349,7 +377,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 </div>
             </header>
             <main>
-            <div className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+            <div className="mt-10 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-6">
+                        {/* Create new class first */}
+                        <AddClassCard onClick={() => setCreateModalOpen(true)} />
                         {classes.map(classInfo => (
                             <ClassCard 
                                 key={classInfo.id}
@@ -359,16 +389,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                                 onDelete={() => deleteClass(classInfo.id)}
                             />
                         ))}
-                        {premiumClasses.map(premiumClass => (
+            {premiumClasses.filter(p => !dismissedPremiumIds.includes(p.id)).map(premiumClass => (
                             <LockedClassCard
                                 key={premiumClass.id}
                                 name={premiumClass.name}
                                 subject={premiumClass.subject}
                                 color={premiumClass.color}
                                 onContactAdmin={() => setContactAdminModalOpen(true)}
+                onDelete={() => handleDismissPremium(premiumClass.id)}
                             />
                         ))}
-                         <AddClassCard onClick={() => setCreateModalOpen(true)} />
                     </div>
             </main>
             <CreateClassModal 

@@ -55,6 +55,13 @@ const App: React.FC = () => {
     }, []);
 
     useEffect(() => {
+      if (view !== 'editor') {
+        // Disable and hide modal when not in editor
+        clearOrientationTimer();
+        setShowOrientationModal(false);
+        return;
+      }
+
       const computeAndSet = () => {
         if (isMobilePortrait()) {
           scheduleOrientationModal();
@@ -73,7 +80,7 @@ const App: React.FC = () => {
         window.removeEventListener('orientationchange', handler as any);
         clearOrientationTimer();
       };
-    }, [clearOrientationTimer, isMobilePortrait, scheduleOrientationModal]);
+    }, [view, clearOrientationTimer, isMobilePortrait, scheduleOrientationModal]);
 
     const handleSelectClass = useCallback((classInfo: ClassInfo) => {
         setActiveClass(classInfo);
@@ -110,7 +117,9 @@ const App: React.FC = () => {
       <MathJaxContext config={mathJaxConfig}>
         <div className="min-h-screen bg-slate-100 text-slate-800">
           {renderContent()}
-          <OrientationAlertModal isOpen={showOrientationModal} onClose={handleCloseOrientationModal} />
+          {view === 'editor' && (
+            <OrientationAlertModal isOpen={showOrientationModal} onClose={handleCloseOrientationModal} />
+          )}
         </div>
         <Analytics />
       </MathJaxContext>

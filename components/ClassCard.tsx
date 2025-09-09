@@ -53,25 +53,33 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
             {/* Gradient Overlay for depth */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent"></div>
 
-            <div className="relative flex flex-col h-full p-4 pt-12 sm:pt-8 pb-12 sm:pb-6 text-white">
-                {/* Subject badge top-right */}
-                <div className="absolute top-3 right-3">
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/20 text-white backdrop-blur-md shadow-sm border border-white/30">
-                        <i className="fas fa-book-open text-xs"></i>
-                        <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{classInfo.subject}</span>
-                    </div>
+            <div className="relative flex flex-col h-full p-4 pt-12 sm:pt-8 pb-10 sm:pb-5 text-white">
+                {/* Subject badge bottom-right (smaller for Latin/French) */}
+                <div className="absolute bottom-3 right-3">
+                    {(() => {
+                        const sizeClasses = isSubjectArabic
+                            ? 'gap-1.5 px-2.5 py-1 text-[11px] font-semibold'
+                            : 'gap-1 px-2 py-0.5 text-[9px] font-medium'; // ~40% smaller
+                        const iconSize = isSubjectArabic ? 'text-xs' : 'text-[10px]';
+                        return (
+                            <div className={`inline-flex items-center ${sizeClasses} rounded-full bg-white/20 text-white backdrop-blur-md shadow-sm border border-white/30`}>
+                                <i className={`fas fa-book-open ${iconSize}`}></i>
+                                <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{classInfo.subject}</span>
+                            </div>
+                        );
+                    })()}
                 </div>
                 
                 {/* Class Name (Main Content) - centered */}
                 <div className="flex-grow flex items-center justify-center text-center">
-                    <h3 className={`font-extrabold break-words leading-tight tracking-tight ${isArabic ? 'font-ar text-[1.9rem]' : 'font-chic text-[1.6rem] sm:text-[1.7rem]'}`}>
+                    <h3 className={`font-bold break-words leading-tight tracking-normal -translate-y-0.5 sm:-translate-y-1 ${isArabic ? 'font-ar text-[1.7rem]' : 'font-chic text-[1.45rem] sm:text-[1.6rem]'}`}>
                         {classInfo.name}
                     </h3>
                 </div>
 
-                {/* Last Modified chip */}
-                <div className="flex-shrink-0 text-center pb-1">
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium bg-black/25 text-white/90 backdrop-blur-sm">
+                {/* Last Modified chip – raised slightly above bottom */}
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-12 sm:bottom-10">
+                    <div className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1 rounded-full text-[10px] sm:text-[11px] font-medium bg-black/25 text-white/90 backdrop-blur-sm whitespace-nowrap">
                         <i className="fas fa-history"></i>
                         <span>{formatDate(lastModified)}</span>
                     </div>
