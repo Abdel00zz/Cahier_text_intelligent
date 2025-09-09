@@ -110,6 +110,81 @@ const premiumClasses = [
         subject: 'Sciences de la Vie',
         color: '#a3e635' // Soft Lime
     }
+    ,
+    // Additional French (Lycée & Collège Marocain)
+    {
+        id: 'premium_9',
+        name: '1ère Bac Sciences Mathématiques B',
+        subject: 'Mathématiques',
+        color: '#c4b5fd' // Soft Violet 300
+    },
+    {
+        id: 'premium_10',
+        name: '1ère Bac Sciences Expérimentales',
+        subject: 'SVT & Physique',
+        color: '#86efac' // Soft Green 300
+    },
+    {
+        id: 'premium_11',
+        name: 'Tronc Commun Littéraire',
+        subject: 'Toutes matières',
+        color: '#fde68a' // Soft Amber 300
+    },
+    {
+        id: 'premium_12',
+        name: '2ème Bac Lettres et Sciences Humaines',
+        subject: 'Lettres',
+        color: '#f9a8d4' // Soft Pink 300
+    },
+    {
+        id: 'premium_13',
+        name: '2ème Bac Sciences Économiques et Gestion',
+        subject: 'Économie & Gestion',
+        color: '#7dd3fc' // Soft Sky 300
+    },
+    // Arabic entries (7 classes)
+    {
+        id: 'premium_14',
+        name: 'الجذع المشترك العلمي',
+        subject: 'جميع المواد',
+        color: '#93c5fd' // Soft Blue 300
+    },
+    {
+        id: 'premium_15',
+        name: 'الجذع المشترك الأدبي',
+        subject: 'جميع المواد',
+        color: '#fde68a' // Soft Amber 300
+    },
+    {
+        id: 'premium_16',
+        name: 'الأولى باكالوريا علوم رياضية أ',
+        subject: 'رياضيات',
+        color: '#a78bfa' // Soft Violet 400
+    },
+    {
+        id: 'premium_17',
+        name: 'الأولى باكالوريا علوم فيزيائية',
+        subject: 'علوم فيزيائية',
+        color: '#7dd3fc' // Soft Sky 300
+    },
+    {
+        id: 'premium_18',
+        name: 'الثانية باكالوريا علوم رياضية أ',
+        subject: 'رياضيات',
+        color: '#c4b5fd' // Soft Violet 300
+    },
+    {
+        id: 'premium_19',
+        name: 'الثانية باكالوريا علوم الحياة والأرض',
+        subject: 'علوم الحياة والأرض',
+        color: '#86efac' // Soft Green 300
+    },
+    {
+        id: 'premium_20',
+        name: 'الثالثة إعدادي',
+        subject: 'جميع المواد',
+        color: '#fca5a5' // Soft Red 300
+    }
 ];
 
 
