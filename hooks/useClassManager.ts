@@ -8,8 +8,20 @@ const CLASS_DATA_PREFIX = 'classData_v1_';
 const FIRST_LAUNCH_KEY = 'app_first_launch_v1';
 
 const generateColor = () => {
+    // Soft, cool palette: cold blues, teals, soft greens, gentle oranges
     const colors = [
-        '#ef4444', '#f97316', '#f59e0b', '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e'
+        '#93c5fd', // blue-300
+        '#bfdbfe', // blue-200
+        '#7dd3fc', // sky-300
+        '#a5f3fc', // cyan-200
+        '#99f6e4', // teal-200
+        '#86efac', // green-300
+        '#fde68a', // amber-300
+        '#fbbf24', // amber-400 (gentle orange)
+        '#fca5a5', // red-300 (soft)
+        '#c4b5fd', // violet-300
+        '#a78bfa', // violet-400 (soft)
+        '#f9a8d4'  // pink-300 (soft)
     ];
     return colors[Math.floor(Math.random() * colors.length)];
 };
@@ -42,7 +54,7 @@ export const useClassManager = () => {
                                 subject: defaultClassData.classInfo?.subject || 'Mathématiques',
                                 teacherName: defaultClassData.classInfo?.teacherName || 'Professeur',
                                 createdAt: new Date().toISOString(),
-                                color: '#3b82f6',
+                                color: '#93c5fd',
                             };
 
                             setClasses([defaultClass]);
@@ -64,7 +76,7 @@ export const useClassManager = () => {
                             subject: 'Mathématiques',
                             teacherName: 'Professeur',
                             createdAt: new Date().toISOString(),
-                            color: '#3b82f6',
+                            color: '#93c5fd',
                         };
                         setClasses([defaultClass]);
                         localStorage.setItem(STORAGE_KEY, JSON.stringify([defaultClass]));

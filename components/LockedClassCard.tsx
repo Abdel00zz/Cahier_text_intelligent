@@ -57,7 +57,7 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
                 
                 {/* Class Name (Main Content) - centered */}
                 <div className="flex-grow flex items-center justify-center text-center">
-                    <h3 className={`font-extrabold break-words leading-tight tracking-tight ${isArabic ? 'font-ar text-4xl' : 'font-slab text-3xl'} text-shadow-lg`}>
+                    <h3 className={`font-extrabold break-words leading-tight tracking-tight ${isArabic ? 'font-ar text-[1.9rem]' : 'font-fira text-[1.6rem] sm:text-[1.7rem]'}`}>
                         {formatSuperscript(name)}
                     </h3>
                 </div>
