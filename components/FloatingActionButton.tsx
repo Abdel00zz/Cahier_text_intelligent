@@ -23,15 +23,17 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ actions }) 
 			const target = e.target as HTMLElement;
 			if (!target.closest?.('[data-fab-root]')) setOpen(false);
 		};
-		document.addEventListener('click', close);
-		document.addEventListener('touchstart', close);
+		if (open) {
+			document.addEventListener('click', close);
+			document.addEventListener('touchstart', close);
+		}
 		return () => {
 			document.removeEventListener('click', close);
 			document.removeEventListener('touchstart', close);
 		};
-	}, []);
+	}, [open]);
 
-	if (!touch) return null; // show only on touch devices
+	// Always show the FAB, but adjust behavior based on device type
 
 	return (
 		<div data-fab-root className="fixed right-4 fab-safe z-40">
@@ -49,10 +51,10 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ actions }) 
 			</div>
 			<button
 				aria-label="Actions rapides"
-				className="w-14 h-14 rounded-full bg-teal-600 text-white shadow-xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white"
-				onClick={() => setOpen(v => !v)}
+				className="w-14 h-14 rounded-full bg-teal-600 hover:bg-teal-700 text-white shadow-xl hover:shadow-2xl flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white transition-all duration-200 active:scale-95"
+				onClick={(e) => { e.stopPropagation(); setOpen(v => !v); }}
 			>
-				<i className={`fas ${open ? 'fa-times' : 'fa-plus'} text-2xl`}></i>
+				<i className={`fas ${open ? 'fa-times' : 'fa-ellipsis-h'} text-xl transition-transform duration-200 ${open ? 'rotate-90' : ''}`}></i>
 			</button>
 		</div>
 	);

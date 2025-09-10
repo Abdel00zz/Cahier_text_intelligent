@@ -61,15 +61,9 @@ const findLatestDate = (data: any): string | null => {
     return latestDate;
 };
 
-// Premium locked classes data
+// Premium locked classes data - Only Scientific Subjects
 const premiumClasses = [
-    {
-        id: 'premium_1',
-        name: '1ère année collégiale',
-        subject: 'Français',
-        color: '#93c5fd', // Pastel blue
-        cycle: 'college' as Cycle,
-    },
+    // Collège - Matières scientifiques
     {
         id: 'premium_2',
         name: '2ème année collégiale',
@@ -84,39 +78,46 @@ const premiumClasses = [
         color: '#fdba74', // Pastel orange
         cycle: 'college' as Cycle,
     },
-    
     {
-        id: 'premium_5',
-        name: '1ère Bac Sciences Économiques',
-        subject: 'Économie',
-        color: '#a5f3fc', // Pastel cyan
-        cycle: 'lycee' as Cycle,
+        id: 'premium_22',
+        name: '1ère année collégiale',
+        subject: 'SVT',
+        color: '#166534', // Green-800
+        cycle: 'college' as Cycle,
     },
     {
+        id: 'premium_23',
+        name: '2ème année collégiale',
+        subject: 'Physique-Chimie',
+        color: '#1e40af', // Blue-800
+        cycle: 'college' as Cycle,
+    },
+    
+    // Lycée - Matières scientifiques (Français)
+    {
         id: 'premium_6',
-        name: '2ème Bac Sciences Physiques (PC)',
+        name: '2ème Bac Sciences Physiques',
         subject: 'Physique',
         color: '#c4b5fd', // Pastel violet
         cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_7',
-        name: '2ème Bac Sciences Mathématiques \'A\'',
+        name: '2ème Bac Sciences Mathématiques',
         subject: 'Mathématiques',
         color: '#bbf7d0', // Pastel green
         cycle: 'lycee' as Cycle,
     },
     {
         id: 'premium_8',
-        name: '2ème Bac SVT',
-        subject: 'Sciences de la Vie',
+        name: '2ème Bac Sciences de la Vie et de la Terre',
+        subject: 'Sciences de la Vie et de la Terre',
         color: '#fef08a', // Pastel yellow
         cycle: 'lycee' as Cycle,
     },
-    // Additional French (Lycée & Collège Marocain)
     {
         id: 'premium_9',
-        name: '1ère Bac Sciences Mathématiques B',
+        name: '1ère Bac Sciences Mathématiques',
         subject: 'Mathématiques',
         color: '#fda4af', // Pastel pink
         cycle: 'lycee' as Cycle,
@@ -124,32 +125,12 @@ const premiumClasses = [
     {
         id: 'premium_10',
         name: '1ère Bac Sciences Expérimentales',
-        subject: 'SVT',
+        subject: 'Sciences de la Vie et de la Terre',
         color: '#b5e5f5', // Pastel light blue
         cycle: 'lycee' as Cycle,
     },
-    {
-        id: 'premium_11',
-        name: 'Tronc Commun Littéraire',
-        subject: 'Français',
-        color: '#e0bbe0', // Pastel lavender
-        cycle: 'lycee' as Cycle,
-    },
-    {
-        id: 'premium_12',
-        name: '2ème Bac Lettres et Sciences Humaines',
-        subject: 'Lettres',
-        color: '#e6e6fa', // Pastel light lavender
-        cycle: 'lycee' as Cycle,
-    },
-    {
-        id: 'premium_13',
-        name: '2ème Bac Sciences Économiques et Gestion',
-        subject: 'Économie',
-        color: '#ffebc0', // Pastel cream
-        cycle: 'lycee' as Cycle,
-    },
-    // Arabic entries (7 classes)
+    
+    // Lycée - Matières scientifiques (Arabe)
     {
         id: 'premium_14',
         name: 'الجذع المشترك العلمي',
@@ -158,30 +139,16 @@ const premiumClasses = [
         cycle: 'lycee' as Cycle,
     },
     {
-        id: 'premium_15',
-        name: 'الجذع المشترك الأدبي',
-        subject: 'اللغة العربية',
-        color: '#ffc4c4', // Pastel light red
-        cycle: 'lycee' as Cycle,
-    },
-    {
         id: 'premium_16',
-        name: 'الأولى باكالوريا علوم رياضية أ',
-        subject: 'رياضيات',
+        name: 'الأولى باكالوريا علوم رياضية',
+        subject: 'الرياضيات',
         color: '#ffb3ba', // Pastel pink
         cycle: 'lycee' as Cycle,
     },
     {
-        id: 'premium_17',
-        name: 'الأولى باكالوريا علوم فيزيائية',
-        subject: 'علوم فيزيائية',
-        color: '#ffdfba', // Pastel peach
-        cycle: 'lycee' as Cycle,
-    },
-    {
         id: 'premium_18',
-        name: 'الثانية باكالوريا علوم رياضية أ',
-        subject: 'رياضيات',
+        name: 'الثانية باكالوريا علوم رياضية',
+        subject: 'الرياضيات',
         color: '#ffffba', // Pastel yellow
         cycle: 'lycee' as Cycle,
     },
@@ -199,32 +166,7 @@ const premiumClasses = [
         color: '#ffb7ce', // Pastel pink
         cycle: 'college' as Cycle,
     },
-];
-
-// Extra premium classes requested (collège scientific subjects, lycée Tronc commun FR, and prépa MPSI/PCSI/TSI)
-premiumClasses.push(
-    // Collège: other scientific subjects
-    {
-        id: 'premium_22',
-        name: '1ère année collégiale',
-        subject: 'SVT',
-        color: '#166534', // Green-800
-        cycle: 'college' as Cycle,
-    },
-    {
-        id: 'premium_23',
-        name: '2ème année collégiale',
-        subject: 'Physique-Chimie',
-        color: '#1e40af', // Blue-800
-        cycle: 'college' as Cycle,
-    },
-    {
-        id: 'premium_24',
-        name: '3ème année collégiale',
-        subject: 'Informatique',
-        color: '#0b7285', // Cyan-800-ish
-        cycle: 'college' as Cycle,
-    },
+    
     // Prépa scientifique
     {
         id: 'premium_25',
@@ -240,15 +182,7 @@ premiumClasses.push(
         color: '#14532d', // Emerald-900
         cycle: 'prepa' as Cycle,
     },
-    {
-        id: 'premium_27',
-        name: 'TSI',
-        subject: "Sciences de l'Ingénieur",
-        color: '#1f2937', // Gray-800
-        cycle: 'prepa' as Cycle,
-    }
-);
-
+];
 
 export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const { classes, addClass, deleteClass, isLoading: isClassesLoading } = useClassManager();
@@ -495,7 +429,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 ))}
                 </div>
             </div>
-            <div className="mt-6 sm:mt-16 px-2 sm:px-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-3 sm:gap-6">
+            <div className="mt-4 sm:mt-8 px-1 sm:px-2 max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-3 sm:gap-4">
                         {/* Create new class first */}
                         <AddClassCard onClick={() => setCreateModalOpen(true)} />
                         {/* Sort classes: demo "Tronc commun scientifique" first, then other user classes */}

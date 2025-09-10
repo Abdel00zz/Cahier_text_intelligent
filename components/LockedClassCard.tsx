@@ -1,5 +1,6 @@
 import React from 'react';
 import { SUBJECT_ABBREV_MAP, getSubjectBandClass } from '../constants';
+import { getSubjectTextColor } from '../utils/subjectColors';
 
 interface LockedClassCardProps {
     name: string;
@@ -10,7 +11,7 @@ interface LockedClassCardProps {
 }
 
 const formatSuperscript = (text: string) => {
-    const parts = text.split(/(\d+(?:er|ère|ème))/);
+    const parts = text.split(/(\d+(?:er|ère|ème))/); 
     return parts.map((part, index) => {
         if (part.endsWith('er')) {
             return <span key={index}>{part.slice(0, -2)}<sup>er</sup></span>;
@@ -31,66 +32,68 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
     const isSubjectArabic = /[\u0600-\u06FF]/.test(subject);
     // Determine display text for subject badge
     const displaySubject = SUBJECT_ABBREV_MAP[subject] || subject;
+    const subjectColor = getSubjectTextColor(subject);
 
     return (
         <div 
-            className={`group relative rounded-xl bg-white shadow-sm cursor-pointer transition-all duration-150 sm:duration-200 sm:hover:shadow-md sm:hover:-translate-y-0.5 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3] border-2 ${getSubjectBandClass(subject)}`}
+            className={`card-modern group relative rounded-xl shadow-lg cursor-pointer overflow-hidden flex flex-col aspect-[3/2] sm:aspect-[4/3] border border-slate-800/30`}
             onClick={onContactAdmin}
         >
-            {/* Band is rendered via border/ring; no separate accent bar */}
+            {/* Modern SVG Background for Locked Cards */}
+            <div className="absolute inset-0 w-full h-full opacity-30">
+                <svg className="w-full h-full" viewBox="0 0 200 150" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="grad-locked" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style={{stopColor: '#0f172a', stopOpacity: 1}} />
+                            <stop offset="100%" style={{stopColor: '#f59e0b', stopOpacity: 0.3}} />
+                        </linearGradient>
+                        <pattern id="pattern-locked" patternUnits="userSpaceOnUse" width="20" height="20" patternTransform="rotate(45)">
+                            <line x1="10" y1="0" x2="10" y2="20" stroke="#f59e0b" strokeWidth="0.5" />
+                        </pattern>
+                    </defs>
+                    <rect width="200" height="150" fill="url(#grad-locked)" />
+                    <rect width="200" height="150" fill="url(#pattern-locked)" />
+                </svg>
+            </div>
 
-            <div className="relative flex flex-col h-full p-3 sm:p-4 pt-9 sm:pt-7 pb-9 sm:pb-6 text-slate-800">
-                {/* Delete Button top-left */}
+            {/* Glass effect overlay */}
+            <div className="absolute inset-0 glass-effect opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+
+            <div className="relative flex flex-col h-full p-3 sm:p-4 text-white z-10">
+                {/* Delete Button with improved styling */}
                 <button
                     type="button"
                     onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                    className="absolute top-2 left-2 sm:top-2 sm:left-2 w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center bg-white text-slate-500 border border-slate-200 rounded-full transition-all duration-200 hover:text-red-600 hover:border-red-200 z-10"
+                    className="absolute top-2.5 left-2.5 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-slate-800/60 text-slate-400 rounded-full opacity-0 sm:group-hover:opacity-100 transition-all duration-300 hover:bg-red-500/80 hover:text-white hover:scale-110 z-20 shadow-lg"
                     data-tippy-content="Supprimer cette carte"
                     aria-label="Supprimer cette carte"
                 >
-                    <i className="fas fa-times text-sm"></i>
+                    <i className="fas fa-times text-[10px] sm:text-xs"></i>
                 </button>
 
-                {/* Premium badge top-right */}
-                <div className="absolute top-2 right-2 sm:top-2 sm:right-2">
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-                        <i className="fas fa-crown text-[10px] sm:text-xs"></i>
-                        <span>Premium</span>
+                {/* Premium badge with animation */}
+                <div className="absolute top-2.5 right-2.5">
+                    <div 
+                        className="premium-badge"
+                        data-tippy-content="Contenu Premium"
+                    >
+                        <i className="fas fa-crown text-white text-xs sm:text-sm"></i>
                     </div>
                 </div>
                 
-                {/* Class Name (Main Content) - centered */}
-                <div className="flex-grow flex items-center justify-center text-center px-2">
-                    <h3 className={`break-words leading-snug tracking-tight -translate-y-0.5 sm:-translate-y-1 ${isArabic ? 'title-ar text-[1.65rem] font-semibold' : 'title-chic font-merri text-[1.5rem] sm:text-[1.6rem] font-semibold'}`}>
+                {/* Centered Content */}
+                <div className="flex-grow flex flex-col items-center justify-center text-center px-2 -mt-2 sm:-mt-4">
+                    {/* Subject Badge - Modern style */}
+                    <div className="badge-modern mb-3 transform transition-all duration-300 group-hover:scale-105">
+                        <p className={`${isSubjectArabic ? 'font-ar' : 'font-poppins'} ${subjectColor} drop-shadow-sm`} style={{ color: '#3b82f6' }}>
+                            {displaySubject}
+                        </p>
+                    </div>
+                    
+                    {/* Class Name with modern styling */}
+                    <h3 className={`title-modern break-words leading-tight tracking-tight font-semibold relative z-20 ${isArabic ? 'title-ar text-5xl sm:text-6xl' : 'font-quicksand text-3xl sm:text-4xl'}`} style={{ fontSize: '115%' }}>
                         {formatSuperscript(name)}
                     </h3>
-                </div>
-
-                {/* Subject chip (smaller for Latin/French) */}
-                <div className="flex-shrink-0 text-center pb-1 absolute bottom-3 right-3">
-                    {(() => {
-                        const sizeClasses = isSubjectArabic
-                            ? 'gap-1.5 px-3 py-1.5 text-[11px] sm:text-[11px] font-semibold'
-                            : 'gap-1 px-2.5 py-1 text-[11px] sm:text-[11px] font-medium';
-                        const iconSize = isSubjectArabic ? 'text-[11px] sm:text-xs' : 'text-[11px] sm:text-[12px]';
-                        return (
-                            <div className={`inline-flex items-center ${sizeClasses} rounded-full bg-slate-100 text-slate-700 border border-slate-200`}>
-                                <i className={`fas fa-book-open ${iconSize} text-slate-500`}></i>
-                                <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{displaySubject}</span>
-                            </div>
-                        );
-                    })()}
-                </div>
-                {/* CTA: demander l'accès */}
-                <div className="absolute bottom-3 left-3">
-                    <button
-                        type="button"
-                        onClick={(e) => { e.stopPropagation(); onContactAdmin(); }}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-teal-600 text-white hover:bg-teal-700"
-                    >
-                        <i className="fas fa-paper-plane"></i>
-                        <span>Demander</span>
-                    </button>
                 </div>
             </div>
         </div>

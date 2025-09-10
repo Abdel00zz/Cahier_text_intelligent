@@ -18,7 +18,7 @@ import { PrintView } from './PrintView';
 import { TOP_LEVEL_TYPE_CONFIG, TYPE_MAP } from '../constants';
 import { logger } from '../utils/logger';
 import { AddContentModal } from './modals/EditItemModal';
-import FloatingActionButton from './FloatingActionButton';
+
 
 interface EditorProps {
     classInfo: ClassInfo;
@@ -431,12 +431,7 @@ return (
         lessonsData={lessonsData}
         selectedIndices={selectedIndices}
       />
-      <FloatingActionButton
-        actions={[
-          { icon: 'fa-plus', label: 'Ajouter', onClick: () => handleOpenAddContentModal() },
-          { icon: 'fa-download', label: 'Exporter', onClick: handleExportData },
-        ]}
-      />
+
     </div>
 );
 };

@@ -168,7 +168,7 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
               <i className="fas fa-book-reader text-sm sm:text-base"></i>
             </div>
             <div className="min-w-0">
-              <h2 id="guide-modal-title" className="text-lg sm:text-xl font-semibold text-gray-900 truncate">Aide | مساعدة</h2>
+              <h2 id="guide-modal-title" className="text-lg sm:text-xl font-semibold text-black truncate">Aide | مساعدة</h2>
               <p id="guide-modal-desc" className="text-xs sm:text-sm text-gray-500 hidden sm:block">Guide bilingue avec astuces, raccourcis et options d’affichage</p>
             </div>
           </div>
@@ -192,7 +192,7 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
               }}
             >
               <div className="p-4 sm:p-6">
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: htmlFr }} />
+                <div className="prose max-w-none text-black" dangerouslySetInnerHTML={{ __html: htmlFr }} />
               </div>
               {/* bottom hint removed for compactness */}
             </div>
@@ -208,7 +208,7 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
               }}
             >
               <div className="p-4 sm:p-6">
-                <div className="prose max-w-none text-right font-ar text-base sm:text-lg leading-relaxed" dangerouslySetInnerHTML={{ __html: htmlAr }} />
+                <div className="prose max-w-none text-right font-ar text-base sm:text-lg leading-relaxed text-black" dangerouslySetInnerHTML={{ __html: htmlAr }} />
               </div>
               {/* bottom hint removed for compactness (Arabic) */}
             </div>
