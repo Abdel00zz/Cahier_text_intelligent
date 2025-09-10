@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Cahier de Textes Interactif</title>
   
   <!-- Tailwind CSS -->
@@ -82,6 +82,11 @@
     .animate-fade-in {
         animation: fade-in 0.2s ease-out;
     }
+
+  /* iOS safe areas */
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-top { padding-top: env(safe-area-inset-top); }
+  .fab-safe { bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
 
     /* Optimizations for mobile touch */
     @media (max-width: 640px) {

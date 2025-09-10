@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useClassManager } from '../hooks/useClassManager';
 import { useConfigManager } from '../hooks/useConfigManager';
 import { Spinner } from './ui/Spinner';
@@ -267,6 +267,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const [hadStoredCycle] = useState<boolean>(() => {
         try { return localStorage.getItem('selected_cycle_v1') !== null; } catch { return false; }
     });
+    const didInitCycleRef = useRef(false);
     const [dismissedPremiumIds, setDismissedPremiumIds] = useState<string[]>(() => {
         try {
             const raw = localStorage.getItem('dismissed_premium_cards_v1');
@@ -279,7 +280,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const isLoading = isClassesLoading || isConfigLoading;
 
     useEffect(() => {
-        if (!isLoading && window.tippy) {
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        if (!isLoading && window.tippy && !isTouch) {
             window.tippy('[data-tippy-content]', {
                 animation: 'shift-away',
                 theme: 'custom',
@@ -288,7 +290,15 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     }, [isLoading]);
 
     useEffect(() => {
-        try { localStorage.setItem('selected_cycle_v1', selectedCycle); } catch {}
+        const id = setTimeout(() => {
+            try {
+                const prev = localStorage.getItem('selected_cycle_v1');
+                if (prev !== selectedCycle) {
+                    localStorage.setItem('selected_cycle_v1', selectedCycle);
+                }
+            } catch {}
+        }, 50);
+        return () => clearTimeout(id);
     }, [selectedCycle]);
 
     useEffect(() => {
@@ -312,17 +322,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
         setLastModifiedDates(dates);
     }, [classes, isClassesLoading]);
 
-    // On first load without a saved selection, switch to the first available class's cycle
+    // On first load without a saved selection, set cycle once to the first available class's cycle
     useEffect(() => {
         if (isClassesLoading) return;
+        if (didInitCycleRef.current) return;
         if (!hadStoredCycle && classes.length > 0) {
             const firstCycle = (classes[0].cycle || 'college') as Cycle;
-            const hasAnyInSelected = classes.some(c => (c.cycle || 'college') === selectedCycle);
-            if (!hasAnyInSelected || selectedCycle !== firstCycle) {
-                setSelectedCycle(firstCycle);
-            }
+            setSelectedCycle(firstCycle);
         }
-    }, [classes, isClassesLoading, hadStoredCycle, selectedCycle]);
+        didInitCycleRef.current = true;
+    }, [classes, isClassesLoading, hadStoredCycle]);
 
     const handleCreateClass = (details: { name: string; subject: string; }) => {
         addClass({
@@ -408,7 +417,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const teacherName = (config.defaultTeacherName || '').trim();
 
     return (
-    <div className="p-2 sm:p-8 touch-manipulation pb-8" data-dashboard-root>
+    <div className="p-2 sm:p-8 touch-manipulation pb-8 safe-bottom" data-dashboard-root>
             <header className="relative text-center mb-8 sm:mb-12">
                 {teacherName ? (
                     <>
@@ -466,7 +475,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
             <main>
             {/* Cycle selector (centered) */}
             <div className="w-full flex justify-center mb-3 sm:mb-4">
-                <div className="inline-flex items-center gap-2 sm:gap-3">
+                <div className="inline-flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar px-2 -mx-2">
                 {([
                     { key: 'college', label: 'Collège' },
                     { key: 'lycee', label: 'Lycée' },
@@ -474,9 +483,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 ] as {key: Cycle; label: string;}[]).map(opt => (
                     <button
                         key={opt.key}
-                        onClick={() => setSelectedCycle(opt.key)}
+                        onClick={() => !isClassesLoading && setSelectedCycle(opt.key)}
                         className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${selectedCycle === opt.key ? 'bg-teal-600 text-white border-teal-600' : 'bg-white text-slate-700 border-slate-300 hover:border-slate-400'}`}
                         aria-pressed={selectedCycle === opt.key}
+                        aria-disabled={isClassesLoading}
+                        disabled={isClassesLoading}
                     >
                         {opt.label}
                     </button>

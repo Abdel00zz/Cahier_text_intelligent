@@ -34,7 +34,7 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
 
     return (
         <div 
-            className={`group relative rounded-xl bg-white shadow-sm cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3] border-2 ${getSubjectBandClass(subject)}`}
+            className={`group relative rounded-xl bg-white shadow-sm cursor-pointer transition-all duration-150 sm:duration-200 sm:hover:shadow-md sm:hover:-translate-y-0.5 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3] border-2 ${getSubjectBandClass(subject)}`}
             onClick={onContactAdmin}
         >
             {/* Band is rendered via border/ring; no separate accent bar */}
@@ -44,7 +44,7 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
                 <button
                     type="button"
                     onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                    className="absolute top-2 left-2 sm:top-2 sm:left-2 w-8 h-8 flex items-center justify-center bg-white text-slate-500 border border-slate-200 rounded-full transition-all duration-200 hover:text-red-600 hover:border-red-200 z-10"
+                    className="absolute top-2 left-2 sm:top-2 sm:left-2 w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center bg-white text-slate-500 border border-slate-200 rounded-full transition-all duration-200 hover:text-red-600 hover:border-red-200 z-10"
                     data-tippy-content="Supprimer cette carte"
                     aria-label="Supprimer cette carte"
                 >
@@ -53,7 +53,7 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
 
                 {/* Premium badge top-right */}
                 <div className="absolute top-2 right-2 sm:top-2 sm:right-2">
-                    <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
                         <i className="fas fa-crown text-[10px] sm:text-xs"></i>
                         <span>Premium</span>
                     </div>
@@ -70,8 +70,8 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
                 <div className="flex-shrink-0 text-center pb-1 absolute bottom-3 right-3">
                     {(() => {
                         const sizeClasses = isSubjectArabic
-                            ? 'gap-1.5 px-2.5 py-1 text-[10px] sm:text-[11px] font-semibold'
-                            : 'gap-1 px-2 py-0.5 text-[10px] sm:text-[11px] font-medium';
+                            ? 'gap-1.5 px-3 py-1.5 text-[11px] sm:text-[11px] font-semibold'
+                            : 'gap-1 px-2.5 py-1 text-[11px] sm:text-[11px] font-medium';
                         const iconSize = isSubjectArabic ? 'text-[11px] sm:text-xs' : 'text-[11px] sm:text-[12px]';
                         return (
                             <div className={`inline-flex items-center ${sizeClasses} rounded-full bg-slate-100 text-slate-700 border border-slate-200`}>

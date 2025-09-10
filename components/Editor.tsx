@@ -18,6 +18,7 @@ import { PrintView } from './PrintView';
 import { TOP_LEVEL_TYPE_CONFIG, TYPE_MAP } from '../constants';
 import { logger } from '../utils/logger';
 import { AddContentModal } from './modals/EditItemModal';
+import FloatingActionButton from './FloatingActionButton';
 
 interface EditorProps {
     classInfo: ClassInfo;
@@ -169,7 +170,8 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
 
   useEffect(() => {
     if (isClassLoading) return;
-    if (window.tippy) {
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (window.tippy && !isTouch) {
       window.tippy('[data-tippy-content]', {
         animation: 'shift-away',
         theme: 'custom',
@@ -366,7 +368,7 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
   }
 
 return (
-  <div className="relative p-2 sm:p-5 bg-slate-50" data-editor-root>
+  <div className="relative p-2 sm:p-5 bg-slate-50 safe-bottom" data-editor-root>
       <div className="container mx-auto max-w-7xl bg-white shadow-2xl p-3 sm:p-6 min-h-[calc(100vh-2.5rem)] flex flex-col print:shadow-none print:border-none print:p-0">
         
         <div className="print-hidden flex flex-col flex-1">
@@ -376,6 +378,7 @@ return (
             onClassInfoChange={handleClassInfoChange}
             onBack={onBack}
           />
+          <div className="sticky bottom-0 sm:static z-30 bg-white/70 sm:bg-transparent backdrop-blur supports-[backdrop-filter]:backdrop-blur print:hidden">
           <Toolbar
             onUndo={undo}
             onRedo={redo}
@@ -390,6 +393,7 @@ return (
             searchQuery={searchQuery}
             setSearchQuery={value => setEditorState(draft => { draft.searchQuery = value; })}
           />
+          </div>
           <main className="flex-1" onClick={() => setEditorState(draft => { draft.selectedIndices = null; })}>
             <MainTable
               lessonsData={filteredData}
@@ -426,6 +430,12 @@ return (
         onConfirm={handleConfirmAddContent}
         lessonsData={lessonsData}
         selectedIndices={selectedIndices}
+      />
+      <FloatingActionButton
+        actions={[
+          { icon: 'fa-plus', label: 'Ajouter', onClick: () => handleOpenAddContentModal() },
+          { icon: 'fa-download', label: 'Exporter', onClick: handleExportData },
+        ]}
       />
     </div>
 );

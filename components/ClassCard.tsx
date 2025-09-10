@@ -66,7 +66,7 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
 
     return (
         <div 
-            className={`group relative rounded-xl bg-white shadow-sm cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3] border-2 ${getSubjectBandClass(classInfo.subject)}`}
+            className={`group relative rounded-xl bg-white shadow-sm cursor-pointer transition-all duration-150 sm:duration-200 sm:hover:shadow-md sm:hover:-translate-y-0.5 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3] border-2 ${getSubjectBandClass(classInfo.subject)}`}
             onClick={onSelect}
         >
             {/* Full band via border/ring from subject color mapping */}
@@ -76,8 +76,8 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
                 <div className="absolute bottom-3 right-3">
                     {(() => {
                         const sizeClasses = isSubjectArabic
-                            ? 'gap-1.5 px-2.5 py-1 text-[11px] font-semibold'
-                            : 'gap-1 px-2 py-0.5 text-[10px] font-medium';
+                            ? 'gap-1.5 px-3 py-1.5 text-[12px] font-semibold'
+                            : 'gap-1 px-2.5 py-1 text-[11px] font-medium';
                         const iconSize = isSubjectArabic ? 'text-xs' : 'text-[11px]';
                         return (
                             <div className={`inline-flex items-center ${sizeClasses} rounded-full bg-slate-100 text-slate-700 border border-slate-200`}> 
@@ -97,7 +97,7 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
 
                 {/* Last Modified chip */}
                 <div className="absolute left-3 bottom-3">
-                    <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium bg-slate-50 text-slate-600 border border-slate-200">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-medium bg-slate-50 text-slate-600 border border-slate-200">
                         <i className="fas fa-history"></i>
                         <span>{formatDate(lastModified)}</span>
                     </div>
@@ -107,7 +107,7 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
             {/* Delete Button (visible on hover) - top-left subtle */}
             <button 
                 onClick={handleDeleteClick}
-                className="absolute top-2 left-2 w-8 h-8 sm:w-8 sm:h-8 flex items-center justify-center bg-white text-slate-500 border border-slate-200 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:text-red-600 hover:border-red-200 z-10"
+                className="absolute top-2 left-2 w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center bg-white text-slate-500 border border-slate-200 rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 hover:text-red-600 hover:border-red-200 z-10"
                 data-tippy-content="Supprimer la classe"
                 aria-label="Supprimer la classe"
             >
