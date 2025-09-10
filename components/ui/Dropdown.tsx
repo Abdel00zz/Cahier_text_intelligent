@@ -18,7 +18,8 @@ export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, but
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) &&
+          menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -79,7 +80,6 @@ export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, but
           ref={menuRef}
           className="fixed w-64 bg-white rounded-md shadow-2xl border z-[70] py-1"
           style={menuStyle}
-          onClick={() => setIsOpen(false)}
           role="menu"
         >
           {children}
@@ -90,10 +90,26 @@ export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, but
   );
 };
 
-export const DropdownItem: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ children, className, ...props }) => (
-    <button {...props} className={`w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:bg-transparent ${className}`}>
+export const DropdownItem: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ children, className, onClick, ...props }) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (onClick) {
+      onClick(e);
+    }
+    // Close dropdown after item click (find parent dropdown and close it)
+    const dropdownMenu = e.currentTarget.closest('[role="menu"]');
+    if (dropdownMenu) {
+      // Trigger a click outside to close the dropdown
+      setTimeout(() => {
+        document.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+      }, 0);
+    }
+  };
+
+  return (
+    <button {...props} onClick={handleClick} className={`w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:bg-transparent ${className}`}>
         {children}
     </button>
-);
+  );
+};
 
 export const DropdownDivider: React.FC = () => <hr className="my-1 border-gray-200" />;
