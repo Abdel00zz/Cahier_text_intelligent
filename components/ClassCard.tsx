@@ -1,6 +1,7 @@
 import { memo, MouseEvent, FC } from 'react';
 import { ClassInfo } from '../types';
-import { SUBJECT_ABBREV_MAP, getSubjectBandClass } from '../constants';
+import { SUBJECT_ABBREV_MAP } from '../constants';
+import { getSubjectTextColor } from '../utils/subjectColors';
 
 interface ClassCardProps {
     classInfo: ClassInfo;
@@ -18,7 +19,7 @@ const containsArabic = (text: string): boolean => {
 
 // Helper to render ordinal suffixes (er, ème, etc.) as superscript
 const formatSuperscript = (text: string) => {
-    const parts = text.split(/(\d+(?:er|ère|ème))/);
+    const parts = text.split(/(\d+(?:er|ère|ème))/); 
     return parts.map((part, idx) => {
         if (part.endsWith('er')) {
             return <span key={idx}>{part.slice(0, -2)}<sup>er</sup></span>;
@@ -61,58 +62,69 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
 
     const isArabic = containsArabic(classInfo.name);
     const isSubjectArabic = containsArabic(classInfo.subject);
-    // Determine display text for subject badge
     const displaySubject = SUBJECT_ABBREV_MAP[classInfo.subject] || classInfo.subject;
+    const subjectColor = getSubjectTextColor(classInfo.subject);
 
     return (
         <div 
-            className={`group relative rounded-xl bg-white shadow-sm cursor-pointer transition-all duration-150 sm:duration-200 sm:hover:shadow-md sm:hover:-translate-y-0.5 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3] border-2 ${getSubjectBandClass(classInfo.subject)}`}
+            className={`card-modern group relative rounded-xl shadow-lg cursor-pointer overflow-hidden flex flex-col aspect-[3/2] sm:aspect-[4/3] border border-slate-700/30`}
             onClick={onSelect}
         >
-            {/* Full band via border/ring from subject color mapping */}
+            {/* SVG Background with modern gradient */}
+            <div className="absolute inset-0 w-full h-full opacity-40">
+                <svg className="w-full h-full" viewBox="0 0 200 150" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id={`grad-${classInfo.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style={{stopColor: '#1e293b', stopOpacity: 1}} />
+                            <stop offset="100%" style={{stopColor: classInfo.color || '#0f766e', stopOpacity: 1}} />
+                        </linearGradient>
+                        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="10" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
+                    </defs>
+                    <path d="M0,50 Q50,0 100,50 T200,50 V150 H0 Z" fill={`url(#grad-${classInfo.id})`} />
+                    <path d="M0,70 Q50,20 100,70 T200,70" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+                </svg>
+            </div>
 
-            <div className="relative flex flex-col h-full p-3 sm:p-4 pt-10 sm:pt-8 pb-8 sm:pb-5 text-slate-800">
-                {/* Subject badge bottom-right (smaller for Latin/French) */}
-                <div className="absolute bottom-3 right-3">
-                    {(() => {
-                        const sizeClasses = isSubjectArabic
-                            ? 'gap-1.5 px-3 py-1.5 text-[12px] font-semibold'
-                            : 'gap-1 px-2.5 py-1 text-[11px] font-medium';
-                        const iconSize = isSubjectArabic ? 'text-xs' : 'text-[11px]';
-                        return (
-                            <div className={`inline-flex items-center ${sizeClasses} rounded-full bg-slate-100 text-slate-700 border border-slate-200`}> 
-                                <i className={`fas fa-book-open ${iconSize} text-slate-500`}></i>
-                                <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{displaySubject}</span>
-                            </div>
-                        );
-                    })()}
-                </div>
-                
-                {/* Class Name (Main Content) - centered */}
-                <div className="flex-grow flex items-center justify-center text-center px-2">
-                    <h3 className={`break-words leading-snug tracking-tight -translate-y-0.5 sm:-translate-y-1 ${isArabic ? 'title-ar text-[1.65rem] font-semibold' : 'title-chic font-merri text-[1.5rem] sm:text-[1.6rem] font-semibold'}`}>
+            {/* Glass effect overlay */}
+            <div className="absolute inset-0 glass-effect opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+
+            <div className="relative flex flex-col h-full p-4 text-white z-10">
+                {/* Delete Button with improved styling */}
+                <button 
+                    onClick={handleDeleteClick}
+                    className="absolute top-3 left-3 w-8 h-8 flex items-center justify-center bg-slate-800/60 text-slate-300 rounded-full opacity-0 sm:group-hover:opacity-100 transition-all duration-300 hover:bg-red-500/80 hover:text-white hover:scale-110 z-20 shadow-lg"
+                    data-tippy-content="Supprimer la classe"
+                    aria-label="Supprimer la classe"
+                >
+                    <i className="fas fa-times text-xs"></i>
+                </button>
+
+                {/* Centered Content */}
+                <div className="flex-grow flex flex-col items-center justify-center text-center px-2 -mt-4">
+                    {/* Subject Badge - Modern style */}
+                    <div className="badge-modern mb-3 transform transition-all duration-300 group-hover:scale-105">
+                        <p className={`${isSubjectArabic ? 'font-ar' : 'font-poppins'} ${subjectColor} drop-shadow-sm`} style={{ color: '#3b82f6' }}>
+                            {displaySubject}
+                        </p>
+                    </div>
+                    
+                    {/* Class Name with modern styling */}
+                    <h3 className={`title-modern break-words leading-tight tracking-tight font-semibold relative z-20 ${isArabic ? 'title-ar text-5xl sm:text-6xl' : 'font-quicksand text-3xl sm:text-4xl'}`} style={{ fontSize: '115%' }}>
                         {formatSuperscript(classInfo.name)}
                     </h3>
                 </div>
 
-                {/* Last Modified chip */}
+                {/* Last Modified chip with modern styling */}
                 <div className="absolute left-3 bottom-3">
-                    <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-medium bg-slate-50 text-slate-600 border border-slate-200">
-                        <i className="fas fa-history"></i>
+                    <div className="last-modified-chip">
+                        <i className="fas fa-history text-blue-300"></i>
                         <span>{formatDate(lastModified)}</span>
                     </div>
                 </div>
             </div>
-
-            {/* Delete Button (visible on hover) - top-left subtle */}
-            <button 
-                onClick={handleDeleteClick}
-                className="absolute top-2 left-2 w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center bg-white text-slate-500 border border-slate-200 rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 hover:text-red-600 hover:border-red-200 z-10"
-                data-tippy-content="Supprimer la classe"
-                aria-label="Supprimer la classe"
-            >
-                <i className="fas fa-times text-sm"></i>
-            </button>
         </div>
     );
 };

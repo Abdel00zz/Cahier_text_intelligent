@@ -18,8 +18,9 @@ export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, but
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) &&
-          menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (dropdownRef.current && !dropdownRef.current.contains(target) &&
+          menuRef.current && !menuRef.current.contains(target)) {
         setIsOpen(false);
       }
     };
@@ -39,8 +40,17 @@ export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, but
     const mw = menuRef.current.offsetWidth || 256;
     const mh = menuRef.current.offsetHeight || 200;
 
+    // Default: position below and align to the right of the button
     let top = rect.bottom + gap;
-    let left = Math.min(Math.max(rect.right - mw, 8), vw - mw - 8);
+    let left = rect.right - mw;
+
+    // Adjust horizontal position to stay within viewport
+    if (left < 8) {
+      left = rect.left; // Align to left of button
+    }
+    if (left + mw > vw - 8) {
+      left = vw - mw - 8; // Push left to fit in viewport
+    }
 
     // Flip vertically if it would overflow bottom
     if (top + mh > vh - 8) {
@@ -82,7 +92,14 @@ export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, but
           style={menuStyle}
           role="menu"
         >
-          {children}
+          {React.Children.map(children, (child) => {
+            if (React.isValidElement(child) && child.type === DropdownItem) {
+              return React.cloneElement(child as React.ReactElement<any>, {
+                onDropdownClose: () => setIsOpen(false)
+              });
+            }
+            return child;
+          })}
         </div>,
         document.body
       )}
@@ -90,26 +107,25 @@ export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, but
   );
 };
 
-export const DropdownItem: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ children, className, onClick, ...props }) => {
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (onClick) {
-      onClick(e);
-    }
-    // Close dropdown after item click (find parent dropdown and close it)
-    const dropdownMenu = e.currentTarget.closest('[role="menu"]');
-    if (dropdownMenu) {
-      // Trigger a click outside to close the dropdown
-      setTimeout(() => {
-        document.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-      }, 0);
-    }
-  };
-
-  return (
-    <button {...props} onClick={handleClick} className={`w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:bg-transparent ${className}`}>
-        {children}
-    </button>
-  );
+export const DropdownItem: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { onDropdownClose?: () => void }> = ({ children, className, onClick, onDropdownClose, ...props }) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        if (onClick) {
+            onClick(e);
+        }
+        // Close dropdown after a small delay to allow the action to complete
+        setTimeout(() => {
+            if (onDropdownClose) {
+                onDropdownClose();
+            }
+        }, 50);
+    };
+    
+    return (
+        <button {...props} onClick={handleClick} className={`w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:bg-transparent ${className}`}>
+            {children}
+        </button>
+    );
 };
 
 export const DropdownDivider: React.FC = () => <hr className="my-1 border-gray-200" />;

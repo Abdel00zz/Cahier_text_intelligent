@@ -58,10 +58,10 @@ export const BADGE_TOOLTIP_MAP: { [key: string]: string } = {
 
 // Mapping for subject names to concise badge text
 export const SUBJECT_ABBREV_MAP: Record<string, string> = {
-  'Mathématiques': 'Maths',
-  'Physique': 'Phys.',
-  'Économie': 'Écon.',
-  'Français': 'Fr.',
+  'Mathématiques': 'Mathématiques',
+  'Physique': 'Physique',
+  'Économie': 'Économie',
+  'Français': 'Français',
   'SVT': 'SVT',
   'Sciences de la Vie': 'SVT',
   'Sciences de la Vie et de la Terre': 'SVT',
