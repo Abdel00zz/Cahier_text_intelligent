@@ -1,6 +1,6 @@
 import { memo, MouseEvent, FC } from 'react';
 import { ClassInfo } from '../types';
-import { SUBJECT_ABBREV_MAP } from '../constants';
+import { SUBJECT_ABBREV_MAP, getSubjectBandClass } from '../constants';
 
 interface ClassCardProps {
     classInfo: ClassInfo;
@@ -66,24 +66,22 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
 
     return (
         <div 
-            className="group relative rounded-xl border border-slate-200/50 shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3]"
-            style={{ backgroundColor: classInfo.color }}
+            className={`group relative rounded-xl bg-white shadow-sm cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3] border ${getSubjectBandClass(classInfo.subject)}`}
             onClick={onSelect}
         >
-            {/* Gradient Overlay for depth */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent"></div>
+            {/* Full band via border/ring from subject color mapping */}
 
-            <div className="relative flex flex-col h-full p-3 sm:p-4 pt-12 sm:pt-8 pb-8 sm:pb-5 text-white">
+            <div className="relative flex flex-col h-full p-3 sm:p-4 pt-10 sm:pt-8 pb-8 sm:pb-5 text-slate-800">
                 {/* Subject badge bottom-right (smaller for Latin/French) */}
                 <div className="absolute bottom-3 right-3">
                     {(() => {
                         const sizeClasses = isSubjectArabic
                             ? 'gap-1.5 px-2.5 py-1 text-[11px] font-semibold'
-                            : 'gap-1 px-2 py-0.5 text-[9px] font-medium'; // ~40% smaller
-                        const iconSize = isSubjectArabic ? 'text-xs' : 'text-[10px]';
+                            : 'gap-1 px-2 py-0.5 text-[10px] font-medium';
+                        const iconSize = isSubjectArabic ? 'text-xs' : 'text-[11px]';
                         return (
-                            <div className={`inline-flex items-center ${sizeClasses} rounded-full bg-white/20 text-white backdrop-blur-md shadow-sm border border-white/30`}>
-                                <i className={`fas fa-book-open ${iconSize}`}></i>
+                            <div className={`inline-flex items-center ${sizeClasses} rounded-full bg-slate-100 text-slate-700 border border-slate-200`}> 
+                                <i className={`fas fa-book-open ${iconSize} text-slate-500`}></i>
                                 <span className={isSubjectArabic ? 'font-ar' : 'font-chic'}>{displaySubject}</span>
                             </div>
                         );
@@ -91,29 +89,29 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
                 </div>
                 
                 {/* Class Name (Main Content) - centered */}
-                <div className="flex-grow flex items-center justify-center text-center">
-                    <h3 className={`font-medium break-words leading-tight tracking-normal -translate-y-0.5 sm:-translate-y-1 ${isArabic ? 'title-ar text-[1.7rem]' : 'title-chic text-[1.45rem] sm:text-[1.6rem]'}`}>
+                <div className="flex-grow flex items-center justify-center text-center px-2">
+                    <h3 className={`break-words leading-snug tracking-tight -translate-y-0.5 sm:-translate-y-1 ${isArabic ? 'title-ar text-[1.65rem] font-semibold' : 'title-chic font-merri text-[1.5rem] sm:text-[1.6rem] font-semibold'}`}>
                         {formatSuperscript(classInfo.name)}
                     </h3>
                 </div>
 
-                {/* Last Modified chip – raised slightly above bottom */}
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-12 sm:bottom-10">
-                    <div className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1 rounded-full text-[10px] sm:text-[11px] font-medium bg-black/25 text-white/90 backdrop-blur-sm whitespace-nowrap">
+                {/* Last Modified chip */}
+                <div className="absolute left-3 bottom-3">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 rounded-full text-[10px] sm:text-[11px] font-medium bg-slate-50 text-slate-600 border border-slate-200">
                         <i className="fas fa-history"></i>
                         <span>{formatDate(lastModified)}</span>
                     </div>
                 </div>
             </div>
 
-            {/* Delete Button (visible on hover) - Moved to top-left */}
+            {/* Delete Button (visible on hover) - top-left subtle */}
             <button 
                 onClick={handleDeleteClick}
-                className="absolute top-3 left-3 w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center bg-black/30 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-red-500 hover:scale-110 z-10"
+                className="absolute top-2 left-2 w-8 h-8 sm:w-8 sm:h-8 flex items-center justify-center bg-white text-slate-500 border border-slate-200 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:text-red-600 hover:border-red-200 z-10"
                 data-tippy-content="Supprimer la classe"
                 aria-label="Supprimer la classe"
             >
-                <i className="fas fa-times text-base sm:text-sm"></i>
+                <i className="fas fa-times text-sm"></i>
             </button>
         </div>
     );

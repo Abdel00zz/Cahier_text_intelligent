@@ -67,6 +67,44 @@ export const SUBJECT_ABBREV_MAP: Record<string, string> = {
   'Sciences de la Vie et de la Terre': 'SVT',
 };
 
+// Unified band color per subject (used to color the card border/ring)
+// Note: use lowercase normalized keys without accents for robust matching
+export const SUBJECT_BAND_CLASS_MAP: Record<string, string> = {
+  // FR subjects
+  'mathematiques': 'border-teal-400 ring-1 ring-inset ring-teal-100',
+  'maths': 'border-teal-400 ring-1 ring-inset ring-teal-100',
+  'physique': 'border-indigo-400 ring-1 ring-inset ring-indigo-100',
+  'physique-chimie': 'border-blue-400 ring-1 ring-inset ring-blue-100',
+  'francais': 'border-rose-300 ring-1 ring-inset ring-rose-100',
+  'economie': 'border-amber-400 ring-1 ring-inset ring-amber-100',
+  'svt': 'border-emerald-400 ring-1 ring-inset ring-emerald-100',
+  'sciences de la vie': 'border-emerald-400 ring-1 ring-inset ring-emerald-100',
+  'sciences de la vie et de la terre': 'border-emerald-400 ring-1 ring-inset ring-emerald-100',
+  'informatique': 'border-cyan-400 ring-1 ring-inset ring-cyan-100',
+  'lettres': 'border-fuchsia-300 ring-1 ring-inset ring-fuchsia-100',
+  // AR subjects
+  'الرياضيات': 'border-teal-400 ring-1 ring-inset ring-teal-100',
+  'علوم فيزيائية': 'border-indigo-400 ring-1 ring-inset ring-indigo-100',
+  'اللغة العربية': 'border-rose-300 ring-1 ring-inset ring-rose-100',
+  'علوم الحياة والأرض': 'border-emerald-400 ring-1 ring-inset ring-emerald-100',
+};
+
+export function getSubjectBandClass(subject: string | undefined | null): string {
+  if (!subject) return 'border-slate-200 ring-1 ring-inset ring-slate-100';
+  const norm = subject
+    .normalize('NFD')
+    .replace(/\p{Diacritic}+/gu, '')
+    .toLowerCase()
+    .trim();
+  if (SUBJECT_BAND_CLASS_MAP[norm]) return SUBJECT_BAND_CLASS_MAP[norm];
+  const abbr = SUBJECT_ABBREV_MAP[subject];
+  if (abbr) {
+    const abbrKey = abbr.toLowerCase();
+    if (SUBJECT_BAND_CLASS_MAP[abbrKey]) return SUBJECT_BAND_CLASS_MAP[abbrKey];
+  }
+  return 'border-slate-200 ring-1 ring-inset ring-slate-100';
+}
+
 // FIX: Changed type from `{[key: string]: ...}` to `Record<TopLevelItem['type'], ...>`.
 // The previous weak key type (`string`) caused `keyof typeof` to resolve to `string | number`,
 // which broke type narrowing for discriminated unions in `App.tsx`. This change ensures
