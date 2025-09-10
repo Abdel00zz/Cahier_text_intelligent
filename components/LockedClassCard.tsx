@@ -34,7 +34,7 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
 
     return (
         <div 
-            className={`group relative rounded-xl bg-white shadow-sm cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3] border ${getSubjectBandClass(subject)}`}
+            className={`group relative rounded-xl bg-white shadow-sm cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 overflow-hidden flex flex-col aspect-[4/3] sm:aspect-[5/3] border-2 ${getSubjectBandClass(subject)}`}
             onClick={onContactAdmin}
         >
             {/* Band is rendered via border/ring; no separate accent bar */}

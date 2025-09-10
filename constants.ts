@@ -71,26 +71,26 @@ export const SUBJECT_ABBREV_MAP: Record<string, string> = {
 // Note: use lowercase normalized keys without accents for robust matching
 export const SUBJECT_BAND_CLASS_MAP: Record<string, string> = {
   // FR subjects
-  'mathematiques': 'border-teal-400 ring-1 ring-inset ring-teal-100',
-  'maths': 'border-teal-400 ring-1 ring-inset ring-teal-100',
-  'physique': 'border-indigo-400 ring-1 ring-inset ring-indigo-100',
-  'physique-chimie': 'border-blue-400 ring-1 ring-inset ring-blue-100',
-  'francais': 'border-rose-300 ring-1 ring-inset ring-rose-100',
-  'economie': 'border-amber-400 ring-1 ring-inset ring-amber-100',
-  'svt': 'border-emerald-400 ring-1 ring-inset ring-emerald-100',
-  'sciences de la vie': 'border-emerald-400 ring-1 ring-inset ring-emerald-100',
-  'sciences de la vie et de la terre': 'border-emerald-400 ring-1 ring-inset ring-emerald-100',
-  'informatique': 'border-cyan-400 ring-1 ring-inset ring-cyan-100',
-  'lettres': 'border-fuchsia-300 ring-1 ring-inset ring-fuchsia-100',
+  'mathematiques': 'border-teal-500 ring-2 ring-inset ring-teal-100',
+  'maths': 'border-teal-500 ring-2 ring-inset ring-teal-100',
+  'physique': 'border-indigo-500 ring-2 ring-inset ring-indigo-100',
+  'physique-chimie': 'border-blue-500 ring-2 ring-inset ring-blue-100',
+  'francais': 'border-rose-500 ring-2 ring-inset ring-rose-100',
+  'economie': 'border-amber-500 ring-2 ring-inset ring-amber-100',
+  'svt': 'border-emerald-500 ring-2 ring-inset ring-emerald-100',
+  'sciences de la vie': 'border-emerald-500 ring-2 ring-inset ring-emerald-100',
+  'sciences de la vie et de la terre': 'border-emerald-500 ring-2 ring-inset ring-emerald-100',
+  'informatique': 'border-cyan-500 ring-2 ring-inset ring-cyan-100',
+  'lettres': 'border-fuchsia-500 ring-2 ring-inset ring-fuchsia-100',
   // AR subjects
-  'الرياضيات': 'border-teal-400 ring-1 ring-inset ring-teal-100',
-  'علوم فيزيائية': 'border-indigo-400 ring-1 ring-inset ring-indigo-100',
-  'اللغة العربية': 'border-rose-300 ring-1 ring-inset ring-rose-100',
-  'علوم الحياة والأرض': 'border-emerald-400 ring-1 ring-inset ring-emerald-100',
+  'الرياضيات': 'border-teal-500 ring-2 ring-inset ring-teal-100',
+  'علوم فيزيائية': 'border-indigo-500 ring-2 ring-inset ring-indigo-100',
+  'اللغة العربية': 'border-rose-500 ring-2 ring-inset ring-rose-100',
+  'علوم الحياة والأرض': 'border-emerald-500 ring-2 ring-inset ring-emerald-100',
 };
 
 export function getSubjectBandClass(subject: string | undefined | null): string {
-  if (!subject) return 'border-slate-200 ring-1 ring-inset ring-slate-100';
+  if (!subject) return 'border-slate-300 ring-2 ring-inset ring-slate-100';
   const norm = subject
     .normalize('NFD')
     .replace(/\p{Diacritic}+/gu, '')
@@ -102,7 +102,7 @@ export function getSubjectBandClass(subject: string | undefined | null): string 
     const abbrKey = abbr.toLowerCase();
     if (SUBJECT_BAND_CLASS_MAP[abbrKey]) return SUBJECT_BAND_CLASS_MAP[abbrKey];
   }
-  return 'border-slate-200 ring-1 ring-inset ring-slate-100';
+  return 'border-slate-300 ring-2 ring-inset ring-slate-100';
 }
 
 // FIX: Changed type from `{[key: string]: ...}` to `Record<TopLevelItem['type'], ...>`.
