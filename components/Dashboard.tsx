@@ -10,7 +10,8 @@ import { ConfigModal } from './modals/ConfigModal';
 import { GuideModal } from './modals/GuideModal';
 import { ImportPlatformModal } from './modals/ImportPlatformModal';
 import ContactAdminModal from './modals/ContactAdminModal';
-import { ClassInfo, Cycle } from '../types';
+import { ClassInfo } from '../types';
+type Cycle = 'college' | 'lycee' | 'prepa';
 import { logger } from '../utils/logger';
 
 interface DashboardProps {
@@ -112,7 +113,6 @@ const premiumClasses = [
         color: '#fef08a', // Pastel yellow
         cycle: 'lycee' as Cycle,
     },
-    ,
     // Additional French (Lycée & Collège Marocain)
     {
         id: 'premium_9',

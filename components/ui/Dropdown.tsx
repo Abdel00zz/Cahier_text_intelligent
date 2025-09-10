@@ -1,5 +1,6 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Button } from './Button';
 
 interface DropdownProps {
@@ -11,6 +12,9 @@ interface DropdownProps {
 export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, buttonProps = {} }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [menuStyle, setMenuStyle] = useState<React.CSSProperties>({ top: 0, left: 0 });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -22,6 +26,40 @@ export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, but
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Position the menu using a portal with fixed positioning
+  useLayoutEffect(() => {
+    if (!isOpen || !buttonRef.current || !menuRef.current) return;
+    const gap = 8;
+    const rect = buttonRef.current.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    // Use menu's measured size (fallback to 256x auto)
+    const mw = menuRef.current.offsetWidth || 256;
+    const mh = menuRef.current.offsetHeight || 200;
+
+    let top = rect.bottom + gap;
+    let left = Math.min(Math.max(rect.right - mw, 8), vw - mw - 8);
+
+    // Flip vertically if it would overflow bottom
+    if (top + mh > vh - 8) {
+      top = Math.max(rect.top - mh - gap, 8);
+    }
+
+    setMenuStyle({ top, left });
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onScrollOrResize = () => setIsOpen(false);
+    window.addEventListener('scroll', onScrollOrResize, true);
+    window.addEventListener('resize', onScrollOrResize);
+    return () => {
+      window.removeEventListener('scroll', onScrollOrResize, true);
+      window.removeEventListener('resize', onScrollOrResize);
+    };
+  }, [isOpen]);
+
   const defaultButtonProps = {
     variant: 'icon',
     'data-tippy-content': "Plus d'actions"
@@ -31,15 +69,22 @@ export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, but
 
 
   return (
-    <div className="relative" ref={dropdownRef}>
-        <Button onClick={() => setIsOpen(!isOpen)} {...finalButtonProps}>
+    <div className="relative z-[60]" ref={dropdownRef}>
+        <Button ref={buttonRef as any} onClick={() => setIsOpen(!isOpen)} {...finalButtonProps}>
             {buttonContent}
         </Button>
       
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-xl border z-30 py-1" onClick={() => setIsOpen(false)}>
+      {isOpen && createPortal(
+        <div
+          ref={menuRef}
+          className="fixed w-64 bg-white rounded-md shadow-2xl border z-[70] py-1"
+          style={menuStyle}
+          onClick={() => setIsOpen(false)}
+          role="menu"
+        >
           {children}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
