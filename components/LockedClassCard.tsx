@@ -81,6 +81,17 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
                         );
                     })()}
                 </div>
+                {/* CTA: demander l'accès */}
+                <div className="absolute bottom-3 left-3">
+                    <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); onContactAdmin(); }}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-teal-600 text-white hover:bg-teal-700"
+                    >
+                        <i className="fas fa-paper-plane"></i>
+                        <span>Demander</span>
+                    </button>
+                </div>
             </div>
         </div>
     );

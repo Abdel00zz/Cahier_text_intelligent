@@ -258,6 +258,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const [isImportModalOpen, setImportModalOpen] = useState(false);
     const [isGuideOpen, setGuideOpen] = useState(false);
     const [isContactAdminModalOpen, setContactAdminModalOpen] = useState(false);
+    const [selectedPremiumInfo, setSelectedPremiumInfo] = useState<{ name: string; subject: string } | null>(null);
     const [lastModifiedDates, setLastModifiedDates] = useState<Record<string, string | null>>({});
     const [selectedCycle, setSelectedCycle] = useState<Cycle>(() => {
         try {
@@ -530,7 +531,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                                 name={premiumClass.name}
                                 subject={premiumClass.subject}
                                 color={premiumClass.color}
-                                onContactAdmin={() => setContactAdminModalOpen(true)}
+                                onContactAdmin={() => { setSelectedPremiumInfo({ name: premiumClass.name, subject: premiumClass.subject }); setContactAdminModalOpen(true); }}
                 onDelete={() => handleDismissPremium(premiumClass.id)}
                             />
                         ))}
@@ -558,7 +559,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
             />
             <ContactAdminModal
                 isOpen={isContactAdminModalOpen}
-                onClose={() => setContactAdminModalOpen(false)}
+                onClose={() => { setContactAdminModalOpen(false); setSelectedPremiumInfo(null); }}
+                selectedPremium={selectedPremiumInfo}
             />
         </div>
     );

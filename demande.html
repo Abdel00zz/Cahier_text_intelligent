@@ -42,7 +42,7 @@
     <!-- Hero -->
     <div class="card">
       <h1>طلب الولوج إلى <span class="brand">الأقسام المدفوعة</span></h1>
-      <p class="lead">مرحبًا بك! يسعدنا مرافقتك للوصول إلى محتوى احترافي وجاهز للطباعة وإلى أدوات تُسرّع إعداد "دفتر النصوص" وتُحسّن جودة العرض.</p>
+  <p class="lead">مرحبًا بك! يسعدنا مرافقتك للوصول إلى محتوى احترافي وجاهز للطباعة وإلى أدوات تُسرّع إعداد "دفتر النصوص" وتُحسّن جودة العرض. <button class="help-btn" data-help="intro">مساعدة</button></p>
       <div>
         <span class="tag">جودة عالية</span>
         <span class="tag">جاهز للطباعة</span>
@@ -54,7 +54,7 @@
     <!-- ما الذي تحتاجه المنصة منك؟ -->
     <div class="card">
       <h2>تحديد <span class="brand">نوع الخدمة</span> ضروري</h2>
-      <p class="muted">رجاءً اختر بوضوح صيغة العمل المناسبة لك، فهذا يُسهل علينا تسليمك بسرعة وبجودة أفضل:</p>
+  <p class="muted">رجاءً اختر بوضوح صيغة العمل المناسبة لك، فهذا يُسهل علينا تسليمك بسرعة وبجودة أفضل: <button class="help-btn" data-help="service">مساعدة</button></p>
       <table>
         <thead>
           <tr>
@@ -224,5 +224,82 @@
       <p class="muted" lang="fr" dir="ltr">Une structure claire (Chapitres/Sections/Éléments), des badges authentiques, une recherche instantanée, la sauvegarde automatique et des exports fiables — le tout optimisé pour une impression PDF élégante. Notre objectif: gagner du temps et hausser la qualité de votre cahier de textes.</p>
     </div>
   </div>
+  <!-- Help Modal -->
+  <div id="help-modal" class="help-overlay" hidden>
+    <div class="help-dialog" role="dialog" aria-modal="true" aria-labelledby="help-title">
+      <button class="help-close" aria-label="إغلاق">×</button>
+      <h2 id="help-title">كيف أستفيد بأفضل طريقة؟</h2>
+      <div id="help-content" class="help-content">
+        <!-- Filled dynamically -->
+      </div>
+      <div class="help-actions">
+        <button class="help-close action">تم</button>
+      </div>
+    </div>
+  </div>
 </body>
+<script>
+  (function(){
+    const modal = document.getElementById('help-modal');
+    const content = document.getElementById('help-content');
+    const closeEls = () => modal.querySelectorAll('.help-close');
+
+    const TEMPLATES = {
+      intro: `
+        <p>هدفنا أن نوفّر لك وقتاً وجهداً عبر محتوى جاهز للطباعة وأدوات تحرير سريعة وبسيطة.</p>
+        <ul>
+          <li>ابدأ بتحديد الأقسام والمواد التي تريدها.</li>
+          <li>اختر اللغة وطريقة العرض التي تناسبك.</li>
+          <li>يمكنك لاحقاً إرسال دروسك وسنحوّلها لمحتوى منسّق.</li>
+        </ul>
+        <p class="muted small">نقترح تجربة قسم واحد أولاً ثم إضافة المزيد بعد التأكد من الملاءمة.</p>
+      `,
+      service: `
+        <p><strong>محتوى جاهز</strong>: سريع وفعّال، مناسب عندما تريد الانطلاق فوراً.</p>
+        <p><strong>سأرسل دروسي</strong>: مثالي عندما تملك محتوى خام وتريد تحويله إلى دفاتر منسّقة.</p>
+        <ul>
+          <li>كلتا الصيغتين تدعمان العربية والفرنسية.</li>
+          <li>نساعدك في اختيار أفضل عرض للطباعة والشرح.</li>
+          <li>التسليم خلال آجال واضحة؛ تلقّي ملف PDF عند الطلب.</li>
+        </ul>
+      `
+    };
+
+    function openHelp(kind){
+      content.innerHTML = TEMPLATES[kind] || TEMPLATES.intro;
+      modal.removeAttribute('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeHelp(){
+      modal.setAttribute('hidden','');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('click', function(e){
+      const btn = e.target.closest('.help-btn');
+      if(btn){
+        e.preventDefault();
+        openHelp(btn.getAttribute('data-help'));
+      }
+      if(e.target.classList.contains('help-overlay')){
+        closeHelp();
+      }
+    });
+    modal.addEventListener('click', function(e){
+      if(e.target.closest('.help-close')) closeHelp();
+    });
+  })();
+</script>
+<style>
+  .help-btn{ appearance:none; border:1px solid #cbd5e1; background:#f8fafc; color:#0f172a; padding:2px 10px; border-radius:999px; font-size:12px; cursor:pointer; margin-inline:6px; }
+  .help-btn:hover{ background:#eef2f7; }
+  .help-overlay{ position:fixed; inset:0; background:rgba(2,6,23,.55); display:flex; align-items:center; justify-content:center; padding:16px; z-index:1000; }
+  .help-dialog{ width:100%; max-width:680px; background:#fff; border:1px solid #e2e8f0; border-radius:16px; box-shadow:0 20px 50px rgba(2,6,23,.18); position:relative; padding:18px 18px 12px; }
+  .help-close{ position:absolute; top:8px; left:10px; width:36px; height:36px; border-radius:10px; border:0; background:#f1f5f9; color:#475569; cursor:pointer; font-size:20px; }
+  .help-close:hover{ background:#e2e8f0; }
+  .help-content{ padding:6px 4px 10px; }
+  .help-actions{ display:flex; justify-content:flex-end; padding:10px 2px 6px; }
+  .help-actions .action{ border:1px solid #cbd5e1; background:#0ea5a4; color:#fff; border-radius:10px; padding:8px 14px; font-weight:700; }
+  .help-actions .action:hover{ background:#0c968f; }
+  @media (max-width: 640px){ .help-dialog{ border-radius:16px; padding-top:26px; } .help-close{ top:6px; } }
+</style>
 </html>
