@@ -9,8 +9,8 @@ interface ContactAdminModalProps {
 type Step = 1 | 2 | 3;
 
 const SERVICE_OPTIONS = [
-    { id: 'unlock', labelFr: 'Envoyez vos propres documents pour traitement', labelAr: 'أرسل دروسي لمعالجتها', price: 65, icon: 'fa-file-arrow-up' },
-    { id: 'bundle', labelFr: 'Accédez à une classe complète prête à l\'emploi', labelAr: 'القسم المختار', price: 45, icon: 'fa-graduation-cap' },
+    { id: 'unlock', labelFr: 'Envoyez vos propres leçons en format PDF pour être traitées', labelAr: 'أرسل دروسك بصيغة PDF للمعالجة', price: 65, icon: 'fa-file-arrow-up' },
+    { id: 'bundle', labelFr: 'Accédez à une classe complète prête à l\'emploi', labelAr: 'احصل على فصل دراسي كامل جاهز للاستخدام', price: 45, icon: 'fa-graduation-cap' },
 ] as const;
 
 type Lang = 'fr' | 'ar';
@@ -91,37 +91,37 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
                 sectionMessage: 'Message',
             },
             ar: {
-                modalTitle: 'طلب الولوج إلى الأقسام المدفوعة',
+                modalTitle: 'طلب الوصول إلى الخدمات المتميزة',
                 step1: 'نوع الخدمة',
                 step2: 'البيانات',
-                step3: 'تأكيد',
-                selectService: 'حدد نوع الخدمة',
+                step3: 'التأكيد',
+                selectService: 'اختر نوع الخدمة المطلوبة',
                 next: 'التالي',
-                back: 'رجوع',
+                back: 'العودة',
                 send: 'إرسال',
                 finish: 'إنهاء',
-                review: 'تحقق ثم أرسل',
+                review: 'مراجعة وإرسال',
                 name: 'الاسم الكامل',
-                phone: 'الهاتف',
-                establishment: 'المؤسسة',
-                class: 'القسم',
-                classes: 'الأقسام',
-                classesPlaceholder: 'أدخل قسماً أو عدة أقسام (افصل بينها بفواصل أو أسطر جديدة)…',
-                subject: 'المادة',
-                message: 'رسالة',
-                pdfs: 'ملفات PDF للمعالجة (اختياري)',
+                phone: 'رقم الهاتف',
+                establishment: 'المؤسسة التعليمية',
+                class: 'المستوى الدراسي',
+                classes: 'المستويات الدراسية',
+                classesPlaceholder: 'أدخل مستوى أو عدة مستويات دراسية (افصل بينها بفواصل أو أسطر جديدة)…',
+                subject: 'المادة الدراسية',
+                message: 'رسالة إضافية',
+                pdfs: 'المستندات للمعالجة (اختياري)',
                 addPdfs: 'إضافة ملفات PDF',
-                pdfOnly: 'PDF فقط (حتى 10 ملفات، 5 م.ب لكل ملف، المجموع 25 م.ب)',
-                selectedFiles: 'الملفات المحددة',
-                remove: 'إزالة',
-                placeholderMessage: 'اكتب طلبك هنا…',
-                sentOk: 'تم إرسال طلبك. سيتم معالجته في غضون 24 ساعة كحد أقصى وسيُرسل الملف إلى بريدك الإلكتروني المدخل.',
-                sentFail: 'فشل الإرسال. أعد المحاولة أو استخدم بريدك الإلكتروني.',
-                help: 'إيضاحات',
-                sectionContact: 'معلومات الاتصال',
-                sectionClasses: 'الأقسام والمادة',
-                sectionPdfs: 'ملفات PDF',
-                sectionMessage: 'رسالة',
+                pdfOnly: 'ملفات PDF فقط (حتى 10 ملفات، 5 ميجابايت لكل ملف، المجموع 25 ميجابايت)',
+                selectedFiles: 'الملفات المختارة',
+                remove: 'حذف',
+                placeholderMessage: 'اكتب طلبك أو ملاحظاتك هنا…',
+                sentOk: 'تم إرسال طلبك بنجاح. سيتم معالجته خلال 24 ساعة كحد أقصى وسيُرسل الملف إلى عنوان بريدك الإلكتروني.',
+                sentFail: 'فشل في الإرسال. يرجى المحاولة مرة أخرى أو التواصل عبر البريد الإلكتروني.',
+                help: 'مساعدة',
+                sectionContact: 'بيانات التواصل',
+                sectionClasses: 'المستويات والمواد الدراسية',
+                sectionPdfs: 'المستندات',
+                sectionMessage: 'رسالة إضافية',
             }
         } as const;
         return dict[lang];
@@ -131,13 +131,13 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
         const content = {
             fr: {
                 step1: [
-                    'Choisissez le service adapté : contenu prêt ou envoi de vos cours.',
-                    'Vous pourrez détailler vos classes à l\'étape suivante.',
+                    'Choisissez le service adapté : contenu prêt ou envoi de vos leçons en PDF.',
+                    'Vous pourrez détailler vos informations à l\'étape suivante.',
                 ],
                 step2: [
                     'Nom et Email sont requis pour pouvoir vous répondre.',
-                    'Entrez plusieurs classes séparées par des virgules ou des lignes (ex: 3e–Maths, 3e–Français).',
-                    'La matière et le message sont facultatifs mais utiles pour accélérer.',
+                    'Les PDF doivent être tapés et clairement lisibles (pas manuscrits).',
+                    'Assurez-vous que le texte dans vos PDF est visible et net pour un traitement optimal.',
                 ],
                 step3: [
                     'Relisez vos informations, surtout l\'Email.',
@@ -146,17 +146,17 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
             },
             ar: {
                 step1: [
-                    'اختر الصيغة المناسبة: محتوى جاهز أو سأرسل دروسي للمعالجة.',
-                    'التفاصيل (الأقسام) ستملؤها في الخطوة التالية.',
+                    'اختر نوع الخدمة المناسبة: محتوى جاهز للاستخدام أو معالجة دروسك بصيغة PDF.',
+                    'ستقوم بإدخال تفاصيل المستويات الدراسية في الخطوة التالية.',
                 ],
                 step2: [
-                    'الاسم والبريد الإلكتروني مطلوبان للمتابعة والتواصل.',
-                    'أدخل عدة أقسام مفصولة بفواصل أو أسطر (مثال: الثالثة–رياضيات، الثالثة–فرنسية).',
-                    'المادة والرسالة اختيارية لكنها تُسرّع الإنجاز.',
+                    'الاسم الكامل والبريد الإلكتروني مطلوبان للتواصل وإرسال النتائج.',
+                    'ملفات PDF يجب أن تكون مكتوبة بوضوح وقابلة للقراءة (ليس مكتوبة بخط اليد).',
+                    'تأكد من أن النصوص في ملفات PDF واضحة ومرئية للحصول على أفضل نتائج المعالجة.',
                 ],
                 step3: [
-                    'راجع المعلومات خاصة البريد الإلكتروني.',
-                    'المعالجة خلال 24 ساعة كحد أقصى وسيصلك الملف عبر البريد.',
+                    'راجع جميع المعلومات المدخلة، خاصة عنوان البريد الإلكتروني.',
+                    'ستتم المعالجة خلال 24 ساعة كحد أقصى وسيتم إرسال الملفات إلى بريدك الإلكتروني.',
                 ],
             }
         } as const;
@@ -168,7 +168,7 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
 
     const mailto = useMemo(() => {
         const to = 'bdh.malek@gmail.com';
-        const subject = encodeURIComponent(lang === 'ar' ? 'طلب الولوج إلى الأقسام المدفوعة' : "Demande d'accès Premium");
+        const subject = encodeURIComponent(lang === 'ar' ? 'طلب الوصول إلى الخدمات المتميزة' : "Demande d'accès Premium");
         const lines = [
             `${lang === 'ar' ? 'الخدمة' : 'Service'}: ${getServiceLabel(service)}`,
             (() => {
@@ -222,7 +222,7 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
             const formData = new FormData();
             formData.append('name', form.fullName);
             formData.append('email', form.email || 'no-reply@example.com');
-            formData.append('subject', lang === 'ar' ? 'طلب الولوج إلى الأقسام المدفوعة' : "Demande d'accès Premium");
+            formData.append('subject', lang === 'ar' ? 'طلب الوصول إلى الخدمات المتميزة' : "Demande d'accès Premium");
             const msg = [
                 `${lang === 'ar' ? 'الخدمة' : 'Service'}: ${getServiceLabel(service)}`,
                 (() => {
@@ -274,37 +274,37 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-[100] p-0 sm:p-4" onClick={resetAndClose}>
-            <div className={`bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full sm:w-auto sm:max-w-4xl flex flex-col max-h-[90vh] ${arClass} animate-slide-in-up ${bodyTextSize} elevation-3`} role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()} dir={dir}>
+            <div className={`bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full sm:w-auto sm:max-w-2xl lg:max-w-3xl flex flex-col max-h-[95vh] sm:max-h-[90vh] ${arClass} animate-slide-in-up ${bodyTextSize} elevation-3`} role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()} dir={dir}>
                 
                 {/* Material Design Drag Handle (mobile) */}
                 <div className="sm:hidden w-full flex justify-center pt-3 pb-1">
                     <div className="w-8 h-1 rounded-full bg-gray-300"></div>
                 </div>
                 
-                {/* Minimal Header */}
-                 <div className="px-4 py-3 border-b border-gray-100 bg-white relative">
+                {/* Mobile-Optimized Header */}
+                 <div className="px-3 sm:px-4 py-2 sm:py-3 border-b border-gray-100 bg-white relative">
                      <div className="flex items-center justify-between gap-2">
                          <div className="flex items-center gap-2 text-gray-900 min-w-0">
-                             <h2 className={`text-lg font-medium text-gray-900 truncate ${lang === 'ar' ? 'font-ar' : ''}`}>{t.modalTitle}</h2>
+                             <h2 className={`text-base sm:text-lg font-medium text-gray-900 truncate ${lang === 'ar' ? 'font-ar' : ''}`}>{t.modalTitle}</h2>
                          </div>
-                        <div className="flex items-center gap-2 shrink-0">
-                            <div className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 p-1 shadow-sm">
-                                <button aria-pressed={lang==='fr'} className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 ${lang === 'fr' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`} onClick={() => setLang('fr')}>FR</button>
-                                <button aria-pressed={lang==='ar'} className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 ${lang === 'ar' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`} onClick={() => setLang('ar')}>AR</button>
+                        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+                            <div className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 p-0.5 sm:p-1 shadow-sm">
+                                <button aria-pressed={lang==='fr'} className={`px-2 sm:px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 ${lang === 'fr' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`} onClick={() => setLang('fr')}>FR</button>
+                                <button aria-pressed={lang==='ar'} className={`px-2 sm:px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 ${lang === 'ar' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`} onClick={() => setLang('ar')}>AR</button>
                             </div>
-                            <button onClick={resetAndClose} aria-label="Fermer" className="w-10 h-10 rounded-full hover:bg-gray-100 text-gray-500 transition-colors duration-200 flex items-center justify-center">
+                            <button onClick={resetAndClose} aria-label="Fermer" className="w-8 h-8 sm:w-10 sm:h-10 rounded-full hover:bg-gray-100 text-gray-500 transition-colors duration-200 flex items-center justify-center">
                                 <i className="fas fa-times text-sm"></i>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                {/* Minimal Progress Indicator */}
-                <div className="px-4 py-3 bg-gray-50 border-b border-gray-100">
+                {/* Mobile-Optimized Progress Indicator */}
+                <div className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border-b border-gray-100">
                     <div className="flex items-center justify-between">
                         {[1, 2, 3].map((stepNum) => (
                             <div key={stepNum} className="flex flex-col items-center">
-                                <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-medium transition-all duration-200 ${
+                                <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-xs font-medium transition-all duration-200 ${
                                     step >= stepNum 
                                         ? 'bg-indigo-600 text-white' 
                                         : 'bg-gray-200 text-gray-500'
@@ -315,7 +315,7 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
                                         stepNum
                                     )}
                                 </div>
-                                <span className={`text-xs mt-1 ${step===stepNum ? 'text-indigo-600 font-medium' : 'text-gray-500'} ${lang === 'ar' ? 'font-ar' : ''}`}>{stepNum === 1 ? t.step1 : stepNum === 2 ? t.step2 : t.step3}</span>
+                                <span className={`text-xs mt-1 text-center ${step===stepNum ? 'text-indigo-600 font-medium' : 'text-gray-500'} ${lang === 'ar' ? 'font-ar' : ''}`}>{stepNum === 1 ? t.step1 : stepNum === 2 ? t.step2 : t.step3}</span>
                             </div>
                         ))}
                     </div>
@@ -359,27 +359,31 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
                         <div className="flex flex-col h-full min-h-0">
                             <div className="flex-1 overflow-y-auto space-y-3 px-1 pb-4 min-h-0">
                                 <p className={`text-sm text-slate-700 ${lang === 'ar' ? 'font-ar text-right' : ''}`}>{t.selectService}</p>
-                                <div className="grid grid-cols-1 gap-3">
+                                <div className="grid grid-cols-1 gap-4">
                                 {SERVICE_OPTIONS.map(opt => (
                                     <button
                                         key={opt.id}
-                                        className={`${lang === 'ar' ? 'text-right' : 'text-left'} px-6 py-4 transition-all duration-200 ${service === opt.id ? 'bg-indigo-50 text-indigo-900' : 'bg-gray-50 hover:bg-gray-100' } flex justify-between items-center w-full`}
+                                        className={`${lang === 'ar' ? 'text-right' : 'text-left'} p-5 rounded-xl border-2 transition-all duration-200 ${service === opt.id ? 'border-indigo-500 bg-indigo-50 text-indigo-900 shadow-md' : 'border-gray-200 bg-white hover:border-indigo-300 hover:shadow-sm' } w-full`}
                                         onClick={() => setService(opt.id)}
                                     >
-                                        <div className="flex items-center gap-4">
-                                            <div className={`text-base font-semibold ${lang === 'ar' ? 'font-ar' : ''}`}>{lang === 'fr' ? opt.labelFr : opt.labelAr}</div>
-                                            <div className="bg-green-100 text-green-700 px-3 py-1 text-xs font-medium flex items-center">
-                                                <i className="fas fa-tag mr-1"></i>
-                                                -30% de réduction
+                                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                                            <div className="flex flex-col gap-2">
+                                                <div className={`text-lg font-bold ${lang === 'ar' ? 'font-ar' : ''} ${service === opt.id ? 'text-indigo-900' : 'text-slate-800'}`}>
+                                                    {lang === 'fr' ? opt.labelFr : opt.labelAr}
+                                                </div>
+                                                <div className="bg-green-100 text-green-700 px-3 py-1.5 text-xs font-medium rounded-full flex items-center w-fit">
+                                                    <i className="fas fa-tag mr-1"></i>
+                                                    -30% de réduction
+                                                </div>
                                             </div>
-                                        </div>
-                                        
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-sm text-gray-500 line-through">{Math.round(opt.price * 1.3)} DH</span>
-                                                <span className="text-lg text-indigo-600 font-bold">{opt.price} DH</span>
-                                            </div>
-                                            {service === opt.id && <i className="fas fa-check-circle text-indigo-600 text-lg"></i>}
+                                            
+                                            <div className="flex items-center justify-between sm:justify-end gap-3">
+                                                 <div className="flex items-center gap-2">
+                                                     <span className="text-sm text-gray-500 line-through">{Math.round(opt.price * 1.3)} DH</span>
+                                                     <span className="text-xl font-bold text-indigo-600">{opt.price} DH</span>
+                                                 </div>
+                                                 {service === opt.id && <i className="fas fa-check-circle text-indigo-600 text-lg"></i>}
+                                             </div>
                                         </div>
                                     </button>
                                 ))}
@@ -399,36 +403,108 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
 
                     {step === 2 && (
                         <form className="flex flex-col h-full min-h-0" onSubmit={(e) => { e.preventDefault(); setStep(3); }}>
-                            {/* Scrollable content area */}
-                            <div className="flex-1 overflow-y-auto space-y-5 px-1 pb-4 min-h-0">
+                            {/* Mobile-Optimized Scrollable content area */}
+                            <div className="flex-1 overflow-y-auto space-y-3 sm:space-y-5 px-2 sm:px-1 pb-3 sm:pb-4 min-h-0">
                             
-                            {/* Elegant Rectangular Class & Subject Section */}
+                            {/* Combined Section: Classes & Documents */}
                             <div className="bg-gradient-to-r from-slate-50 to-gray-50 p-6 mb-6">
                                 {service === 'bundle' ? (
                                     <div className="flex items-center justify-center py-4 bg-orange-100 text-orange-800 font-medium text-lg">
                                         <i className="fas fa-star mr-3 text-orange-600"></i>
-                                        Classe choisie : {selectedPremium?.name || 'Classe Premium'}
+                                        Classe choisie : <span className="text-orange-600 font-bold">{selectedPremium?.name || 'Classe Premium'}</span>
                                     </div>
                                 ) : (
-                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-semibold text-slate-800 uppercase tracking-wide">{t.classes}</label>
-                                            <input 
-                                                type="text"
-                                                className="w-full h-12 px-4 bg-white border-l-4 border-indigo-500 shadow-sm focus:outline-none focus:shadow-md transition-all duration-300" 
-                                                placeholder={t.classesPlaceholder} 
-                                                value={form.className} 
-                                                onChange={(e) => setForm(f => ({ ...f, className: e.target.value }))}
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-sm font-semibold text-slate-800 uppercase tracking-wide">{t.subject}</label>
-                                            <input 
-                                                className="w-full h-12 px-4 bg-white border-l-4 border-indigo-500 shadow-sm focus:outline-none focus:shadow-md transition-all duration-300" 
-                                                value={form.subject} 
-                                                onChange={(e) => setForm(f => ({ ...f, subject: e.target.value }))} 
-                                                placeholder="Ex: Mathématiques, Physique..."
-                                            />
+                                    <div className="space-y-6">
+
+                                        
+                                        {/* Minimal Class Info Display */}
+                                         {(form.className || form.subject) && (
+                                             <div className="bg-orange-50 p-3 text-orange-700">
+                                                 {form.className && (
+                                                     <div className="text-sm">
+                                                         <span className="font-medium">Classe :</span> <span className="font-semibold">{form.className}</span>
+                                                     </div>
+                                                 )}
+                                                 {form.subject && (
+                                                     <div className="text-sm">
+                                                         <span className="font-medium">Matière :</span> <span className="font-semibold">{form.subject}</span>
+                                                     </div>
+                                                 )}
+                                             </div>
+                                         )}
+                                        
+                                        {/* Mobile-Optimized Documents PDF Section */}
+                                         <div className="space-y-2 sm:space-y-3">
+                                             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                                                 <h4 className="text-base sm:text-lg font-bold text-slate-800">Documents PDF *</h4>
+                                                 <span className="text-xs sm:text-sm text-orange-600 font-medium">(obligatoire)</span>
+                                             </div>
+                                             
+                                             <label className="block w-full p-3 sm:p-4 bg-white border-2 border-dashed border-orange-300 hover:border-orange-400 cursor-pointer transition-colors rounded-lg">
+                                                <div className="text-center">
+                                                    <i className="fas fa-cloud-upload-alt text-2xl text-orange-500 mb-2"></i>
+                                                    <p className="text-sm text-slate-700 font-medium">Cliquez pour sélectionner vos fichiers PDF</p>
+                                                    <p className="text-xs text-slate-500 mt-1">Maximum 10 fichiers, 5 Mo chacun</p>
+                                                </div>
+                                                <input
+                                                    type="file"
+                                                    name="attachment"
+                                                    accept="application/pdf"
+                                                    multiple
+                                                    required
+                                                    className="hidden"
+                                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                        const list: File[] = e.target.files ? Array.from(e.target.files) : [];
+                                                        const onlyPdf = list.filter(f => f.type === 'application/pdf');
+                                                        const limited = onlyPdf.slice(0, 10);
+                                                        const perFileLimit = 5 * 1024 * 1024;
+                                                        const totalLimit = 25 * 1024 * 1024;
+                                                        const filtered = limited.filter(f => f.size <= perFileLimit);
+                                                        const total = filtered.reduce((acc, f) => acc + f.size, 0);
+                                                        if (limited.length !== filtered.length) {
+                                                            setFileError(lang === 'ar' ? 'الحد الأقصى لحجم الملف 5 ميجابايت' : 'Taille max par fichier: 5 Mo');
+                                                        } else if (total > totalLimit) {
+                                                            setFileError(lang === 'ar' ? 'إجمالي الحجم يتجاوز 25 ميجابايت' : 'Taille totale dépasse 25 Mo');
+                                                        } else {
+                                                            setFileError(null);
+                                                        }
+                                                        setFiles(total > totalLimit ? [] : filtered);
+                                                    }}
+                                                />
+                                            </label>
+                                            
+                                            {fileError && (
+                                                <div className="flex items-center gap-2 text-sm text-red-700 bg-red-50 p-3 rounded-lg">
+                                                    <i className="fas fa-exclamation-triangle"></i>
+                                                    <span>{fileError}</span>
+                                                </div>
+                                            )}
+                                            
+                                            {!!files.length && (
+                                                <div className="space-y-2">
+                                                    <div className="text-sm font-medium text-slate-700">
+                                                        Fichiers sélectionnés ({files.length})
+                                                    </div>
+                                                    <div className="space-y-1">
+                                                        {files.map((f, i) => (
+                                                            <div key={i} className="flex items-center justify-between p-2 bg-white rounded border">
+                                                                <div className="flex items-center gap-2">
+                                                                    <i className="fas fa-file-pdf text-red-500"></i>
+                                                                    <span className="text-sm">{f.name}</span>
+                                                                    <span className="text-xs text-slate-500">({(f.size/1024/1024).toFixed(1)} Mo)</span>
+                                                                </div>
+                                                                <button 
+                                                                    type="button" 
+                                                                    className="text-red-500 hover:text-red-700" 
+                                                                    onClick={() => setFiles(prev => prev.filter((_, idx) => idx !== i))}
+                                                                >
+                                                                    <i className="fas fa-times"></i>
+                                                                </button>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 )}
@@ -458,156 +534,45 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
                                 </div>
                             </div>
 
-                            {/* Section: Message - Only for 'unlock' service */}
-                            {service === 'unlock' && (
-                                <div className="grid grid-cols-1 gap-3">
-                                    <h3 className={`text-lg font-bold text-slate-800 mb-1 ${lang === 'ar' ? 'font-ar text-right' : ''}`}>{t.sectionMessage}</h3>
-                                    <p className={`text-sm text-slate-600 mb-3 ${lang === 'ar' ? 'font-ar text-right' : ''}`}>Votre demande personnalisée</p>
-                                    <div>
-                                        <label className={labelClass}>{t.message}</label>
-                                        <textarea rows={4} className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition-all duration-200" placeholder={t.placeholderMessage} value={form.message} onChange={(e) => setForm(f => ({ ...f, message: e.target.value }))}></textarea>
-                                    </div>
-                                </div>
-                            )}
 
-                            {/* Section: PDFs - Visual Modern Display */}
-                            {service === 'unlock' && (
-                                <div className="grid grid-cols-1 gap-5 w-full">
-                                    <div className="col-span-1">
-                                        <h3 className={`text-lg font-bold text-slate-800 mb-1 flex items-center gap-2 ${lang === 'ar' ? 'font-ar text-right flex-row-reverse' : ''}`}>
-                                            <i className="fas fa-file-pdf text-rose-500"></i>
-                                            {t.sectionPdfs}
-                                        </h3>
-                                        <p className={`text-sm text-slate-600 ${lang === 'ar' ? 'font-ar text-right' : ''}`}>Joignez vos documents (optionnel)</p>
-                                    </div>
-                                    
-                                    {/* Visual PDF Upload */}
-                                    <div className="col-span-1 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden w-full">
-                                        <div className="p-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-8 h-8 rounded-lg bg-rose-100 flex items-center justify-center">
-                                                    <i className="fas fa-file-upload text-rose-600"></i>
-                                                </div>
-                                                <div>
-                                                    <h4 className="text-sm font-semibold text-slate-800">Documents PDF</h4>
-                                                    <p className="text-xs text-slate-500">Envoyez vos propres chapitres</p>
-                                                </div>
-                                            </div>
-                                            <span className="text-xs bg-rose-100 text-rose-700 px-2 py-1 rounded-md font-medium">
-                                                <i className="fas fa-info-circle mr-1"></i>
-                                                Max 25 Mo
-                                            </span>
-                                        </div>
-                                        
-                                        <div className="p-4">
-                                            <div className="border-2 border-dashed border-slate-200 rounded-lg p-4 text-center hover:border-indigo-300 transition-colors">
-                                                <div className="mb-2">
-                                                    <i className="fas fa-cloud-upload-alt text-2xl text-indigo-400"></i>
-                                                </div>
-                                                <p className="text-sm text-slate-600 mb-3">Glissez-déposez vos fichiers PDF ici ou</p>
-                                                <label className="inline-flex items-center px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg cursor-pointer hover:bg-indigo-100 transition-colors">
-                                                    <i className="fas fa-folder-open mr-2"></i>
-                                                    <span className="text-sm font-medium">Parcourir les fichiers</span>
-                                                    <input
-                                                        type="file"
-                                                        name="attachment"
-                                                        accept="application/pdf"
-                                                        multiple
-                                                        className="hidden"
-                                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                            const list: File[] = e.target.files ? Array.from(e.target.files) : [];
-                                                            const onlyPdf = list.filter(f => f.type === 'application/pdf');
-                                                            const limited = onlyPdf.slice(0, 10);
-                                                            // limits aligned with send-time validation (5MB each, 25MB total)
-                                                            const perFileLimit = 5 * 1024 * 1024;
-                                                            const totalLimit = 25 * 1024 * 1024;
-                                                            const filtered = limited.filter(f => f.size <= perFileLimit);
-                                                            const total = filtered.reduce((acc, f) => acc + f.size, 0);
-                                                            if (limited.length !== filtered.length) {
-                                                                setFileError(lang === 'ar' ? 'أقصى حجم للملف 5 م.ب' : 'Taille max par fichier: 5 Mo');
-                                                            } else if (total > totalLimit) {
-                                                                setFileError(lang === 'ar' ? 'إجمالي الحجم يتجاوز 25 م.ب' : 'Taille totale dépasse 25 Mo');
-                                                            } else {
-                                                                setFileError(null);
-                                                            }
-                                                            setFiles(total > totalLimit ? [] : filtered);
-                                                        }}
-                                                    />
-                                                </label>
-                                                <p className="text-xs text-slate-500 mt-3">{t.pdfOnly}</p>
-                                            </div>
-                                            
-                                            {fileError && (
-                                                <div className="mt-3 flex items-center gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-                                                    <i className="fas fa-exclamation-triangle"></i>
-                                                    <span>{fileError}</span>
-                                                </div>
-                                            )}
-                                            
-                                            {!!files.length && (
-                                                <div className="mt-4">
-                                                    <div className="flex items-center justify-between mb-2">
-                                                        <div className="text-xs font-medium text-slate-700 flex items-center gap-1.5">
-                                                            <i className="fas fa-paperclip text-indigo-500"></i>
-                                                            {t.selectedFiles} ({files.length})
-                                                        </div>
-                                                        <button 
-                                                            type="button" 
-                                                            className="text-xs text-rose-600 hover:text-rose-700 flex items-center gap-1"
-                                                            onClick={() => setFiles([])}
-                                                        >
-                                                            <i className="fas fa-trash-alt"></i>
-                                                            Tout supprimer
-                                                        </button>
-                                                    </div>
-                                                    <ul className="space-y-2 max-h-40 overflow-y-auto pr-1">
-                                                        {files.map((f, i) => (
-                                                            <li key={i} className="flex items-center justify-between text-xs bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors">
-                                                                <div className="flex items-center gap-2 truncate">
-                                                                    <i className="fas fa-file-pdf text-rose-500"></i>
-                                                                    <span className="truncate">{f.name}</span>
-                                                                    <span className="text-slate-400 whitespace-nowrap">({(f.size/1024/1024).toFixed(1)} Mo)</span>
-                                                                </div>
-                                                                <button 
-                                                                    type="button" 
-                                                                    className="text-slate-500 hover:text-rose-600 ml-2" 
-                                                                    onClick={() => setFiles(prev => prev.filter((_, idx) => idx !== i))}
-                                                                >
-                                                                    <i className="fas fa-times-circle"></i>
-                                                                </button>
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+
+
 
                             </div>
 
-                            {/* Footer: Step 2 - More compact for bundle service */}
-                            <div className="flex justify-between items-center pt-1 sticky bottom-0 bg-white border-t border-gray-100 z-10 py-2 px-1">
+                            {/* Mobile-Optimized Footer */}
+                            <div className="flex justify-between items-center pt-1 sticky bottom-0 bg-white border-t border-gray-100 z-10 py-2 sm:py-2 px-2 sm:px-1">
                                 <button 
                                     type="button"
                                     onClick={() => setStep(1)} 
-                                    className="h-9 px-3 rounded-md border border-slate-200 text-sm text-slate-600 bg-white hover:bg-slate-50 transition-colors flex items-center gap-1"
+                                    className="h-10 sm:h-9 px-3 sm:px-3 rounded-md border border-slate-200 text-sm text-slate-600 bg-white hover:bg-slate-50 transition-colors flex items-center gap-1"
                                 >
                                     <i className="fas fa-arrow-left text-slate-500 text-xs"></i>
-                                    <span>{t.back}</span>
+                                    <span className="hidden sm:inline">{t.back}</span>
                                 </button>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-1 sm:gap-2">
                                     {service === 'unlock' && (
                                         <button 
                                             type="button"
                                             onClick={() => setShowHelp(v => !v)} 
-                                            className="inline-flex items-center justify-center h-9 w-9 rounded-md border border-slate-200 text-slate-600 bg-white hover:bg-slate-50 transition-colors"
+                                            className="inline-flex items-center justify-center h-10 w-10 sm:h-9 sm:w-9 rounded-md border border-slate-200 text-slate-600 bg-white hover:bg-slate-50 transition-colors"
                                         >
                                             <i className={`fas ${showHelp ? 'fa-eye-slash' : 'fa-circle-info'} text-indigo-500 text-sm`}></i>
                                         </button>
                                     )}
-                                    <button type="submit" className="h-9 px-4 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white text-sm flex items-center gap-1.5">{t.next} <i className="fas fa-arrow-right text-xs"></i></button>
+                                    <button 
+                                        type="submit" 
+                                        disabled={service === 'unlock' && files.length === 0}
+                                        className={`h-10 sm:h-9 px-4 sm:px-4 rounded-md text-white text-sm flex items-center gap-1.5 ${
+                                            service === 'unlock' && files.length === 0 
+                                                ? 'bg-gray-400 cursor-not-allowed' 
+                                                : 'bg-indigo-600 hover:bg-indigo-700'
+                                        }`}
+                                    >
+                                        <span className="sm:hidden">Suivant</span>
+                                        <span className="hidden sm:inline">{t.next}</span>
+                                        <i className="fas fa-arrow-right text-xs"></i>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -615,50 +580,147 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
 
                     {step === 3 && (
                         <div className="flex flex-col h-full min-h-0">
-                            <div className="flex-1 overflow-y-auto space-y-4 px-1 pb-4">
-                                <h3 className={`text-xs font-semibold uppercase tracking-wide text-slate-500 ${lang === 'ar' ? 'font-ar text-right' : ''}`}>{t.review}</h3>
-                                <div className={`space-y-2 text-sm ${lang === 'ar' ? 'font-ar text-right' : ''}`}>
-                                    <div className="flex items-center justify-between">
-                                        <div><span className="text-gray-500">Service:</span> {getServiceLabel(service)}</div>
+                            <div className="flex-1 overflow-y-auto space-y-6 px-1 pb-4">
+                                {/* Modern Header */}
+                                <div className="text-center py-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg">
+                                    <div className="w-16 h-16 mx-auto mb-3 bg-indigo-100 rounded-full flex items-center justify-center">
+                                        <i className="fas fa-check-circle text-2xl text-indigo-600"></i>
+                                    </div>
+                                    <h3 className={`text-lg font-bold text-slate-800 mb-1 ${lang === 'ar' ? 'font-ar' : ''}`}>{t.review}</h3>
+                                    <p className={`text-sm text-slate-600 ${lang === 'ar' ? 'font-ar' : ''}`}>Vérifiez vos informations avant l'envoi</p>
+                                </div>
+
+                                {/* Service Card */}
+                                <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                                                <i className={`fas ${service === 'unlock' ? 'fa-file-upload' : 'fa-graduation-cap'} text-indigo-600`}></i>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-semibold text-slate-800">Service sélectionné</h4>
+                                                <p className="text-sm text-slate-600">{getServiceLabel(service)}</p>
+                                            </div>
+                                        </div>
                                         {service === 'unlock' && (
-                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-rose-200 bg-rose-50 text-[11px] text-rose-700">
-                                                <i className="fas fa-file-pdf"></i> PDF
+                                            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-medium">
+                                                <i className="fas fa-file-pdf"></i> Documents PDF
                                             </span>
                                         )}
                                     </div>
-                                    {(() => {
-                                        const list = (form.className || '').split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
-                                        if (!list.length) return <div><span className="text-gray-500">{t.classes}:</span> —</div>;
-                                        return (
-                                            <div>
-                                                <div className="text-gray-500">{t.classes}:</div>
-                                                <ul className="list-disc pl-5 mt-1">
-                                                    {list.map((c, i) => <li key={`${c}-${i}`}>{c}</li>)}
-                                                </ul>
-                                            </div>
-                                        );
-                                    })()}
-                                    <div><span className="text-gray-500">{t.subject}:</span> {form.subject || '—'}</div>
-                                    <div><span className="text-gray-500">{t.establishment}:</span> {form.establishment || '—'}</div>
-                                    <div><span className="text-gray-500">{t.name}:</span> {form.fullName || '—'}</div>
-                                    <div><span className="text-gray-500">Email:</span> {form.email || '—'}</div>
-                                    <div><span className="text-gray-500">{t.phone}:</span> {form.phone || '—'}</div>
-                                    {service === 'unlock' && (
-                                        <div><span className="text-gray-500">PDF:</span> {files.length ? `${files.length} fichier(s)` : '—'}</div>
-                                    )}
-                                    {form.message && (
-                                        <div className="pt-2">
-                                            <div className="text-gray-500">{t.message}:</div>
-                                            <div className="whitespace-pre-line">{form.message}</div>
-                                        </div>
-                                    )}
                                 </div>
 
+                                {/* Academic Info Card */}
+                                <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <i className="fas fa-graduation-cap text-indigo-600"></i>
+                                        <h4 className="font-semibold text-slate-800">Informations académiques</h4>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        <div className="bg-slate-50 rounded-lg p-3">
+                                            <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">{t.classes}</div>
+                                            {(() => {
+                                                const list = (form.className || '').split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+                                                if (!list.length) return <div className="text-slate-400">Non spécifié</div>;
+                                                return (
+                                                    <div className="flex flex-wrap gap-1">
+                                                        {list.map((c, i) => (
+                                                            <span key={`${c}-${i}`} className="inline-block px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded-md">
+                                                                {c}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                );
+                                            })()}
+                                        </div>
+                                        <div className="bg-slate-50 rounded-lg p-3">
+                                            <div className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">{t.subject}</div>
+                                            <div className="text-sm text-slate-800">{form.subject || 'Non spécifié'}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Contact Info Card */}
+                                <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <i className="fas fa-user text-indigo-600"></i>
+                                        <h4 className="font-semibold text-slate-800">Informations de contact</h4>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        <div className="space-y-2">
+                                            <div className="flex items-center gap-2">
+                                                <i className="fas fa-user-circle text-slate-400 text-sm"></i>
+                                                <span className="text-sm text-slate-800">{form.fullName || 'Non spécifié'}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <i className="fas fa-envelope text-slate-400 text-sm"></i>
+                                                <span className="text-sm text-slate-800">{form.email || 'Non spécifié'}</span>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="flex items-center gap-2">
+                                                <i className="fas fa-phone text-slate-400 text-sm"></i>
+                                                <span className="text-sm text-slate-800">{form.phone || 'Non spécifié'}</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <i className="fas fa-building text-slate-400 text-sm"></i>
+                                                <span className="text-sm text-slate-800">{form.establishment || 'Non spécifié'}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Additional Info Cards */}
+                                {service === 'unlock' && files.length > 0 && (
+                                    <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <i className="fas fa-file-pdf text-rose-600"></i>
+                                            <h4 className="font-semibold text-slate-800">Documents joints</h4>
+                                        </div>
+                                        <div className="bg-rose-50 rounded-lg p-3">
+                                            <div className="text-sm text-rose-800">{files.length} fichier(s) PDF sélectionné(s)</div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {form.message && (
+                                    <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <i className="fas fa-comment text-indigo-600"></i>
+                                            <h4 className="font-semibold text-slate-800">{t.message}</h4>
+                                        </div>
+                                        <div className="bg-slate-50 rounded-lg p-3">
+                                            <div className="text-sm text-slate-800 whitespace-pre-line">{form.message}</div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Status Messages */}
                                 {sent === 'ok' && (
-                                    <div className="text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-sm">{t.sentOk}</div>
+                                    <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 shadow-sm">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
+                                                <i className="fas fa-check text-emerald-600"></i>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-semibold text-emerald-800">Demande envoyée avec succès</h4>
+                                                <p className="text-sm text-emerald-700">{t.sentOk}</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 )}
                                 {sent === 'fail' && (
-                                    <div className="text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm">{t.sentFail}</div>
+                                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 shadow-sm">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                                                <i className="fas fa-exclamation-triangle text-amber-600"></i>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-semibold text-amber-800">Erreur d'envoi</h4>
+                                                <p className="text-sm text-amber-700">{t.sentFail}</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 )}
                             </div>
 
