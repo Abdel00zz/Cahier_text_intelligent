@@ -16,11 +16,12 @@ interface TableRowProps {
   isSelected: boolean;
   isNew?: boolean;
   showDescriptions: boolean;
+  descriptionTypes?: string[];
   onInitiateInlineEdit: (indices: Indices) => void;
   onOpenAddContentModal: (indices: Indices) => void;
 }
 
-export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, elementType, onCellUpdate, onDeleteItem, onSelectRow, isSelected, isNew = false, showDescriptions, onInitiateInlineEdit, onOpenAddContentModal }) => {
+export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, elementType, onCellUpdate, onDeleteItem, onSelectRow, isSelected, isNew = false, showDescriptions, descriptionTypes = [], onInitiateInlineEdit, onOpenAddContentModal }) => {
   const [isEditingDate, setIsEditingDate] = useState(false);
   const dateInputRef = useRef<HTMLInputElement>(null);
 
@@ -238,6 +239,7 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                 indices={indices} 
                 elementType={elementType} 
                 showDescriptions={showDescriptions} 
+                descriptionTypes={descriptionTypes}
                 onCellUpdate={onCellUpdate}
             />
         </div>

@@ -144,7 +144,7 @@ export const ContentRenderer: React.FC<ContentRendererProps> = React.memo(({ dat
       const allowDescription = ((): boolean => {
         if (typeof showDescriptions === 'boolean') return showDescriptions;
         // custom mode uses descriptionTypes; when empty, treat as none
-        return shouldShowDescription(normalizedType?.toLowerCase(), 'custom', descriptionTypes);
+        return shouldShowDescription(normalizedType, 'custom', descriptionTypes);
       })();
       const badgeText = BADGE_TEXT_MAP[normalizedType] || normalizedType;
       const badgeColor = BADGE_COLOR_MAP[normalizedType] || 'bg-slate-200 text-slate-800';
