@@ -140,6 +140,7 @@ Bienvenue ! Ce guide pratique explique chaque bouton, badge, menu et écran de l
 ✅ Recherche instantanée dans tout le contenu (par mot, date ou numéro).
 ✅ Sauvegarde automatique fiable + sauvegarde manuelle à la demande.
 ✅ Impression soignée, prête pour le format papier.
+✅ Personnalisation des descriptions visibles à l'écran et à l'impression.
 💡 Astuces et notifications pour rester efficace au quotidien.
 
 ## Démarrage rapide (checklist)
@@ -190,6 +191,8 @@ Bienvenue ! Ce guide pratique explique chaque bouton, badge, menu et écran de l
     - Application (écran): mode (Tout / Aucune / Sélection) + sélection par badges authentiques
     - Impression (PDF): mode (Tout / Aucune / Sélection) + sélection par badges authentiques
     - Actions rapides: Tout sélectionner / Tout désélectionner par contexte
+    - Personnalisation indépendante: configurez différemment l'affichage à l'écran et pour l'impression
+    - Style visuel amélioré: descriptions encadrées avec fond léger pour une meilleure lisibilité
     - Sections repliables pour une navigation fluide; design responsive mobile/desktop
   - Gestion des données: Exporter tout / Importer une sauvegarde (toutes les classes + réglages).
 - <i class="fas fa-question-circle"></i> Aide: bouton en haut à droite à côté de Configuration.
@@ -243,11 +246,13 @@ Astuce: certains types (exemple, exercice, application) affichent le titre en li
 - Via “Imprimer” dans le menu; les chapitres et évaluations sont centrés, formules MathJax rendues; activez/masquez les descriptions via la Configuration.
 
 ### Descriptions visuelles (écran et impression)
-- Écran (Application): l’affichage des descriptions suit votre réglage « Descriptions affichées ».
+- Écran (Application): l'affichage des descriptions suit votre réglage « Descriptions affichées ».
   - Mode « Tout »: toutes les descriptions sont visibles sous leurs titres, avec badges de type.
-  - Mode « Aucune »: seules les en-têtes/titres s’affichent; les descriptions sont masquées.
+  - Mode « Aucune »: seules les en-têtes/titres s'affichent; les descriptions sont masquées.
   - Mode « Sélection »: seules les descriptions des types choisis (via badges authentiques) sont visibles.
-- Impression (PDF): même principe via le contexte “Impression” dans la Configuration.
+- Impression (PDF): même principe via le contexte "Impression" dans la Configuration.
+- Personnalisation: vous pouvez configurer différemment l'affichage à l'écran et pour l'impression.
+- Style des descriptions: encadrées avec un fond léger pour une meilleure lisibilité.
 - Lisibilité: style compact et aéré, compatible MathJax; badges colorés pour repérer rapidement les types.
 - Séparateurs: apportent une respiration visuelle entre blocs et dates.
 
@@ -288,6 +293,7 @@ export const GUIDE_AR = `# مساعدة شاملة – دفتر النصوص ا�
 ✅ طباعة عالية الجودة (جاهزة لـ PDF).
 ✅ بحث فوري في كل المحتوى (كلمة، تاريخ، رقم).
 ✅ حفظ تلقائي موثوق + حفظ يدوي عند الحاجة.
+✅ تخصيص الأوصاف المرئية على الشاشة وعند الطباعة.
 💡 تنبيهات ونصائح عملية لرفع الإنتاجية.
 
 ## بداية سريعة (قائمة تحقق)
@@ -337,6 +343,8 @@ export const GUIDE_AR = `# مساعدة شاملة – دفتر النصوص ا�
     - الشاشة (التطبيق): الوضع (الكل / لا شيء / تحديد) + اختيار حسب النوع عبر الشارات الأصلية.
     - الطباعة (PDF): الوضع (الكل / لا شيء / تحديد) + اختيار حسب النوع عبر الشارات الأصلية.
     - إجراءات سريعة: تحديد الكل / إلغاء التحديد لكل سياق.
+    - تخصيص مستقل: يمكنك ضبط إعدادات مختلفة للعرض على الشاشة وللطباعة.
+    - نمط مرئي محسّن: أوصاف مؤطرة مع خلفية خفيفة لتحسين القراءة.
     - أقسام قابلة للطي وتصميم متجاوب للشاشات المختلفة.
   - إدارة البيانات: تصدير الكل / استيراد نسخة احتياطية (جميع الفصول + الإعدادات).
 - <i class="fas fa-question-circle"></i> مساعدة: زر ظاهر أعلى اليمين بجوار الإعدادات.
@@ -397,6 +405,8 @@ export const GUIDE_AR = `# مساعدة شاملة – دفتر النصوص ا�
   - وضع "لا شيء": تظهر العناوين فقط بدون الأوصاف.
   - وضع "تحديد": تظهر أوصاف الأنواع المختارة فقط (عبر الشارات الأصلية).
 - الطباعة (PDF): نفس المبدأ عبر سياق "الطباعة" داخل الإعدادات.
+- التخصيص: يمكنك ضبط إعدادات مختلفة للعرض على الشاشة وللطباعة.
+- نمط الأوصاف: مؤطرة مع خلفية خفيفة لتحسين القراءة.
 - القابلية للقراءة: أسلوب مدمج ومتوازن متوافق مع MathJax؛ شارات ملوّنة لتحديد الأنواع سريعاً.
 - الفواصل: تمنح فواصل بصرية بين الكتل والتواريخ.
 

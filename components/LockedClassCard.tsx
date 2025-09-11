@@ -76,7 +76,7 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
                 <button
                     type="button"
                     onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                    className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-white/90 text-gray-600 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 hover:scale-105 z-20 shadow-sm"
+                    className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center bg-white/50 text-gray-500 rounded-full opacity-60 hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 hover:scale-105 z-20 shadow-sm"
                     data-tippy-content="Supprimer cette carte"
                     aria-label="Supprimer cette carte"
                 >
@@ -106,6 +106,8 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
 
                 {/* Footer with Action */}
                 <div className="mt-auto pt-3 border-t border-amber-100">
+                    {/* Ligne séparatrice au-dessus du texte */}
+                    <div className="w-full border-b border-amber-200 mb-2"></div>
                     <div className="flex items-center justify-center text-xs text-amber-700 font-medium">
                         <i className="fas fa-lock mr-2"></i>
                         <span>Cliquez pour débloquer</span>

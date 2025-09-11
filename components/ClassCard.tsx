@@ -102,7 +102,7 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
                 {/* Delete Button - Material Design */}
                 <button 
                     onClick={handleDeleteClick}
-                    className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-white/90 text-gray-600 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 hover:scale-105 z-20 shadow-sm"
+                    className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center bg-white/50 text-gray-500 rounded-full opacity-60 hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 hover:scale-105 z-20 shadow-sm"
                     data-tippy-content="Supprimer la classe"
                     aria-label="Supprimer la classe"
                 >
@@ -130,12 +130,15 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
                     </h3>
                 </div>
 
-                {/* Footer with Last Modified */}
+                {/* Footer - Test indicator or empty */}
                 <div className="mt-auto pt-3 border-t border-gray-100">
-                    <div className="flex items-center text-xs text-gray-500">
-                        <i className="fas fa-clock mr-2 text-gray-400"></i>
-                        <span>{formatDate(lastModified)}</span>
-                    </div>
+                    {classInfo.name.toLowerCase().includes('test') || classInfo.name.toLowerCase().includes('dérouiller') || classInfo.name.toLowerCase().includes('devrouller') || classInfo.name.toLowerCase().includes('3ème année collégiale') || classInfo.name.toLowerCase().includes('tronc commun scientifique') ? (
+                        <div className="flex items-center justify-center bg-emerald-50 py-1 px-2 rounded-md mx-3">
+                            <span className="text-xs font-medium text-emerald-600 animate-pulse">Testez-moi</span>
+                        </div>
+                    ) : (
+                        <div className="h-8"></div>
+                    )}
                 </div>
             </div>
         </div>
