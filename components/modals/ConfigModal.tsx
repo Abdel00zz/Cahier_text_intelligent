@@ -101,41 +101,36 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4" onClick={onClose}>
-      <div className="bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full sm:max-w-3xl flex flex-col max-h-[96vh] overflow-hidden elevation-3" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full sm:max-w-2xl lg:max-w-3xl flex flex-col max-h-[98vh] sm:max-h-[90vh] overflow-hidden elevation-3" onClick={(e) => e.stopPropagation()}>
         
-        {/* Material Design Drag Handle (mobile) */}
-        <div className="sm:hidden w-full flex justify-center pt-3 pb-1">
+        {/* Mobile Drag Handle */}
+        <div className="sm:hidden w-full flex justify-center pt-2 pb-1">
           <div className="w-8 h-1 rounded-full bg-gray-300"></div>
         </div>
         
-        {/* Material Design Header */}
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
-              <i className="fas fa-cog text-blue-600 text-sm"></i>
-            </div>
-            <h2 className="text-xl font-medium text-gray-900">Configuration</h2>
-          </div>
+        {/* Compact Header */}
+        <div className="px-4 sm:px-6 py-2 sm:py-3 border-b border-gray-100 flex items-center justify-between">
+          <h2 className="text-lg sm:text-xl font-medium text-gray-900">Configuration</h2>
           <button
             onClick={onClose}
             aria-label="Fermer"
-            className="w-10 h-10 rounded-full hover:bg-gray-100 text-gray-500 transition-colors duration-200 flex items-center justify-center"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full hover:bg-gray-100 text-gray-500 transition-colors duration-200 flex items-center justify-center"
           >
             <i className="fas fa-times text-sm"></i>
           </button>
         </div>
 
-  {/* Contenu compact */}
+  {/* Mobile-Optimized Content */}
   <div ref={modalRef} className="flex-1 overflow-y-auto overscroll-contain">
-    <div className="p-4 sm:p-4 space-y-4">
+    <div className="p-3 sm:p-4 space-y-3 sm:space-y-4">
             
             {/* Section Informations Générales */}
-            <div className={sectionClasses}>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">Informations Générales</h3>
+            <div className="bg-white rounded-lg border border-gray-100 p-3 sm:p-4 shadow-sm">
+              <h3 className="text-sm font-semibold text-gray-900 mb-2 sm:mb-3">Informations Générales</h3>
               
-              <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-                <div className={cardClasses}>
-                  <label htmlFor="establishmentName" className={labelClasses}>
+              <div className="grid grid-cols-1 gap-2 sm:gap-3 lg:grid-cols-2">
+                <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                  <label htmlFor="establishmentName" className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                     Nom de l'établissement
                   </label>
                   <input
@@ -144,13 +139,13 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
                     name="establishmentName"
                     value={localConfig.establishmentName}
                     onChange={handleChange}
-                    className={inputClasses}
+                    className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                     placeholder="Ex: Lycée Ibn al-Haytham"
                   />
                 </div>
                 
-                <div className={cardClasses}>
-                  <label htmlFor="defaultTeacherName" className={labelClasses}>
+                <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                  <label htmlFor="defaultTeacherName" className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                     Nom de l'enseignant
                   </label>
                   <input
@@ -159,26 +154,26 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
                     name="defaultTeacherName"
                     value={localConfig.defaultTeacherName}
                     onChange={handleChange}
-                    className={inputClasses}
+                    className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                     placeholder="Sera utilisé pour les nouvelles classes"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Section Contenu visible - compact */}
-            <div className={sectionClasses}>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">Contenu visible</h3>
+            {/* Section Contenu visible */}
+            <div className="bg-white rounded-lg border border-gray-100 p-3 sm:p-4 shadow-sm">
+              <h3 className="text-sm font-semibold text-gray-900 mb-2 sm:mb-3">Contenu visible</h3>
 
-              <div className="space-y-4 xl:space-y-0 xl:grid xl:grid-cols-2 xl:gap-4">
+              <div className="space-y-3 sm:space-y-4 xl:space-y-0 xl:grid xl:grid-cols-2 xl:gap-3">
                 
                 {/* Application Context */}
-                <div className="rounded-lg p-3 border border-gray-200">
-                  <div className="mb-3">
+                <div className="rounded-lg p-2 sm:p-3 border border-gray-200">
+                  <div className="mb-2">
                     <h4 className="text-sm font-medium text-gray-800">Application (écran)</h4>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2 sm:space-y-3">
                     <div className="flex flex-col sm:flex-row gap-2">
                       {(['all', 'none', 'custom'] as const).map(mode => (
                         <button
@@ -232,18 +227,13 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
                                 <button
                                   key={type}
                                   onClick={() => handleDescriptionTypeToggle('screen', type)}
-          className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-[11px] font-medium ${
+                                  className={`px-2 py-1 rounded-md text-xs font-medium ${
                                     isSelected
                                       ? `${BADGE_COLOR_MAP[type] || 'bg-gray-100 text-gray-800'} ring-1 ring-gray-300`
                                       : 'bg-gray-50 text-gray-600 hover:bg-gray-100 border border-gray-200'
-          }`}
+                                  }`}
                                   data-tippy-content={BADGE_TOOLTIP_MAP[type] || type}
                                 >
-                                  <span className={`inline-flex items-center justify-center w-4 h-4 rounded text-[10px] font-bold ${
-                                    isSelected ? 'bg-white/30' : 'bg-gray-200 text-gray-600'
-                                  }`}>
-                                    {BADGE_TEXT_MAP[type]?.charAt(0) || type.charAt(0).toUpperCase()}
-                                  </span>
                                   {BADGE_TEXT_MAP[type] || type}
                                 </button>
                               );
@@ -407,47 +397,30 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
             </div>
 
             {/* Section Gestion des données - compact */}
-            <div className={sectionClasses}>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center">
-                  <i className="fas fa-database text-green-600 text-sm"></i>
-                </div>
-                <h3 className="text-lg font-medium text-gray-900">Gestion des données</h3>
-              </div>
+            <div className="bg-white rounded-lg border border-gray-100 p-3 sm:p-4 shadow-sm">
+              <h3 className="text-sm font-semibold text-gray-900 mb-2 sm:mb-3">Gestion des données</h3>
               
-              <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                <div className={cardClasses}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
-                      <i className="fas fa-download text-blue-600 text-xs"></i>
-                    </div>
-                    <h4 className="text-sm font-medium text-gray-800">Exporter</h4>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-4">Sauvegardez toutes vos classes et configurations.</p>
+              <div className="grid grid-cols-1 gap-2 sm:gap-3 lg:grid-cols-2">
+                <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                  <h4 className="text-sm font-medium text-gray-800 mb-2">Exporter</h4>
+                  <p className="text-xs sm:text-sm text-gray-600 mb-3">Sauvegardez toutes vos classes et configurations.</p>
                   <button
                     type="button"
                     onClick={onExportPlatform}
-                    className="w-full inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200 material-focus"
+                    className="w-full h-8 sm:h-10 px-3 sm:px-4 rounded-lg border border-gray-300 text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200"
                   >
-                    <i className="fas fa-download text-xs"></i>
                     Exporter tout
                   </button>
                 </div>
                 
-                <div className={cardClasses}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center">
-                      <i className="fas fa-upload text-orange-600 text-xs"></i>
-                    </div>
-                    <h4 className="text-sm font-medium text-gray-800">Importer</h4>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-4">Restaurez vos données depuis un fichier.</p>
+                <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
+                  <h4 className="text-sm font-medium text-gray-800 mb-2">Importer</h4>
+                  <p className="text-xs sm:text-sm text-gray-600 mb-3">Restaurez vos données depuis un fichier.</p>
                   <button
                     type="button"
                     onClick={() => { onClose(); onOpenImport(); }}
-                    className="w-full inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200 material-focus"
+                    className="w-full h-8 sm:h-10 px-3 sm:px-4 rounded-lg border border-gray-300 text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200"
                   >
-                    <i className="fas fa-upload text-xs"></i>
                     Importer fichier
                   </button>
                 </div>
@@ -456,21 +429,20 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
           </div> {/* end inner padding container */}
         </div> {/* end scroll container */}
 
-        {/* Material Design Footer */}
-        <div className="px-6 py-4 bg-white border-t border-gray-100 flex justify-end gap-3">
+        {/* Mobile-Optimized Footer */}
+        <div className="px-3 sm:px-6 py-2 sm:py-3 bg-white border-t border-gray-100 flex justify-end gap-2 sm:gap-3">
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex items-center gap-2 h-10 px-4 rounded-full border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200 material-focus"
+            className="h-8 sm:h-10 px-3 sm:px-4 rounded-lg border border-gray-300 text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200"
           >
             Annuler
           </button>
           <button
             type="button"
             onClick={handleSave}
-            className="inline-flex items-center gap-2 h-10 px-6 rounded-full text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-all duration-200 elevation-1 hover:elevation-2 material-focus"
+            className="h-8 sm:h-10 px-4 sm:px-6 rounded-lg text-white text-xs sm:text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-all duration-200"
           >
-            <i className="fas fa-save text-sm"></i>
             Enregistrer
           </button>
         </div>
