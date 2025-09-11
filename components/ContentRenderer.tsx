@@ -155,9 +155,9 @@ export const ContentRenderer: React.FC<ContentRendererProps> = React.memo(({ dat
           {/* Titre */}
           <EditableCell value={item.title || ''} onSave={handleUpdate('title')} className="font-semibold text-slate-800 p-0" placeholder="Titre..." />
 
-          {/* Description juste en dessous, style doux et moderne */}
+          {/* Description juste en dessous, style professionnel */}
           {allowDescription && item.description && (
-            <div className="mt-1 rounded-md border border-slate-200 bg-slate-50/70 p-2 leading-relaxed text-[13px] text-slate-700 whitespace-pre-wrap">
+            <div className="mt-1 ml-0 max-w-[92%] rounded-md border border-slate-300 bg-gradient-to-r from-slate-50 to-white p-2 shadow-sm leading-relaxed text-[13px] text-slate-700 whitespace-pre-wrap">
               {renderDescriptionWithBold(item.description)}
             </div>
           )}
