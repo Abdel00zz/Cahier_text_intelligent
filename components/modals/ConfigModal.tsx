@@ -93,24 +93,35 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
 
   if (!isOpen) return null;
 
-  // Style compact et minimaliste
-  const inputClasses = "w-full bg-white border border-gray-200 rounded-md px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500";
-  const labelClasses = "block text-xs font-medium text-gray-700 mb-1";
-  const sectionClasses = "bg-white rounded-lg border border-gray-200 p-3 sm:p-4";
-  const cardClasses = "bg-white rounded-md p-3 border border-gray-200";
+  // Material Design styles
+  const inputClasses = "w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-base text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 material-focus";
+  const labelClasses = "block text-sm font-medium text-gray-700 mb-2";
+  const sectionClasses = "bg-white rounded-xl border border-gray-100 p-6 shadow-sm";
+  const cardClasses = "bg-gray-50 rounded-lg p-4 border border-gray-100";
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4" onClick={onClose}>
-      <div className="bg-white rounded-t-2xl sm:rounded-xl shadow-xl w-full sm:max-w-2xl flex flex-col max-h-[96vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
-        {/* En-tête compact */}
-  <div className="px-3 py-2 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
-          <h2 className="text-sm sm:text-base font-semibold text-gray-900">Configuration</h2>
+      <div className="bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full sm:max-w-3xl flex flex-col max-h-[96vh] overflow-hidden elevation-3" onClick={(e) => e.stopPropagation()}>
+        
+        {/* Material Design Drag Handle (mobile) */}
+        <div className="sm:hidden w-full flex justify-center pt-3 pb-1">
+          <div className="w-8 h-1 rounded-full bg-gray-300"></div>
+        </div>
+        
+        {/* Material Design Header */}
+        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+              <i className="fas fa-cog text-blue-600 text-sm"></i>
+            </div>
+            <h2 className="text-xl font-medium text-gray-900">Configuration</h2>
+          </div>
           <button
             onClick={onClose}
             aria-label="Fermer"
-            className="w-8 h-8 flex items-center justify-center rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+            className="w-10 h-10 rounded-full hover:bg-gray-100 text-gray-500 transition-colors duration-200 flex items-center justify-center"
           >
-            ×
+            <i className="fas fa-times text-sm"></i>
           </button>
         </div>
 
@@ -397,36 +408,71 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
 
             {/* Section Gestion des données - compact */}
             <div className={sectionClasses}>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">Gestion des données</h3>
-              <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-                <div className={cardClasses}>
-                  <h4 className="text-sm font-medium text-gray-800 mb-2">Exporter</h4>
-                  <p className="text-[11px] text-gray-600 mb-2">Sauvegardez toutes vos classes et configurations.</p>
-                  <Button type="button" onClick={onExportPlatform} variant="secondary" className="w-full h-9 text-sm">
-                    Exporter tout
-                  </Button>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center">
+                  <i className="fas fa-database text-green-600 text-sm"></i>
                 </div>
+                <h3 className="text-lg font-medium text-gray-900">Gestion des données</h3>
+              </div>
+              
+              <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                 <div className={cardClasses}>
-                  <h4 className="text-sm font-medium text-gray-800 mb-2">Importer</h4>
-                  <p className="text-[11px] text-gray-600 mb-2">Restaurez vos données depuis un fichier.</p>
-                  <Button
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center">
+                      <i className="fas fa-download text-blue-600 text-xs"></i>
+                    </div>
+                    <h4 className="text-sm font-medium text-gray-800">Exporter</h4>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4">Sauvegardez toutes vos classes et configurations.</p>
+                  <button
+                    type="button"
+                    onClick={onExportPlatform}
+                    className="w-full inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200 material-focus"
+                  >
+                    <i className="fas fa-download text-xs"></i>
+                    Exporter tout
+                  </button>
+                </div>
+                
+                <div className={cardClasses}>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center">
+                      <i className="fas fa-upload text-orange-600 text-xs"></i>
+                    </div>
+                    <h4 className="text-sm font-medium text-gray-800">Importer</h4>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-4">Restaurez vos données depuis un fichier.</p>
+                  <button
                     type="button"
                     onClick={() => { onClose(); onOpenImport(); }}
-                    variant="secondary"
-                    className="w-full h-9 text-sm"
+                    className="w-full inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200 material-focus"
                   >
+                    <i className="fas fa-upload text-xs"></i>
                     Importer fichier
-                  </Button>
+                  </button>
                 </div>
               </div>
             </div> {/* end section */}
           </div> {/* end inner padding container */}
         </div> {/* end scroll container */}
 
-  {/* Pied de modal compact */}
-  <div className="px-4 py-3 bg-gray-50 border-t border-gray-200 flex justify-end gap-2 flex-shrink-0">
-    <Button type="button" onClick={onClose} variant="secondary" className="px-4 h-11 sm:h-9 text-sm">Annuler</Button>
-    <Button type="button" onClick={handleSave} variant="primary" className="px-4 h-11 sm:h-9 text-sm">Enregistrer</Button>
+        {/* Material Design Footer */}
+        <div className="px-6 py-4 bg-white border-t border-gray-100 flex justify-end gap-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex items-center gap-2 h-10 px-4 rounded-full border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200 material-focus"
+          >
+            Annuler
+          </button>
+          <button
+            type="button"
+            onClick={handleSave}
+            className="inline-flex items-center gap-2 h-10 px-6 rounded-full text-white text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-all duration-200 elevation-1 hover:elevation-2 material-focus"
+          >
+            <i className="fas fa-save text-sm"></i>
+            Enregistrer
+          </button>
         </div>
       </div>
     </div>

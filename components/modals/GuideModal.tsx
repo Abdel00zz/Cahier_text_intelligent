@@ -147,13 +147,13 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-end sm:items-start justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-6 animate-fade-in overflow-hidden" 
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-0 sm:p-4 animate-fade-in" 
       onClick={onClose}
       data-modal-overlay
     >
       <div 
         ref={modalRef}
-        className="bg-white rounded-t-2xl sm:rounded-3xl shadow-2xl w-full max-w-5xl h-[92vh] sm:h-[86vh] flex flex-col animate-slide-in-up border border-gray-100 overflow-hidden" 
+        className="bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full max-w-6xl h-[92vh] sm:h-[86vh] flex flex-col animate-slide-in-up elevation-3 overflow-hidden" 
         onClick={(e) => e.stopPropagation()}
         tabIndex={0}
         role="dialog"
@@ -161,23 +161,28 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
         aria-labelledby="guide-modal-title"
         aria-describedby="guide-modal-desc"
       >
-        {/* Header modern, aligned with Configuration modal */}
-  <div className="px-3 sm:px-6 py-3 sm:py-4 border-b border-gray-100 flex items-center justify-between bg-gradient-to-r from-gray-50 to-white">
-          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-teal-500 to-emerald-600 text-white flex items-center justify-center rounded-xl sm:rounded-2xl shadow-lg">
-              <i className="fas fa-book-reader text-sm sm:text-base"></i>
+        {/* Material Design Drag Handle (mobile) */}
+        <div className="sm:hidden w-full flex justify-center pt-3 pb-1">
+          <div className="w-8 h-1 rounded-full bg-gray-300"></div>
+        </div>
+        
+        {/* Material Design Header */}
+        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-white">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 bg-blue-50 flex items-center justify-center rounded-full">
+              <i className="fas fa-book-reader text-blue-600 text-sm"></i>
             </div>
             <div className="min-w-0">
-              <h2 id="guide-modal-title" className="text-lg sm:text-xl font-semibold text-black truncate">Aide | مساعدة</h2>
-              <p id="guide-modal-desc" className="text-xs sm:text-sm text-gray-500 hidden sm:block">Guide bilingue avec astuces, raccourcis et options d’affichage</p>
+              <h2 id="guide-modal-title" className="text-xl font-medium text-gray-900 truncate">Guide d'utilisation</h2>
+              <p id="guide-modal-desc" className="text-sm text-gray-500 hidden sm:block">Documentation complète en français et arabe</p>
             </div>
           </div>
           <button 
             onClick={onClose} 
-            className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all duration-200"
+            className="w-10 h-10 rounded-full hover:bg-gray-100 text-gray-500 transition-colors duration-200 flex items-center justify-center"
             aria-label="Fermer le guide (Échap)"
           >
-            <i className="fas fa-times text-sm sm:text-base"></i>
+            <i className="fas fa-times text-sm"></i>
           </button>
         </div>
         <div className="flex-1 min-h-0 bg-slate-50">

@@ -47,22 +47,24 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
     correctedDate.setHours(0,0,0,0);
     
     if(correctedDate.getTime() === today.getTime()){
-        return <div className="text-center font-semibold text-teal-600">Aujourd'hui</div>;
+        return <div className="text-center font-medium text-teal-600 text-sm">Aujourd'hui</div>;
     }
 
     try {
         const day = correctedDate.toLocaleDateString('fr-FR', { day: '2-digit' });
-        const month = correctedDate.toLocaleDateString('fr-FR', { month: 'short' }).toUpperCase().replace('.', '');
+        const month = correctedDate.toLocaleDateString('fr-FR', { month: '2-digit' });
         const year = correctedDate.getFullYear();
         return (
-            <div className="text-center font-semibold leading-tight">
-                <div className="text-slate-800 text-lg">{day}</div>
-                <div className="text-xs text-slate-500">{month}</div>
-                <div className="text-[10px] text-slate-400 mt-0.5">{year}</div>
+            <div className="text-center font-medium text-slate-700 text-sm">
+                <span className="font-semibold">{day}</span>
+                <span className="text-slate-500 mx-1">/</span>
+                <span className="font-semibold">{month}</span>
+                <span className="text-slate-500 mx-1">/</span>
+                <span className="text-slate-600">{year}</span>
             </div>
         );
-    } catch {
-        return <span className="text-slate-400 italic text-xs">Date invalide</span>;
+    } catch (error) {
+        return <span className="text-red-500 text-xs">Date invalide</span>;
     }
   };
 
@@ -128,13 +130,24 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                         <EditableTitle value={item.title} onSave={(v) => onCellUpdate(indices, 'title', v)} />
                     </div>
                 </div>
-                <div className="absolute top-1/2 -translate-y-1/2 right-2 hidden md:flex gap-1 md:opacity-0 group-hover:opacity-100 transition-all duration-200 transform md:scale-90 md:group-hover:scale-100 print:hidden">
-                  <Button variant="icon" size="sm" onClick={(e) => { e.stopPropagation(); handleOpenAddModal(); }} data-tippy-content="Ajouter après" className="w-6 h-6 text-xs bg-white/60 hover:bg-white text-green-700 shadow">
-                      <i className="fas fa-plus"></i>
-                  </Button>
-                  <Button variant="icon" size="sm" onClick={(e) => { e.stopPropagation(); handleDelete(); }} data-tippy-content="Supprimer" className="w-6 h-6 text-xs bg-white/60 hover:bg-white text-red-700 shadow">
-                    <i className="fas fa-trash-alt"></i>
-                  </Button>
+                {/* Minimal action buttons for top-level blocks - always visible with transparency */}
+                <div className="absolute top-1/2 -translate-y-1/2 right-2 flex gap-1 opacity-70 hover:opacity-100 transition-opacity duration-200 print:hidden">
+                    <button 
+                        onClick={(e) => { e.stopPropagation(); handleOpenAddModal(); }} 
+                        className="w-7 h-7 flex items-center justify-center rounded bg-white/80 text-green-600 hover:bg-green-50 hover:text-green-700 transition-colors duration-200 material-focus"
+                        data-tippy-content="Ajouter après"
+                        aria-label="Ajouter après"
+                    >
+                        <i className="fas fa-plus text-xs"></i>
+                    </button>
+                    <button 
+                        onClick={(e) => { e.stopPropagation(); handleDelete(); }} 
+                        className="w-7 h-7 flex items-center justify-center rounded bg-white/80 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-200 material-focus"
+                        data-tippy-content="Supprimer"
+                        aria-label="Supprimer"
+                    >
+                        <i className="fas fa-trash text-xs"></i>
+                    </button>
                 </div>
             </div>
             {/* Remark Column */}
@@ -162,7 +175,7 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
         <div className="px-2 pt-2 md:hidden">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Date</span>
         </div>
-        <div className="relative group/date h-full flex items-center justify-between p-2 md:p-0 md:justify-center" onClick={(e) => e.stopPropagation()}>
+        <div className="relative group/date h-full flex items-center justify-center p-2 md:p-0 md:pr-16" onClick={(e) => e.stopPropagation()}>
             {isEditingDate ? (
                  <input
                     ref={dateInputRef}
@@ -184,7 +197,7 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                     tabIndex={0}
                     onClick={() => setIsEditingDate(true)}
                     onKeyDown={(e) => { if (e.key === 'Enter') setIsEditingDate(true); }}
-                    className={`flex-grow h-full flex items-center md:justify-center text-left text-xs rounded transition-colors cursor-pointer hover:bg-slate-100 ${data.date ? '' : 'text-slate-400'}`}
+                    className={`flex-grow h-full flex items-center justify-center text-center text-xs rounded transition-colors cursor-pointer hover:bg-slate-100 ${data.date ? '' : 'text-slate-400'}`}
                     title="Cliquer pour modifier la date"
                 >
                     {renderDate(data.date)}
@@ -192,13 +205,23 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
             )}
             
             {!isEditingDate && (
-                <div className="flex items-center gap-1 transition-opacity md:absolute md:top-1/2 md:right-1 md:-translate-y-1/2 md:opacity-0 md:group-hover/date:opacity-100">
-                    <button onClick={() => onCellUpdate(indices, 'date', new Date().toISOString().slice(0, 10))} className="w-6 h-6 flex items-center justify-center rounded-full text-xs bg-teal-100 hover:bg-teal-200 text-teal-700" data-tippy-content="Aujourd'hui">
-                        <i className="fas fa-calendar-day"></i>
+                <div className="flex items-center gap-1 opacity-70 hover:opacity-100 transition-opacity duration-200 mt-2 md:mt-0 md:absolute md:top-1/2 md:right-2 md:-translate-y-1/2">
+                    <button 
+                        onClick={() => onCellUpdate(indices, 'date', new Date().toISOString().slice(0, 10))} 
+                        className="w-6 h-6 flex items-center justify-center bg-white/80 text-teal-600 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200 material-focus" 
+                        data-tippy-content="Aujourd'hui"
+                        aria-label="Définir à aujourd'hui"
+                    >
+                        <i className="fas fa-calendar-day text-xs"></i>
                     </button>
                     {data.date &&
-                        <button onClick={() => onCellUpdate(indices, 'date', '')} className="w-6 h-6 flex items-center justify-center rounded-full text-xs bg-slate-100 hover:bg-slate-200 text-slate-600" data-tippy-content="Effacer la date">
-                            <i className="fas fa-times-circle"></i>
+                        <button 
+                            onClick={() => onCellUpdate(indices, 'date', '')} 
+                            className="w-6 h-6 flex items-center justify-center bg-white/80 text-gray-600 hover:bg-gray-50 hover:text-gray-700 transition-colors duration-200 material-focus" 
+                            data-tippy-content="Effacer la date"
+                            aria-label="Effacer la date"
+                        >
+                            <i className="fas fa-times-circle text-xs"></i>
                         </button>
                     }
                 </div>
@@ -218,19 +241,35 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                 onCellUpdate={onCellUpdate}
             />
         </div>
-                <div className="absolute top-1/2 -translate-y-1/2 right-2 hidden md:flex gap-1 md:opacity-0 group-hover:opacity-100 transition-all duration-200 transform md:scale-90 md:group-hover:scale-100 print:hidden">
-                    <Button variant="icon" size="sm" onClick={(e) => { e.stopPropagation(); handleOpenAddModal(); }} data-tippy-content="Ajouter après" className="w-6 h-6 text-xs bg-green-100 hover:bg-green-200 text-green-700">
-              <i className="fas fa-plus"></i>
-          </Button>
-          {elementType === 'item' && (
-            <Button variant="icon" size="sm" onClick={(e) => { e.stopPropagation(); handleInitiateEdit(); }} data-tippy-content="Modifier" className="w-6 h-6 text-xs bg-blue-100 hover:bg-blue-200 text-blue-700">
-                <i className="fas fa-pencil-alt"></i>
-            </Button>
-          )}
-          <Button variant="icon" size="sm" onClick={(e) => { e.stopPropagation(); handleDelete(); }} data-tippy-content="Supprimer" className="w-6 h-6 text-xs bg-red-100 hover:bg-red-200 text-red-700">
-            <i className="fas fa-trash-alt"></i>
-          </Button>
-        </div>
+                {/* Minimal action buttons - always visible with transparency */}
+                <div className="absolute top-1/2 -translate-y-1/2 right-2 flex gap-1 opacity-70 hover:opacity-100 transition-opacity duration-200 print:hidden">
+                    <button 
+                        onClick={(e) => { e.stopPropagation(); handleOpenAddModal(); }} 
+                        className="w-7 h-7 flex items-center justify-center rounded bg-white/80 text-green-600 hover:bg-green-50 hover:text-green-700 transition-colors duration-200 material-focus"
+                        data-tippy-content="Ajouter après"
+                        aria-label="Ajouter après"
+                    >
+                        <i className="fas fa-plus text-xs"></i>
+                    </button>
+                    {elementType === 'item' && (
+                        <button 
+                            onClick={(e) => { e.stopPropagation(); handleInitiateEdit(); }} 
+                            className="w-7 h-7 flex items-center justify-center rounded bg-white/80 text-blue-600 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200 material-focus"
+                            data-tippy-content="Modifier"
+                            aria-label="Modifier"
+                        >
+                            <i className="fas fa-edit text-xs"></i>
+                        </button>
+                    )}
+                    <button 
+                        onClick={(e) => { e.stopPropagation(); handleDelete(); }} 
+                        className="w-7 h-7 flex items-center justify-center rounded bg-white/80 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-200 material-focus"
+                        data-tippy-content="Supprimer"
+                        aria-label="Supprimer"
+                    >
+                        <i className="fas fa-trash text-xs"></i>
+                    </button>
+                </div>
       </div>
       <div className="w-full md:w-[15%] p-1 relative border-t md:border-t-0 border-slate-200" onClick={(e) => e.stopPropagation()}>
         <div className="px-1 pt-1 md:hidden">

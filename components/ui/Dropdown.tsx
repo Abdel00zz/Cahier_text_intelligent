@@ -174,7 +174,7 @@ export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, but
       {isOpen && createPortal(
         <div
           ref={menuRef}
-          className="w-64 bg-white rounded-lg shadow-2xl border z-[70] py-1 backdrop-blur-sm"
+          className="min-w-48 bg-white rounded-lg shadow-md border border-gray-200 z-[70] py-1"
           style={menuStyle}
           role="menu"
         >
@@ -208,7 +208,11 @@ export const DropdownItem: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement
     };
     
     return (
-        <button {...props} onClick={handleClick} className={`w-full text-left flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:bg-transparent ${className}`}>
+        <button 
+            {...props} 
+            onClick={handleClick} 
+            className={`w-full text-left flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:bg-transparent transition-colors duration-150 material-focus ${className}`}
+        >
             {children}
         </button>
     );

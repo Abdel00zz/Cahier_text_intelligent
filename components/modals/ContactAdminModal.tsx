@@ -272,38 +272,63 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
     };
 
     return (
-            <div className="fixed inset-0 bg-slate-900/60 flex items-end sm:items-center justify-center z-[100] p-0 sm:p-6 touch-manipulation" onClick={resetAndClose}>
-                <div className={`bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl ring-1 ring-slate-900/10 w-full sm:w-auto sm:max-w-2xl overflow-hidden ${arClass} animate-slide-in-up ${bodyTextSize}`} role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()} dir={dir}>
-                {/* Drag handle (mobile) */}
-                <div className="sm:hidden w-full flex justify-center pt-2">
-                    <div className="w-12 h-1.5 rounded-full bg-slate-300"></div>
+        <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-[100] p-0 sm:p-4" onClick={resetAndClose}>
+            <div className={`bg-white rounded-t-3xl sm:rounded-2xl shadow-xl w-full sm:w-auto sm:max-w-2xl overflow-hidden ${arClass} animate-slide-in-up ${bodyTextSize} elevation-3`} role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()} dir={dir}>
+                
+                {/* Material Design Drag Handle (mobile) */}
+                <div className="sm:hidden w-full flex justify-center pt-3 pb-1">
+                    <div className="w-8 h-1 rounded-full bg-gray-300"></div>
                 </div>
-                {/* Header */}
-                    <div className="px-6 py-4 sm:py-5 border-b border-slate-100 sticky top-0 bg-gradient-to-r from-indigo-50 to-blue-50 z-10">
+                
+                {/* Material Design Header */}
+                <div className="px-6 py-4 sm:py-5 border-b border-gray-100 bg-white">
                     <div className="flex items-center justify-between gap-3">
-                        <div className="flex items-center gap-2 text-gray-800 min-w-0">
-                            <i className="fas fa-unlock text-teal-600"></i>
-                            <h2 className={`text-lg sm:text-xl font-bold text-slate-800 tracking-tight truncate ${lang === 'ar' ? 'font-ar' : ''}`}>{t.modalTitle}</h2>
+                        <div className="flex items-center gap-3 text-gray-900 min-w-0">
+                            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+                                <i className="fas fa-unlock text-blue-600 text-sm"></i>
+                            </div>
+                            <h2 className={`text-xl font-medium text-gray-900 truncate ${lang === 'ar' ? 'font-ar' : ''}`}>{t.modalTitle}</h2>
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
-                            <div className="inline-flex items-center rounded-full border border-slate-300 bg-slate-50 p-0.5">
-                                <button aria-pressed={lang==='fr'} className={`px-2.5 h-8 text-[11px] rounded-full transition-colors ${lang === 'fr' ? 'bg-white text-slate-900 shadow' : 'text-slate-700 hover:text-slate-900'}`} onClick={() => setLang('fr')}>FR</button>
-                                <button aria-pressed={lang==='ar'} className={`px-2.5 h-8 text-[11px] rounded-full transition-colors ${lang === 'ar' ? 'bg-white text-slate-900 shadow' : 'text-slate-700 hover:text-slate-900'}`} onClick={() => setLang('ar')}>AR</button>
+                            <div className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 p-1">
+                                <button aria-pressed={lang==='fr'} className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 ${lang === 'fr' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`} onClick={() => setLang('fr')}>FR</button>
+                                <button aria-pressed={lang==='ar'} className={`px-3 py-1 text-xs font-medium rounded-full transition-all duration-200 ${lang === 'ar' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'}`} onClick={() => setLang('ar')}>AR</button>
                             </div>
-                            <button onClick={resetAndClose} aria-label="Fermer" className="w-9 h-9 rounded-md hover:bg-gray-100 text-gray-500">×</button>
+                            <button onClick={resetAndClose} aria-label="Fermer" className="w-10 h-10 rounded-full hover:bg-gray-100 text-gray-500 transition-colors duration-200 flex items-center justify-center">
+                                <i className="fas fa-times text-sm"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                {/* Progress indicator */}
-                    <div className="px-5 pt-3">
-                    <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-indigo-600 transition-all" style={{ width: `${(step/3)*100}%` }}></div>
+                {/* Material Design Progress Indicator */}
+                <div className="px-6 py-4 bg-gray-50 border-b border-gray-100">
+                    <div className="flex items-center justify-between mb-3">
+                        {[1, 2, 3].map((stepNum) => (
+                            <div key={stepNum} className="flex items-center">
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-200 ${
+                                    step >= stepNum 
+                                        ? 'bg-blue-600 text-white' 
+                                        : 'bg-gray-200 text-gray-500'
+                                }`}>
+                                    {step > stepNum ? (
+                                        <i className="fas fa-check text-xs"></i>
+                                    ) : (
+                                        stepNum
+                                    )}
+                                </div>
+                                {stepNum < 3 && (
+                                    <div className={`w-16 sm:w-24 h-0.5 mx-2 transition-all duration-200 ${
+                                        step > stepNum ? 'bg-blue-600' : 'bg-gray-200'
+                                    }`}></div>
+                                )}
+                            </div>
+                        ))}
                     </div>
-                    <div className={`mt-2 flex items-center justify-between text-[11px] sm:text-xs text-slate-500 ${lang === 'ar' ? 'font-ar' : ''}`}>
-                        <span className={step===1 ? 'text-indigo-600 font-medium' : ''}>1. {t.step1}</span>
-                        <span className={step===2 ? 'text-indigo-600 font-medium' : ''}>2. {t.step2}</span>
-                        <span className={step===3 ? 'text-indigo-600 font-medium' : ''}>3. {t.step3}</span>
+                    <div className={`flex items-center justify-between text-xs text-gray-600 ${lang === 'ar' ? 'font-ar' : ''}`}>
+                        <span className={step===1 ? 'text-blue-600 font-medium' : ''}>1. {t.step1}</span>
+                        <span className={step===2 ? 'text-blue-600 font-medium' : ''}>2. {t.step2}</span>
+                        <span className={step===3 ? 'text-blue-600 font-medium' : ''}>3. {t.step3}</span>
                     </div>
                 </div>
 
@@ -558,22 +583,38 @@ const ContactAdminModal: React.FC<ContactAdminModalProps> = ({ isOpen, onClose, 
                                 <div className="text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm">{t.sentFail}</div>
                             )}
 
-                            {/* Footer: Step 3 */}
-                            <div className="flex items-center justify-between gap-2 sticky bottom-0 bg-white/95 backdrop-blur safe-bottom py-3 px-1">
-                                <div className="flex items-center gap-2">
-                                    <button onClick={() => setStep(2)} className="h-10 px-4 rounded-lg border border-slate-300 text-sm hover:bg-slate-50">{t.back}</button>
+                            {/* Material Design Footer: Step 3 */}
+                            <div className="sticky bottom-0 bg-white border-t border-gray-100 p-4 sm:p-6">
+                                <div className="flex items-center justify-between gap-3">
+                                    <div className="flex items-center gap-2">
+                                        <button 
+                                            onClick={() => setStep(2)} 
+                                            className="inline-flex items-center gap-2 h-10 px-4 rounded-full border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200 material-focus"
+                                        >
+                                            <i className="fas fa-arrow-left text-xs"></i>
+                                            {t.back}
+                                        </button>
+                                        <button 
+                                            onClick={() => setShowHelp(v => !v)} 
+                                            className="inline-flex items-center gap-2 h-10 px-3 rounded-full border border-gray-300 text-sm text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200 material-focus"
+                                        >
+                                            <i className={`fas ${showHelp ? 'fa-eye-slash' : 'fa-circle-info'} text-blue-600 text-xs`}></i>
+                                            <span className="hidden sm:inline">{t.help}</span>
+                                        </button>
+                                    </div>
                                     <button 
-                                        onClick={() => setShowHelp(v => !v)} 
-                                        className="inline-flex items-center gap-1 h-10 px-3 rounded-lg border border-slate-300 text-[12px] text-slate-700 bg-white hover:bg-slate-50 transition-colors"
+                                        disabled={sending} 
+                                        onClick={sent === 'ok' ? resetAndClose : handleSend} 
+                                        className={`inline-flex items-center gap-2 h-11 px-6 rounded-full text-white text-sm font-medium transition-all duration-200 elevation-1 hover:elevation-2 material-focus ${
+                                            sent === 'ok' 
+                                                ? 'bg-green-600 hover:bg-green-700' 
+                                                : 'bg-blue-600 hover:bg-blue-700'
+                                        } ${sending ? 'opacity-75 cursor-not-allowed' : ''}`}
                                     >
-                                        <i className={`fas ${showHelp ? 'fa-eye-slash' : 'fa-circle-info'} text-indigo-600`}></i>
-                                        <span className="hidden sm:inline">{t.help}</span>
+                                        <i className={`fas ${sent === 'ok' ? 'fa-check' : (sending ? 'fa-circle-notch fa-spin' : 'fa-paper-plane')} text-sm`}></i>
+                                        {sent === 'ok' ? t.finish : t.send}
                                     </button>
                                 </div>
-                                <button disabled={sending} onClick={sent === 'ok' ? resetAndClose : handleSend} className={`h-10 sm:h-11 px-4 sm:px-5 rounded-lg text-white text-sm inline-flex items-center gap-2 ${sent === 'ok' ? 'bg-gray-900 hover:bg-gray-800' : 'bg-indigo-600 hover:bg-indigo-700 shadow-sm'}`}>
-                                    <i className={`fas ${sent === 'ok' ? 'fa-check' : (sending ? 'fa-circle-notch fa-spin' : 'fa-paper-plane')}`}></i>
-                                    {sent === 'ok' ? t.finish : t.send}
-                                </button>
                             </div>
                         </div>
                     )}

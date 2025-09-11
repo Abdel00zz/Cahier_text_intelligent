@@ -3,6 +3,31 @@ import { ClassInfo } from '../types';
 import { SUBJECT_ABBREV_MAP } from '../constants';
 import { getSubjectTextColor } from '../utils/subjectColors';
 
+// Fonction pour obtenir des couleurs créatives pour les matières
+const getCreativeSubjectColor = (subject: string): string => {
+    const colorMap: { [key: string]: string } = {
+        'Mathématiques': '#8B5CF6', // Violet
+        'الرياضيات': '#8B5CF6',
+        'Physique': '#06B6D4', // Cyan
+        'Physique-Chimie': '#06B6D4',
+        'Sciences de la Vie et de la Terre': '#10B981', // Emerald
+        'علوم الحياة والأرض': '#10B981',
+        'SVT': '#10B981',
+        'Chimie': '#F59E0B', // Amber
+        'Français': '#EF4444', // Red
+        'Anglais': '#3B82F6', // Blue
+        'Arabe': '#EC4899', // Pink
+        'العربية': '#EC4899',
+        'Histoire': '#A855F7', // Purple
+        'Géographie': '#059669', // Emerald-600
+        'Philosophie': '#7C2D12', // Orange-900
+        'Informatique': '#1F2937', // Gray-800
+        'Sport': '#DC2626', // Red-600
+        'Arts': '#BE185D' // Pink-700
+    };
+    return colorMap[subject] || '#6B7280'; // Gray-500 par défaut
+};
+
 interface ClassCardProps {
     classInfo: ClassInfo;
     lastModified: string | null | undefined;
@@ -67,60 +92,48 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
 
     return (
         <div 
-            className={`card-modern group relative rounded-xl shadow-lg cursor-pointer overflow-hidden flex flex-col aspect-[3/2] sm:aspect-[4/3] border border-slate-700/30`}
+            className="group relative rounded-2xl cursor-pointer overflow-hidden flex flex-col aspect-[3/2] sm:aspect-[4/3] bg-white shadow-md hover:shadow-xl transition-all duration-300 ease-out transform hover:-translate-y-1 border border-gray-100"
             onClick={onSelect}
+            style={{
+                background: `linear-gradient(135deg, ${classInfo.color || '#0f766e'}15 0%, ${classInfo.color || '#0f766e'}08 100%)`
+            }}
         >
-            {/* SVG Background with modern gradient */}
-            <div className="absolute inset-0 w-full h-full opacity-40">
-                <svg className="w-full h-full" viewBox="0 0 200 150" preserveAspectRatio="none">
-                    <defs>
-                        <linearGradient id={`grad-${classInfo.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style={{stopColor: '#1e293b', stopOpacity: 1}} />
-                            <stop offset="100%" style={{stopColor: classInfo.color || '#0f766e', stopOpacity: 1}} />
-                        </linearGradient>
-                        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feGaussianBlur stdDeviation="10" result="blur" />
-                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                        </filter>
-                    </defs>
-                    <path d="M0,50 Q50,0 100,50 T200,50 V150 H0 Z" fill={`url(#grad-${classInfo.id})`} />
-                    <path d="M0,70 Q50,20 100,70 T200,70" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
-                </svg>
-            </div>
-
-            {/* Glass effect overlay */}
-            <div className="absolute inset-0 glass-effect opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-
-            <div className="relative flex flex-col h-full p-4 text-white z-10">
-                {/* Delete Button with improved styling */}
+            <div className="relative flex flex-col h-full p-4 z-10">
+                {/* Delete Button - Material Design */}
                 <button 
                     onClick={handleDeleteClick}
-                    className="absolute top-3 left-3 w-8 h-8 flex items-center justify-center bg-slate-800/60 text-slate-300 rounded-full opacity-0 sm:group-hover:opacity-100 transition-all duration-300 hover:bg-red-500/80 hover:text-white hover:scale-110 z-20 shadow-lg"
+                    className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-white/90 text-gray-600 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 hover:scale-105 z-20 shadow-sm"
                     data-tippy-content="Supprimer la classe"
                     aria-label="Supprimer la classe"
                 >
                     <i className="fas fa-times text-xs"></i>
                 </button>
 
-                {/* Centered Content */}
-                <div className="flex-grow flex flex-col items-center justify-center text-center px-2 -mt-4">
-                    {/* Subject Badge - Modern style */}
-                    <div className="badge-modern mb-3 transform transition-all duration-300 group-hover:scale-105">
-                        <p className={`${isSubjectArabic ? 'font-ar' : 'font-poppins'} ${subjectColor} drop-shadow-sm`} style={{ color: '#3b82f6' }}>
+                {/* Header with Subject Badge */}
+                <div className="flex justify-center mb-4">
+                    <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium" 
+                         style={{
+                             background: `linear-gradient(135deg, ${getCreativeSubjectColor(classInfo.subject)}20 0%, ${getCreativeSubjectColor(classInfo.subject)}40 100%)`,
+                             color: getCreativeSubjectColor(classInfo.subject),
+                             border: `1px solid ${getCreativeSubjectColor(classInfo.subject)}30`
+                         }}>
+                        <span className={isSubjectArabic ? 'font-ar' : 'font-medium'}>
                             {displaySubject}
-                        </p>
+                        </span>
                     </div>
-                    
-                    {/* Class Name with modern styling */}
-                    <h3 className={`title-modern break-words leading-tight tracking-tight font-semibold relative z-20 ${isArabic ? 'title-ar text-5xl sm:text-6xl' : 'font-quicksand text-3xl sm:text-4xl'}`} style={{ fontSize: '115%' }}>
+                </div>
+
+                {/* Main Content - Centered */}
+                <div className="flex-grow flex flex-col justify-center items-center text-center">
+                    <h3 className={`text-gray-900 font-semibold leading-tight mb-2 ${isArabic ? 'font-ar text-xl' : 'text-lg'}`}>
                         {formatSuperscript(classInfo.name)}
                     </h3>
                 </div>
 
-                {/* Last Modified chip with modern styling */}
-                <div className="absolute left-3 bottom-3">
-                    <div className="last-modified-chip">
-                        <i className="fas fa-history text-blue-300"></i>
+                {/* Footer with Last Modified */}
+                <div className="mt-auto pt-3 border-t border-gray-100">
+                    <div className="flex items-center text-xs text-gray-500">
+                        <i className="fas fa-clock mr-2 text-gray-400"></i>
                         <span>{formatDate(lastModified)}</span>
                     </div>
                 </div>

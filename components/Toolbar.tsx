@@ -134,13 +134,23 @@ export const Toolbar: React.FC<ToolbarProps> = React.memo(({
                   className="flex-1 h-10 px-2 text-sm bg-white rounded-md border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:outline-none"
                 />
                 {localSearch && (
-                  <Button variant="secondary" size="sm" onClick={() => { setLocalSearch(''); setSearchQuery(''); }} aria-label="Effacer la recherche">
-                    <i className="fas fa-times"></i>
-                  </Button>
+                  <button 
+                    type="button" 
+                    onClick={() => { setLocalSearch(''); setSearchQuery(''); }} 
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-all duration-200 material-focus"
+                    aria-label="Effacer la recherche"
+                  >
+                    <i className="fas fa-times text-sm"></i>
+                  </button>
                 )}
-                <Button variant="secondary" size="sm" onClick={() => setIsSearchVisible(false)} aria-label="Fermer">
-                  <i className="fas fa-chevron-up"></i>
-                </Button>
+                <button 
+                  type="button" 
+                  onClick={() => setIsSearchVisible(false)} 
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600 hover:text-blue-700 transition-all duration-200 material-focus"
+                  aria-label="Fermer la recherche"
+                >
+                  <i className="fas fa-chevron-up text-sm"></i>
+                </button>
               </div>
             </div>
           )}
@@ -156,13 +166,8 @@ export const Toolbar: React.FC<ToolbarProps> = React.memo(({
                 placeholder="Rechercher..."
                 value={localSearch}
                 onChange={(e) => setLocalSearch(e.target.value)}
-                className="w-full h-9 pl-4 pr-8 text-sm bg-white rounded-full border border-slate-300 shadow-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
+                className="w-full h-9 pl-4 pr-4 text-sm bg-white rounded-full border border-slate-300 shadow-sm focus:ring-2 focus:ring-teal-500 focus:outline-none"
               />
-              {localSearch && (
-                <button type="button" onClick={() => { setLocalSearch(''); setSearchQuery(''); searchInputRef.current?.focus(); }} className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" aria-label="Effacer">
-                  <i className="fas fa-times-circle"></i>
-                </button>
-              )}
             </div>
           </div>
         </div>

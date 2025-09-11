@@ -24,10 +24,17 @@ const AddClassCard: React.FC<{ onClick: () => void }> = ({ onClick }) => (
         tabIndex={0}
         onClick={onClick}
         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
-    className="w-full h-full flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-300 text-slate-500 hover:border-teal-500 hover:text-teal-600 transition-all duration-200 aspect-[5/3] group cursor-pointer focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+        className="w-full h-full flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 text-gray-500 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 aspect-[3/2] sm:aspect-[4/3] group cursor-pointer material-focus bg-white shadow-sm hover:shadow-md"
+        aria-label="Créer une nouvelle classe"
     >
-    <i className="fas fa-plus text-2xl mb-1 transition-transform group-hover:scale-110"></i>
-    <span className="font-semibold text-center text-xs">Créer une nouvelle classe</span>
+        <div className="flex flex-col items-center justify-center p-4">
+            <div className="w-12 h-12 rounded-full bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center mb-3 transition-colors duration-200">
+                <i className="fas fa-plus text-lg text-gray-400 group-hover:text-blue-500 transition-colors duration-200"></i>
+            </div>
+            <span className="font-medium text-center text-sm text-gray-600 group-hover:text-blue-600 transition-colors duration-200">
+                Créer une nouvelle classe
+            </span>
+        </div>
     </div>
 );
 
