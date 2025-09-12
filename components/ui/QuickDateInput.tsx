@@ -81,19 +81,19 @@ export const QuickDateInput = forwardRef<HTMLInputElement, QuickDateInputProps>(
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onFocus={() => setShowSuggestions(true)}
-          className={className}
+          className={`${className} h-10 px-3 py-2 text-base rounded-lg border-2 border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all duration-200`}
           aria-label="Modifier la date"
         />
         
         {showSuggestions && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-20 overflow-hidden animate-fade-in">
+          <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-slate-300 rounded-xl shadow-xl z-20 overflow-hidden animate-fade-in">
             {suggestions.map((suggestion, index) => (
               <button
                 key={index}
                 type="button"
                 onMouseDown={(e) => e.preventDefault()} // Prevent input blur
                 onClick={() => handleSuggestionClick(suggestion.value)}
-                className="w-full px-3 py-2 text-left text-sm hover:bg-teal-50 flex items-center justify-between group transition-colors duration-150"
+                className="w-full px-4 py-3 text-left text-base hover:bg-teal-50 active:bg-teal-100 flex items-center justify-between group transition-colors duration-150 font-medium"
               >
                 <span className="text-slate-700 group-hover:text-teal-700">{suggestion.label}</span>
               </button>

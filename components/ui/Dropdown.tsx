@@ -167,26 +167,38 @@ export const Dropdown: React.FC<DropdownProps> = ({ buttonContent, children, but
 
   return (
     <div className="relative z-[60]" ref={dropdownRef}>
-        <Button ref={buttonRef as any} onClick={() => setIsOpen(!isOpen)} {...finalButtonProps}>
+        <Button 
+          ref={buttonRef as any} 
+          onClick={() => setIsOpen(!isOpen)} 
+          className="w-10 h-10 flex items-center justify-center rounded-full active:bg-gray-200"
+          {...finalButtonProps}
+        >
             {buttonContent}
         </Button>
       
       {isOpen && createPortal(
-        <div
-          ref={menuRef}
-          className="min-w-48 bg-white rounded-lg shadow-md border border-gray-200 z-[70] py-1"
-          style={menuStyle}
-          role="menu"
-        >
-          {React.Children.map(children, (child) => {
-            if (React.isValidElement(child) && child.type === DropdownItem) {
-              return React.cloneElement(child as React.ReactElement<any>, {
-                onDropdownClose: () => setIsOpen(false)
-              });
-            }
-            return child;
-          })}
-        </div>,
+        <>
+          {/* Backdrop pour fermer sur mobile */}
+          <div 
+            className="fixed inset-0 bg-black/5 z-[65] md:hidden" 
+            onClick={() => setIsOpen(false)}
+          />
+          <div
+            ref={menuRef}
+            className="min-w-64 bg-white rounded-xl shadow-lg border border-gray-200 z-[70] py-1 max-h-[80vh] overflow-y-auto overscroll-contain"
+            style={menuStyle}
+            role="menu"
+          >
+            {React.Children.map(children, (child) => {
+              if (React.isValidElement(child) && child.type === DropdownItem) {
+                return React.cloneElement(child as React.ReactElement<any>, {
+                  onDropdownClose: () => setIsOpen(false)
+                });
+              }
+              return child;
+            })}
+          </div>
+        </>,
         document.body
       )}
     </div>
@@ -211,7 +223,7 @@ export const DropdownItem: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement
         <button 
             {...props} 
             onClick={handleClick} 
-            className={`w-full text-left flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:bg-transparent transition-colors duration-150 material-focus ${className}`}
+            className={`w-full text-left flex items-center gap-3 px-4 py-3 text-base text-gray-700 hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 disabled:bg-transparent transition-colors duration-150 material-focus ${className}`}
         >
             {children}
         </button>

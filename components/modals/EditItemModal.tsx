@@ -29,14 +29,14 @@ const ActionButton: React.FC<{icon: string, label: string, color: string, onClic
         onClick={onClick}
         disabled={disabled}
         data-tippy-content={tooltip}
-        className={`flex flex-col items-center justify-center text-center p-4 rounded-lg border-2 transition-all duration-200
+        className={`flex flex-col items-center justify-center text-center p-3 transition-all duration-150
             ${disabled
-                ? 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed'
-                : `bg-white border-slate-200 hover:border-teal-500 hover:shadow-md hover:-translate-y-1 hover:text-teal-600 ${color}`
+                ? 'text-slate-300 cursor-not-allowed'
+                : `text-black hover:bg-black hover:text-white border-b-2 border-black ${color}`
             }`}
     >
-        <i className={`${icon} text-3xl mb-2`}></i>
-        <span className="font-semibold text-sm">{label}</span>
+        <i className={`${icon} text-2xl mb-2`}></i>
+        <span className="font-medium text-xs">{label}</span>
     </button>
 );
 

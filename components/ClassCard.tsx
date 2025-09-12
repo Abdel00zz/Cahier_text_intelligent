@@ -88,58 +88,66 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
     const isArabic = containsArabic(classInfo.name);
     const isSubjectArabic = containsArabic(classInfo.subject);
     const displaySubject = SUBJECT_ABBREV_MAP[classInfo.subject] || classInfo.subject;
-    const subjectColor = getSubjectTextColor(classInfo.subject);
+    const subjectColor = getCreativeSubjectColor(classInfo.subject);
 
     return (
         <div 
-            className="group relative rounded-2xl cursor-pointer overflow-hidden flex flex-col aspect-[3/2] sm:aspect-[4/3] bg-white shadow-md hover:shadow-xl transition-all duration-300 ease-out transform hover:-translate-y-1 border border-gray-100"
-            onClick={onSelect}
-            style={{
-                background: `linear-gradient(135deg, ${classInfo.color || '#0f766e'}15 0%, ${classInfo.color || '#0f766e'}08 100%)`
-            }}
+            className="relative bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col h-auto min-h-[10rem] cursor-pointer border border-slate-100"
+            onClick={() => onSelect()}
         >
-            <div className="relative flex flex-col h-full p-4 z-10">
-                {/* Delete Button - Material Design */}
-                <button 
-                    onClick={handleDeleteClick}
-                    className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center bg-white/50 text-gray-500 rounded-full opacity-60 hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 hover:scale-105 z-20 shadow-sm"
-                    data-tippy-content="Supprimer la classe"
-                    aria-label="Supprimer la classe"
-                >
-                    <i className="fas fa-times text-xs"></i>
-                </button>
+            <button
+                onClick={(e) => { e.stopPropagation(); onDelete(); }}
+                className="absolute top-2 right-2 w-10 h-10 flex items-center justify-center bg-white/80 text-gray-500 rounded-full opacity-90 hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 active:bg-red-100 z-20 shadow-sm"
+                data-tippy-content="Supprimer cette classe"
+                aria-label="Supprimer cette classe"
+            >
+                <i className="fas fa-times text-base"></i>
+            </button>
 
-                {/* Header with Subject Badge */}
-                <div className="flex justify-center mb-4">
-                    <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium" 
-                         style={{
-                             background: `linear-gradient(135deg, ${getCreativeSubjectColor(classInfo.subject)}20 0%, ${getCreativeSubjectColor(classInfo.subject)}40 100%)`,
-                             color: getCreativeSubjectColor(classInfo.subject),
-                             border: `1px solid ${getCreativeSubjectColor(classInfo.subject)}30`
-                         }}>
-                        <span className={isSubjectArabic ? 'font-ar' : 'font-medium'}>
-                            {displaySubject}
-                        </span>
-                    </div>
+            {/* Header with Subject Badge */}
+            <div className="flex justify-center mt-4 mb-2">
+                <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium" 
+                     style={{
+                         background: `linear-gradient(135deg, ${subjectColor}20 0%, ${subjectColor}40 100%)`,
+                         color: subjectColor,
+                         border: `1px solid ${subjectColor}30`
+                     }}>
+                    <span className={isSubjectArabic ? 'font-ar' : 'font-medium'}>
+                        {displaySubject}
+                    </span>
                 </div>
+            </div>
+            
+            {/* Main Content - Centered */}
+            <div className="flex-grow flex flex-col justify-center items-center text-center px-4 py-3">
+                <h3 className={`text-gray-900 font-semibold leading-tight ${isArabic ? 'font-ar text-xl' : 'text-lg'}`}>
+                    {formatSuperscript(classInfo.name)}
+                </h3>
+                <p className="text-gray-500 text-sm mt-2">
+                    {classInfo.teacherName}
+                </p>
+            </div>
 
-                {/* Main Content - Centered */}
-                <div className="flex-grow flex flex-col justify-center items-center text-center">
-                    <h3 className={`text-gray-900 font-semibold leading-tight mb-2 ${isArabic ? 'font-ar text-xl' : 'text-lg'}`}>
-                        {formatSuperscript(classInfo.name)}
-                    </h3>
-                </div>
-
-                {/* Footer - Test indicator or empty */}
-                <div className="mt-auto pt-3 border-t border-gray-100">
-                    {classInfo.name.toLowerCase().includes('test') || classInfo.name.toLowerCase().includes('dérouiller') || classInfo.name.toLowerCase().includes('devrouller') || classInfo.name.toLowerCase().includes('3ème année collégiale') || classInfo.name.toLowerCase().includes('tronc commun scientifique') ? (
-                        <div className="flex items-center justify-center bg-emerald-50 py-1 px-2 rounded-md mx-3">
-                            <span className="text-xs font-medium text-emerald-600 animate-pulse">Testez-moi</span>
-                        </div>
+            {/* Footer with Last Modified Date */}
+            <div className="bg-slate-50 py-3 px-3 text-xs text-slate-500 flex items-center justify-between">
+                <div className="flex items-center">
+                    {lastModified ? (
+                        <>
+                            <i className="fas fa-history mr-1.5 text-slate-400"></i>
+                            <span>Modifié le {formatDate(lastModified)}</span>
+                        </>
                     ) : (
-                        <div className="h-8"></div>
+                        <>
+                            <i className="fas fa-file-alt mr-1.5 text-slate-400"></i>
+                            <span>Pas encore de contenu</span>
+                        </>
                     )}
                 </div>
+                {classInfo.isTest && (
+                    <span className="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-[10px] uppercase font-medium">
+                        Test
+                    </span>
+                )}
             </div>
         </div>
     );

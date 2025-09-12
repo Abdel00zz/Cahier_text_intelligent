@@ -8,19 +8,19 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', size = 'md', className = '', ...props }) => {
-  const baseClasses = 'inline-flex items-center justify-center font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-150 ease-in-out disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none';
+  const baseClasses = 'inline-flex items-center justify-center font-medium focus:outline-none transition-all duration-150 ease-in-out disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none';
   
   const variantClasses = {
-    primary: 'bg-teal-600 text-white hover:bg-teal-700 focus:ring-teal-500 shadow-sm hover:shadow-md hover:-translate-y-0.5',
-    secondary: 'bg-slate-200 text-slate-800 hover:bg-slate-300 focus:ring-slate-400',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-sm hover:shadow-md hover:-translate-y-0.5',
-    icon: 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-teal-600 focus:ring-teal-500 rounded-full',
+    primary: 'text-black hover:text-white hover:bg-black active:bg-black/80 border-b-2 border-black hover:border-transparent',
+    secondary: 'text-gray-800 hover:text-white hover:bg-gray-800 active:bg-gray-700 border-b-2 border-gray-300 hover:border-transparent',
+    danger: 'text-red-600 hover:text-white hover:bg-red-600 active:bg-red-700 border-b-2 border-red-300 hover:border-transparent',
+    icon: 'text-gray-700 hover:text-white hover:bg-gray-800 active:bg-gray-700 rounded-full',
   };
 
   const sizeClasses = {
-    sm: 'px-2.5 py-1.5 text-xs',
-    md: `text-sm ${variant === 'icon' ? 'w-9 h-9' : 'px-4 py-2'}`,
-    lg: `text-base ${variant === 'icon' ? 'w-12 h-12' : 'px-6 py-3'}`,
+    sm: 'px-2 py-1 text-xs',
+    md: `text-sm ${variant === 'icon' ? 'w-8 h-8' : 'px-3 py-1.5'}`,
+    lg: `text-base ${variant === 'icon' ? 'w-10 h-10' : 'px-4 py-2'}`,
   };
 
   const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;

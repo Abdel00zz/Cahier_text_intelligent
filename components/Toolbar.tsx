@@ -5,6 +5,7 @@ import { Button } from './ui/Button';
 import { Dropdown, DropdownItem, DropdownDivider } from './ui/Dropdown';
 import { TOP_LEVEL_TYPE_CONFIG } from '../constants';
 import { TopLevelItem } from '../types';
+import { printDocument } from '../utils/printUtils';
 
 interface ToolbarProps {
   onUndo: () => void;
@@ -97,8 +98,8 @@ export const Toolbar: React.FC<ToolbarProps> = React.memo(({
       </div>
       
       <div className="flex-1 flex justify-center items-center gap-2">
-        <Button variant="icon" onClick={onUndo} disabled={!canUndo} data-tippy-content="Annuler (Ctrl+Z)">
-          <i className="fas fa-undo"></i>
+        <Button variant="icon" onClick={onUndo} disabled={!canUndo} data-tippy-content="Annuler (Ctrl+Z)" className="h-12 w-12 bg-blue-50 hover:bg-blue-100 active:bg-blue-200 rounded-xl shadow-sm transition-all duration-200">
+          <i className="fas fa-undo text-blue-600 text-lg"></i>
         </Button>
         <Button variant="icon" onClick={onRedo} disabled={!canRedo} data-tippy-content="Rétablir (Ctrl+Y)">
           <i className="fas fa-redo"></i>
@@ -172,20 +173,46 @@ export const Toolbar: React.FC<ToolbarProps> = React.memo(({
           </div>
         </div>
 
-        <Dropdown buttonContent={<i className="fas fa-ellipsis-v"></i>}>
+        <Dropdown buttonContent={<i className="fas fa-ellipsis-v"></i>} buttonProps={{ 'aria-label': "Menu d'actions" }}>
             <div className="sm:hidden">
-                <DropdownItem onClick={onUndo} disabled={!canUndo}><i className="fas fa-undo w-4 text-center"></i> Annuler</DropdownItem>
-                <DropdownItem onClick={onRedo} disabled={!canRedo}><i className="fas fa-redo w-4 text-center"></i> Rétablir</DropdownItem>
-                <DropdownItem onClick={onSave} disabled={saveStatus === 'saving'}><i className="fas fa-save w-4 text-center"></i> Sauvegarder</DropdownItem>
+                <DropdownItem onClick={onUndo} disabled={!canUndo}>
+                  <div className="flex items-center">
+                    <i className="fas fa-undo w-5 text-center mr-2 text-blue-600"></i>
+                    <span className="flex-grow font-medium">Annuler</span>
+                  </div>
+                </DropdownItem>
+                <DropdownItem onClick={onRedo} disabled={!canRedo}><i className="fas fa-redo w-5 text-center"></i> Rétablir</DropdownItem>
+                <DropdownItem onClick={onSave} disabled={saveStatus === 'saving'}><i className="fas fa-save w-5 text-center"></i> Sauvegarder</DropdownItem>
                 <DropdownDivider />
             </div>
-            <DropdownItem onClick={onOpenImport}><i className="fas fa-file-import w-4 text-center"></i> Importer JSON</DropdownItem>
-            <DropdownItem onClick={onExportData}><i className="fas fa-file-export w-4 text-center"></i> Exporter JSON</DropdownItem>
-            <DropdownItem onClick={onOpenManageLessons}><i className="fas fa-edit w-4 text-center"></i> Gérer mes leçons</DropdownItem>
+            <DropdownItem onClick={onOpenImport}>
+              <div className="flex items-center">
+                <i className="fas fa-file-import w-5 text-center mr-2"></i>
+                <span className="flex-grow">Importer JSON</span>
+              </div>
+            </DropdownItem>
+            <DropdownItem onClick={onExportData}>
+              <div className="flex items-center">
+                <i className="fas fa-file-export w-5 text-center mr-2"></i>
+                <span className="flex-grow">Exporter JSON</span>
+              </div>
+            </DropdownItem>
+            <DropdownItem onClick={onOpenManageLessons}><i className="fas fa-edit w-5 text-center mr-2"></i> Gérer mes leçons</DropdownItem>
             <DropdownDivider />
-            <DropdownItem onClick={() => window.print()}><i className="fas fa-print w-4 text-center"></i> Imprimer</DropdownItem>
+
+            <DropdownItem onClick={() => printDocument('cahier-de-textes')}>
+              <div className="flex items-center">
+                <i className="fas fa-print w-5 text-center mr-2"></i>
+                <span className="flex-grow font-medium">Imprimer</span>
+              </div>
+            </DropdownItem>
             <DropdownDivider />
-            <DropdownItem onClick={onOpenGuide}><i className="fas fa-question-circle w-4 text-center"></i> Aide</DropdownItem>
+            <DropdownItem onClick={onOpenGuide}>
+              <div className="flex items-center">
+                <i className="fas fa-question-circle w-5 text-center mr-2"></i>
+                <span className="flex-grow">Aide</span>
+              </div>
+            </DropdownItem>
         </Dropdown>
       </div>
     </div>

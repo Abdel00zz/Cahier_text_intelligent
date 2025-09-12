@@ -7,6 +7,8 @@ import { ClassInfo } from './types';
 import { useClassManager } from './hooks/useClassManager';
 import { Analytics } from '@vercel/analytics/react';
 import { OrientationAlertModal } from './components/modals/OrientationAlertModal';
+import { Capacitor } from '@capacitor/core';
+import { WebviewPrint } from 'capacitor-webview-print';
 
 
 declare global {
@@ -27,8 +29,27 @@ const App: React.FC = () => {
   const [view, setView] = useState<'dashboard' | 'editor'>('dashboard');
   const [activeClass, setActiveClass] = useState<ClassInfo | null>(null);
   const { classes, isLoading: isClassManagerLoading } = useClassManager();
-    const [showOrientationModal, setShowOrientationModal] = useState(false);
-    const orientationTimerRef = useRef<number | null>(null);
+  const [showOrientationModal, setShowOrientationModal] = useState(false);
+  const orientationTimerRef = useRef<number | null>(null);
+  
+  // Initialiser le plugin WebviewPrint au démarrage de l'application
+  useEffect(() => {
+    const initializePlugins = async () => {
+      try {
+        console.log('Initialisation des plugins Capacitor...');
+        console.log('Plateforme:', Capacitor.getPlatform());
+        console.log('Plugin WebviewPrint disponible:', !!WebviewPrint);
+        
+        if (Capacitor.getPlatform() === 'android' && WebviewPrint) {
+          console.log('WebviewPrint initialisé avec succès');
+        }
+      } catch (error) {
+        console.error('Erreur lors de l\'initialisation des plugins:', error);
+      }
+    };
+    
+    initializePlugins();
+  }, []);
 
     // Helper to know if we should show the orientation alert (mobile + portrait)
     const isMobilePortrait = useCallback(() => {

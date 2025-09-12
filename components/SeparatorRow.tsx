@@ -68,9 +68,9 @@ export const SeparatorRow: React.FC<SeparatorRowProps> = React.memo(({ data, ind
                     size="sm"
                     onClick={onDelete}
                     data-tippy-content="Supprimer le séparateur"
-                    className="w-6 h-6 text-xs bg-red-100 hover:bg-red-200 text-red-700"
+                    className="w-7 h-7 text-xs text-gray-700 hover:text-white hover:bg-black"
                 >
-                  <i className="fas fa-trash-alt"></i>
+                  <i className="fas fa-times"></i>
                 </Button>
             </div>
         </div>

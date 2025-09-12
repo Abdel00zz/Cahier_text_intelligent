@@ -24,12 +24,12 @@ const AddClassCard: React.FC<{ onClick: () => void }> = ({ onClick }) => (
         tabIndex={0}
         onClick={onClick}
         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
-        className="w-full h-full flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-300 text-gray-500 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 aspect-[3/2] sm:aspect-[4/3] group cursor-pointer material-focus bg-white shadow-sm hover:shadow-md"
+        className="w-full flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 text-gray-500 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 h-auto min-h-[10rem] group cursor-pointer material-focus bg-white shadow-sm hover:shadow-md"
         aria-label="Créer une nouvelle classe"
     >
-        <div className="flex flex-col items-center justify-center p-4">
-            <div className="w-12 h-12 rounded-full bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center mb-3 transition-colors duration-200">
-                <i className="fas fa-plus text-lg text-gray-400 group-hover:text-blue-500 transition-colors duration-200"></i>
+        <div className="flex flex-col items-center justify-center p-4 py-6">
+            <div className="w-14 h-14 rounded-full bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center mb-4 transition-colors duration-200">
+                <i className="fas fa-plus text-xl text-gray-400 group-hover:text-blue-500 transition-colors duration-200"></i>
             </div>
             <span className="font-medium text-center text-sm text-gray-600 group-hover:text-blue-600 transition-colors duration-200">
                 Créer une nouvelle classe
@@ -436,7 +436,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 ))}
                 </div>
             </div>
-            <div className="mt-4 sm:mt-8 px-1 sm:px-2 max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-3 sm:gap-4">
+            <div className="mt-4 sm:mt-8 px-2 sm:px-2 max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-4">
                         {/* Create new class first */}
                         <AddClassCard onClick={() => setCreateModalOpen(true)} />
                         {/* Sort classes: demo "Tronc commun scientifique" first, then other user classes */}

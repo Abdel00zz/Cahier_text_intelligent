@@ -111,12 +111,12 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                     )}
                     {!isEditingDate && (
                         <div className="flex items-center gap-1 transition-opacity md:absolute md:top-1/2 md:right-1 md:-translate-y-1/2 md:opacity-0 md:group-hover/date:opacity-100">
-                             <button onClick={() => onCellUpdate(indices, 'date', new Date().toISOString().slice(0, 10))} className="w-6 h-6 flex items-center justify-center rounded-full text-xs bg-white/60 hover:bg-white text-teal-700 shadow" data-tippy-content="Aujourd'hui">
-                                <i className="fas fa-calendar-day"></i>
+                             <button onClick={() => onCellUpdate(indices, 'date', new Date().toISOString().slice(0, 10))} className="w-5 h-5 flex items-center justify-center text-[10px] text-gray-700 hover:text-white hover:bg-black" data-tippy-content="Aujourd'hui">
+                                <i className="far fa-calendar-check"></i>
                             </button>
                             {data.date &&
-                                <button onClick={() => onCellUpdate(indices, 'date', '')} className="w-6 h-6 flex items-center justify-center rounded-full text-xs bg-white/60 hover:bg-white text-slate-600 shadow" data-tippy-content="Effacer la date">
-                                    <i className="fas fa-times-circle"></i>
+                                <button onClick={() => onCellUpdate(indices, 'date', '')} className="w-5 h-5 flex items-center justify-center text-[10px] text-gray-700 hover:text-white hover:bg-black" data-tippy-content="Effacer la date">
+                                    <i className="far fa-times-circle"></i>
                                 </button>
                             }
                         </div>
@@ -135,7 +135,7 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                 <div className="absolute top-1/2 -translate-y-1/2 right-2 flex gap-1 opacity-70 hover:opacity-100 transition-opacity duration-200 print:hidden">
                     <button 
                         onClick={(e) => { e.stopPropagation(); handleOpenAddModal(); }} 
-                        className="w-7 h-7 flex items-center justify-center rounded bg-white/80 text-green-600 hover:bg-green-50 hover:text-green-700 transition-colors duration-200 material-focus"
+                        className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-white hover:bg-black transition-colors duration-150"
                         data-tippy-content="Ajouter après"
                         aria-label="Ajouter après"
                     >
@@ -143,11 +143,11 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                     </button>
                     <button 
                         onClick={(e) => { e.stopPropagation(); handleDelete(); }} 
-                        className="w-7 h-7 flex items-center justify-center rounded bg-white/80 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-200 material-focus"
+                        className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-white hover:bg-black transition-colors duration-150"
                         data-tippy-content="Supprimer"
                         aria-label="Supprimer"
                     >
-                        <i className="fas fa-trash text-xs"></i>
+                        <i className="fas fa-times text-xs"></i>
                     </button>
                 </div>
             </div>
@@ -247,7 +247,7 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                 <div className="absolute top-1/2 -translate-y-1/2 right-2 flex gap-1 opacity-70 hover:opacity-100 transition-opacity duration-200 print:hidden">
                     <button 
                         onClick={(e) => { e.stopPropagation(); handleOpenAddModal(); }} 
-                        className="w-7 h-7 flex items-center justify-center rounded bg-white/80 text-green-600 hover:bg-green-50 hover:text-green-700 transition-colors duration-200 material-focus"
+                        className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-white hover:bg-black transition-colors duration-150"
                         data-tippy-content="Ajouter après"
                         aria-label="Ajouter après"
                     >
@@ -256,20 +256,20 @@ export const TableRow: React.FC<TableRowProps> = React.memo(({ data, indices, el
                     {elementType === 'item' && (
                         <button 
                             onClick={(e) => { e.stopPropagation(); handleInitiateEdit(); }} 
-                            className="w-7 h-7 flex items-center justify-center rounded bg-white/80 text-blue-600 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200 material-focus"
+                            className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-white hover:bg-black transition-colors duration-150"
                             data-tippy-content="Modifier"
                             aria-label="Modifier"
                         >
-                            <i className="fas fa-edit text-xs"></i>
+                            <i className="fas fa-pen text-sm"></i>
                         </button>
                     )}
                     <button 
                         onClick={(e) => { e.stopPropagation(); handleDelete(); }} 
-                        className="w-7 h-7 flex items-center justify-center rounded bg-white/80 text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors duration-200 material-focus"
+                        className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-white hover:bg-black transition-colors duration-150"
                         data-tippy-content="Supprimer"
                         aria-label="Supprimer"
                     >
-                        <i className="fas fa-trash text-xs"></i>
+                        <i className="fas fa-times text-xs"></i>
                     </button>
                 </div>
       </div>

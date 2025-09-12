@@ -61,57 +61,47 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
 
     return (
         <div 
-            className="group relative rounded-2xl cursor-pointer overflow-hidden flex flex-col aspect-[3/2] sm:aspect-[4/3] bg-gradient-to-br from-amber-50 to-orange-50 shadow-md hover:shadow-xl transition-all duration-300 ease-out transform hover:-translate-y-1 border border-amber-200"
+            className="relative bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col h-auto min-h-[10rem] cursor-pointer border border-slate-100 opacity-80 hover:opacity-100"
             onClick={onContactAdmin}
         >
-            {/* Premium overlay pattern */}
-            <div className="absolute inset-0 opacity-5">
-                <div className="w-full h-full" style={{
-                    backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, ${color}20 10px, ${color}20 20px)`
-                }}></div>
+            {/* Overlay with blur effect */}
+            <div className="absolute inset-0 bg-white/30 backdrop-blur-[1px] z-10"></div>
+
+            <button
+                onClick={(e) => { e.stopPropagation(); onDelete(); }}
+                className="absolute top-2 right-2 w-10 h-10 flex items-center justify-center bg-white/80 text-gray-500 rounded-full opacity-90 hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 active:bg-red-100 z-20 shadow-sm"
+                data-tippy-content="Supprimer cette carte"
+                aria-label="Supprimer cette carte"
+            >
+                <i className="fas fa-times text-base"></i>
+            </button>
+
+            {/* Header with Subject Badge */}
+            <div className="flex justify-center mt-4 mb-2">
+                <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium" 
+                     style={{
+                         background: `linear-gradient(135deg, ${getCreativeSubjectColor(subject)}20 0%, ${getCreativeSubjectColor(subject)}40 100%)`,
+                         color: getCreativeSubjectColor(subject),
+                         border: `1px solid ${getCreativeSubjectColor(subject)}30`
+                     }}>
+                    <span className={isSubjectArabic ? 'font-ar' : 'font-medium'}>
+                        {displaySubject}
+                    </span>
+                </div>
+            </div>
+            
+            {/* Main Content - Centered */}
+            <div className="flex-grow flex flex-col justify-center items-center text-center px-4 py-3">
+                <h3 className={`text-gray-900 font-semibold leading-tight ${isArabic ? 'font-ar text-xl' : 'text-lg'}`}>
+                    {formatSuperscript(name)}
+                </h3>
             </div>
 
-            <div className="relative flex flex-col h-full p-3 sm:p-4 z-10">
-                {/* Delete Button - Material Design */}
-                <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                    className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center bg-white/50 text-gray-500 rounded-full opacity-60 hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 hover:scale-105 z-20 shadow-sm"
-                    data-tippy-content="Supprimer cette carte"
-                    aria-label="Supprimer cette carte"
-                >
-                    <i className="fas fa-times text-xs"></i>
-                </button>
-
-                {/* Header with Subject Badge */}
-                <div className="flex justify-center mb-4">
-                    <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium" 
-                         style={{
-                             background: `linear-gradient(135deg, ${getCreativeSubjectColor(subject)}20 0%, ${getCreativeSubjectColor(subject)}40 100%)`,
-                             color: getCreativeSubjectColor(subject),
-                             border: `1px solid ${getCreativeSubjectColor(subject)}30`
-                         }}>
-                        <span className={isSubjectArabic ? 'font-ar' : 'font-medium'}>
-                            {displaySubject}
-                        </span>
-                    </div>
-                </div>
-                
-                {/* Main Content - Centered */}
-                <div className="flex-grow flex flex-col justify-center items-center text-center">
-                    <h3 className={`text-gray-900 font-semibold leading-tight ${isArabic ? 'font-ar text-xl' : 'text-lg'}`}>
-                        {formatSuperscript(name)}
-                    </h3>
-                </div>
-
-                {/* Footer with Action */}
-                <div className="mt-auto pt-3 border-t border-amber-100">
-                    {/* Ligne séparatrice au-dessus du texte */}
-                    <div className="w-full border-b border-amber-200 mb-2"></div>
-                    <div className="flex items-center justify-center text-xs text-amber-700 font-medium">
-                        <i className="fas fa-lock mr-2"></i>
-                        <span>Cliquez pour débloquer</span>
-                    </div>
+            {/* Footer with Action */}
+            <div className="bg-slate-50 py-3 px-3 text-xs text-slate-500 flex items-center justify-center border-t border-slate-100">
+                <div className="flex items-center gap-2">
+                    <i className="fas fa-lock text-amber-500"></i>
+                    <span>Cliquez pour débloquer</span>
                 </div>
             </div>
         </div>
