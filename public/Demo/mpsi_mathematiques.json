@@ -1,0 +1,144 @@
+[
+  {
+    "type": "chapter",
+    "title": "Analyse - Fonctions d'une variable réelle",
+    "date": "2024-09-02",
+    "sections": [
+      {
+        "name": "Limites et continuité",
+        "subsections": [
+          {
+            "name": "Définitions et propriétés",
+            "items": [
+              {
+                "type": "cours",
+                "title": "Définition de la limite",
+                "description": "Définition rigoureuse de la limite d'une fonction en un point",
+                "page": "p.15"
+              },
+              {
+                "type": "exercice",
+                "title": "Calculs de limites",
+                "description": "Exercices d'application sur les limites",
+                "page": "p.18"
+              }
+            ]
+          },
+          {
+            "name": "Théorèmes fondamentaux",
+            "items": [
+              {
+                "type": "cours",
+                "title": "Théorème des valeurs intermédiaires",
+                "description": "Énoncé et applications du TVI",
+                "page": "p.22"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Dérivabilité",
+        "subsections": [
+          {
+            "name": "Dérivée et différentielle",
+            "items": [
+              {
+                "type": "cours",
+                "title": "Définition de la dérivée",
+                "description": "Dérivée en un point, fonction dérivée",
+                "page": "p.35"
+              },
+              {
+                "type": "exercice",
+                "title": "Calculs de dérivées",
+                "description": "Règles de dérivation et applications",
+                "page": "p.38"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "chapter",
+    "title": "Algèbre linéaire - Espaces vectoriels",
+    "date": "2024-09-16",
+    "sections": [
+      {
+        "name": "Définitions et propriétés",
+        "subsections": [
+          {
+            "name": "Structure d'espace vectoriel",
+            "items": [
+              {
+                "type": "cours",
+                "title": "Définition d'un espace vectoriel",
+                "description": "Axiomes et exemples d'espaces vectoriels",
+                "page": "p.65"
+              },
+              {
+                "type": "exercice",
+                "title": "Vérification de la structure",
+                "description": "Exercices sur la vérification des axiomes",
+                "page": "p.68"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Sous-espaces vectoriels",
+        "subsections": [
+          {
+            "name": "Définition et caractérisation",
+            "items": [
+              {
+                "type": "cours",
+                "title": "Sous-espaces vectoriels",
+                "description": "Définition et critères de reconnaissance",
+                "page": "p.72"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "controle_continu",
+    "title": "Contrôle n°1 - Analyse",
+    "date": "2024-10-15",
+    "remark": "Durée : 2h"
+  },
+  {
+    "type": "chapter",
+    "title": "Géométrie - Espaces euclidiens",
+    "date": "2024-10-22",
+    "sections": [
+      {
+        "name": "Produit scalaire",
+        "subsections": [
+          {
+            "name": "Définitions et propriétés",
+            "items": [
+              {
+                "type": "cours",
+                "title": "Produit scalaire euclidien",
+                "description": "Définition et propriétés du produit scalaire",
+                "page": "p.95"
+              },
+              {
+                "type": "exercice",
+                "title": "Calculs de produits scalaires",
+                "description": "Applications et exercices",
+                "page": "p.98"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

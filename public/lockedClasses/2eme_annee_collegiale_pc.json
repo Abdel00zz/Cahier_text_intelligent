@@ -1,0 +1,31 @@
+{
+  "classInfo": {
+    "name": "2ème année collégiale",
+    "subject": "Physique-Chimie",
+    "cycle": "college",
+    "teacherName": "Professeur",
+    "id": "locked_college_pc_2eme",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#06B6D4"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "Les combustions",
+      "sections": [
+        {
+          "name": "Introduction aux combustions",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition de la combustion",
+              "description": "La combustion est une réaction chimique exothermique entre un combustible et un comburant.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

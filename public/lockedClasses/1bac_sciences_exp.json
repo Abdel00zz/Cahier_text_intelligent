@@ -1,0 +1,31 @@
+{
+  "classInfo": {
+    "name": "1ère Bac Sciences Expérimentales",
+    "subject": "Sciences de la Vie et de la Terre",
+    "cycle": "lycee",
+    "teacherName": "Professeur",
+    "id": "locked_lycee_svt_1bac",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#10B981"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "La communication hormonale et nerveuse",
+      "sections": [
+        {
+          "name": "Introduction à la communication hormonale",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition de la communication hormonale",
+              "description": "La communication hormonale est un système de communication qui utilise des hormones pour transmettre des messages entre les cellules.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

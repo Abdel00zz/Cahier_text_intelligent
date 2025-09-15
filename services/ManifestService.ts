@@ -135,12 +135,12 @@ class ManifestService {
   /**
    * Convertit une ManifestClass en ClassInfo
    */
-  manifestClassToClassInfo(manifestClass: ManifestClass): ClassInfo {
+  manifestClassToClassInfo(manifestClass: ManifestClass, userTeacherName?: string): ClassInfo {
     return {
       id: crypto.randomUUID(),
       name: manifestClass.name,
       subject: manifestClass.subject,
-      teacherName: manifestClass.teacherName || 'Professeur',
+      teacherName: userTeacherName || manifestClass.teacherName || 'Professeur',
       createdAt: new Date().toISOString(),
       color: manifestClass.color,
       cycle: manifestClass.cycle
@@ -165,6 +165,24 @@ class ManifestService {
   }
 
   /**
+   * Obtient le temps restant avant de pouvoir voter à nouveau (en millisecondes)
+   */
+  getRemainingCooldownTime(email: string): number {
+    const cooldownData = this.getCooldownData();
+    const lastVoteTime = cooldownData[email];
+    
+    if (!lastVoteTime) {
+      return 0; // Peut voter immédiatement
+    }
+
+    const cooldownMs = (this.manifest?.voting.cooldownHours || 24) * 60 * 60 * 1000;
+    const timeSinceLastVote = Date.now() - new Date(lastVoteTime).getTime();
+    const remainingTime = cooldownMs - timeSinceLastVote;
+    
+    return Math.max(0, remainingTime);
+  }
+
+  /**
    * Enregistre un vote
    */
   async submitVote(classId: string, voterName: string, voterEmail: string, vote: 'yes' | 'no'): Promise<boolean> {
@@ -186,7 +204,7 @@ class ManifestService {
 
     // Vérifier si la classe doit être automatiquement déverrouillée
     if (vote === 'yes' && await this.shouldUnlockClass(classId)) {
-      await this.unlockClassAutomatically(classId);
+      await this.unlockClassAutomatically(classId, voterName);
     }
 
     // Envoyer l'email à l'admin (simulation)
@@ -243,7 +261,7 @@ class ManifestService {
   /**
    * Transforme automatiquement une classe verrouillée en classe déverrouillée
    */
-  async unlockClassAutomatically(classId: string): Promise<boolean> {
+  async unlockClassAutomatically(classId: string, voterName?: string): Promise<boolean> {
     try {
       const manifest = await this.loadManifest();
       const lockedClass = this.findLockedClassById(classId);
@@ -253,7 +271,8 @@ class ManifestService {
       }
 
       // Créer une nouvelle classe déverrouillée basée sur la classe verrouillée
-      const unlockedClass = this.manifestClassToClassInfo(lockedClass);
+      // Utiliser le nom du votant qui a débloqué la classe comme teacherName
+      const unlockedClass = this.manifestClassToClassInfo(lockedClass, voterName);
       
       // Charger les données de la classe depuis le fichier JSON
       const classData = await this.loadClassData(lockedClass, false);
@@ -267,7 +286,7 @@ class ManifestService {
       existingClasses.push(unlockedClass);
       localStorage.setItem('classManager_v1', JSON.stringify(existingClasses));
       
-      logger.info(`Class ${classId} automatically unlocked and added to user classes`);
+      logger.info(`Class ${classId} automatically unlocked and added to user classes with teacher: ${voterName || 'Unknown'}`);
       return true;
     } catch (error) {
       logger.error('Failed to automatically unlock class', error);
@@ -411,6 +430,10 @@ class ManifestService {
       const progressPercentage = Math.min((totalVotes / lockedClass.requiredVotes) * 100, 100);
       const remainingVotes = Math.max(lockedClass.requiredVotes - totalVotes, 0);
 
+      // Admin email: priorité env, sinon manifest, sinon fallback
+      const envAdmin = (import.meta as any).env?.VITE_ADMIN_EMAIL as string | undefined;
+      const adminEmail = envAdmin || this.manifest?.voting.adminEmail || 'admin@cahier-txt.com';
+
       // Préparer les données pour l'email
       const emailData: VoteEmailData = {
         vote,
@@ -420,8 +443,9 @@ class ManifestService {
           yesVotes: totalVotes,
           noVotes: stats.no,
           progressPercentage,
-          remainingVotes
-        }
+          remainingVotes,
+        },
+        adminEmail,
       };
 
       // Envoyer l'email via le service EmailService

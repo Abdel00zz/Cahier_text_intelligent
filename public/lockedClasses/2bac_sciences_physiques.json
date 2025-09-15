@@ -1,0 +1,31 @@
+{
+  "classInfo": {
+    "name": "2ème Bac Sciences Physiques",
+    "subject": "Physique-Chimie",
+    "cycle": "lycee",
+    "teacherName": "Professeur",
+    "id": "locked_lycee_pc_2bac",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#06B6D4"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "Les transformations forcées",
+      "sections": [
+        {
+          "name": "Introduction aux transformations forcées",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition d'une transformation forcée",
+              "description": "Une transformation forcée est une transformation qui ne se produit pas spontanément et qui nécessite un apport d'énergie extérieure.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

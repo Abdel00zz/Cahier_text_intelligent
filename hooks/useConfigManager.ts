@@ -14,10 +14,10 @@ const defaultConfig: AppConfig = {
     screenDescriptionTypes: ['exemple', 'application'],
     printDescriptionMode: 'custom',
     printDescriptionTypes: ['exemple', 'application'],
-    selectedCycles: ['college', 'lycee', 'prepa'],
-    selectedSubjects: [],
-    showAllCycles: true,
-    showAllSubjects: true,
+    selectedCycles: ['college'], // Un seul cycle par défaut
+    selectedSubjects: [], // Aucune matière par défaut (toutes affichées)
+    showAllCycles: false, // false car on a une sélection spécifique
+    showAllSubjects: true, // true car aucune matière sélectionnée
     hasCompletedWelcome: false,
 };
 
@@ -79,3 +79,4 @@ export const useConfigManager = () => {
 
     return { config, updateConfig, isLoading };
 };
+

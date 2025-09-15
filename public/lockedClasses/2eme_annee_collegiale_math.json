@@ -1,0 +1,38 @@
+{
+  "classInfo": {
+    "name": "2ème année collégiale",
+    "subject": "Mathématiques",
+    "cycle": "college",
+    "teacherName": "Professeur",
+    "id": "locked_college_math_2eme",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#166534"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "Les nombres relatifs",
+      "sections": [
+        {
+          "name": "Introduction aux nombres relatifs",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition des nombres relatifs",
+              "description": "Les nombres relatifs sont les nombres qui peuvent être positifs ou négatifs.",
+              "date": "2025-01-15"
+            },
+            {
+              "type": "exemple",
+              "number": 1,
+              "title": "Exemples de nombres relatifs",
+              "description": "-5, -2.5, 0, +3, +7.8 sont des nombres relatifs.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

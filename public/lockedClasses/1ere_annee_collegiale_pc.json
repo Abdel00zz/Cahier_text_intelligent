@@ -1,0 +1,31 @@
+{
+  "classInfo": {
+    "name": "1ère année collégiale",
+    "subject": "Physique-Chimie",
+    "cycle": "college",
+    "teacherName": "Professeur",
+    "id": "locked_college_pc_1ere",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#06B6D4"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "L'eau dans notre environnement",
+      "sections": [
+        {
+          "name": "Introduction à l'eau",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition de l'eau",
+              "description": "L'eau est une substance chimique essentielle à la vie, de formule H2O.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

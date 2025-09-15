@@ -1,0 +1,31 @@
+{
+  "classInfo": {
+    "name": "1ère Bac Sciences Physiques",
+    "subject": "Physique-Chimie",
+    "cycle": "lycee",
+    "teacherName": "Professeur",
+    "id": "locked_lycee_pc_1bac",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#06B6D4"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "Les ondes mécaniques progressives",
+      "sections": [
+        {
+          "name": "Introduction aux ondes mécaniques",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition d'une onde mécanique progressive",
+              "description": "Une onde mécanique progressive est la propagation d'une perturbation dans un milieu matériel, sans transport de matière mais avec transport d'énergie.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

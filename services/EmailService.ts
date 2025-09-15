@@ -3,7 +3,7 @@
  */
 
 import { logger } from '../utils/logger';
-import { LockedClass, Vote } from './ManifestService';
+import type { LockedClass, Vote } from './ManifestService';
 
 export interface VoteEmailData {
   vote: Vote;
@@ -15,66 +15,144 @@ export interface VoteEmailData {
     progressPercentage: number;
     remainingVotes: number;
   };
+  adminEmail: string; // email destinataire configurable
 }
 
 export class EmailService {
-  private static readonly ADMIN_EMAIL = 'bdh.malek@gmail.com';
   private static readonly EMAIL_API_URL = 'https://api.emailjs.com/api/v1.0/email/send';
-  
+
   /**
    * Envoie un email de notification de vote à l'administrateur
    */
   static async sendVoteNotification(data: VoteEmailData): Promise<boolean> {
     try {
       const emailContent = this.generateVoteEmailHTML(data);
-      
-      // Utilisation d'EmailJS pour l'envoi (service gratuit)
-      const emailData = {
-        service_id: 'default_service',
-        template_id: 'vote_notification',
-        user_id: 'your_emailjs_user_id',
-        template_params: {
-          to_email: this.ADMIN_EMAIL,
-          subject: `🗳️ Nouveau vote pour "${data.lockedClass.name}"`,
-          html_content: emailContent,
-          from_name: 'Système de Vote CAHIER_txt',
-          reply_to: 'noreply@cahier-txt.com'
-        }
-      };
+      const subject = `Nouveau vote pour « ${data.lockedClass.name} » (${data.vote.vote === 'yes' ? 'Oui' : 'Non'})`;
 
-      // Pour le développement, on log le contenu au lieu d'envoyer
-      if (process.env.NODE_ENV === 'development') {
-        logger.info('Email de vote (mode développement):', {
-          to: this.ADMIN_EMAIL,
-          subject: emailData.template_params.subject,
-          content: emailContent
+      const {
+        VITE_VOTE_WEBHOOK_URL,
+        VITE_FORMSUBMIT_EMAIL,
+        VITE_FORMSUBMIT_ENDPOINT,
+        VITE_EMAILJS_SERVICE_ID,
+        VITE_EMAILJS_TEMPLATE_ID,
+        VITE_EMAILJS_PUBLIC_KEY,
+      } = (import.meta as any).env || {};
+
+      // 1) FormSubmit prioritaire: endpoint explicite > email cible > adminEmail fallback
+      const formSubmitEndpoint =
+        VITE_FORMSUBMIT_ENDPOINT ||
+        (VITE_FORMSUBMIT_EMAIL ? `https://formsubmit.co/ajax/${encodeURIComponent(VITE_FORMSUBMIT_EMAIL)}` : (data.adminEmail ? `https://formsubmit.co/ajax/${encodeURIComponent(data.adminEmail)}` : ''));
+
+      if (formSubmitEndpoint) {
+        // Payload optimisé FormSubmit - suppression des champs inutiles admin_email et html
+        const payload: Record<string, any> = {
+          _subject: subject,
+          _replyto: data.vote.voterEmail,
+          _template: 'table',
+          // Informations essentielles du vote
+          class_name: data.lockedClass.name,
+          class_subject: data.lockedClass.subject,
+          class_cycle: data.lockedClass.cycle,
+          vote_value: data.vote.vote === 'yes' ? 'POUR' : 'CONTRE',
+          voter_name: data.vote.voterName,
+          voter_email: data.vote.voterEmail,
+          vote_date: new Date(data.vote.timestamp).toLocaleString('fr-FR'),
+          // Statistiques actuelles
+          total_votes: data.currentStats.totalVotes,
+          yes_votes: data.currentStats.yesVotes,
+          no_votes: data.currentStats.noVotes,
+          progress_percentage: `${data.currentStats.progressPercentage.toFixed(1)}%`,
+          remaining_votes: data.currentStats.remainingVotes,
+          required_votes: data.lockedClass.requiredVotes,
+          // Message résumé
+          message: `Nouveau vote ${data.vote.vote === 'yes' ? 'POUR' : 'CONTRE'} la classe « ${data.lockedClass.name} » par ${data.vote.voterName}. Progression: ${data.currentStats.totalVotes}/${data.lockedClass.requiredVotes} votes (${data.currentStats.progressPercentage.toFixed(1)}%).`
+        };
+
+        const response = await fetch(formSubmitEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify(payload),
         });
-        
-        // Simuler l'envoi avec une notification console
-        console.log('📧 EMAIL DE VOTE SIMULÉ:');
-        console.log('À:', this.ADMIN_EMAIL);
-        console.log('Sujet:', emailData.template_params.subject);
-        console.log('Contenu HTML généré avec succès');
-        
-        return true;
+
+        if (response.ok) {
+          logger.info('Email de vote envoyé avec succès (FormSubmit)', { classId: data.lockedClass.id });
+          return true;
+        } else {
+          const text = await response.text();
+          logger.error('Erreur lors de l\'envoi de l\'email (FormSubmit)', { status: response.status, text });
+        }
       }
 
-      // En production, utiliser un vrai service d'email
-      const response = await fetch(this.EMAIL_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(emailData)
-      });
+      // 1bis) Webhook si configuré (fallback après FormSubmit)
+      if (VITE_VOTE_WEBHOOK_URL) {
+        const response = await fetch(VITE_VOTE_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subject,
+            adminEmail: data.adminEmail,
+            html: emailContent,
+            vote: data.vote,
+            lockedClass: data.lockedClass,
+            currentStats: data.currentStats,
+            requiredVotes: data.lockedClass.requiredVotes,
+          }),
+        });
 
-      if (response.ok) {
-        logger.info('Email de vote envoyé avec succès', { classId: data.lockedClass.id });
-        return true;
-      } else {
-        logger.error('Erreur lors de l\'envoi de l\'email', { status: response.status });
-        return false;
+        if (response.ok) {
+          logger.info('Email de vote envoyé avec succès (Webhook)', { classId: data.lockedClass.id });
+          return true;
+        } else {
+          logger.error('Erreur lors de l\'envoi de l\'email (Webhook)', { status: response.status });
+        }
       }
+
+      // 2) Fallback EmailJS si configuré
+      if (VITE_EMAILJS_SERVICE_ID && VITE_EMAILJS_TEMPLATE_ID && VITE_EMAILJS_PUBLIC_KEY) {
+        const emailData = {
+          service_id: VITE_EMAILJS_SERVICE_ID,
+          template_id: VITE_EMAILJS_TEMPLATE_ID,
+          user_id: VITE_EMAILJS_PUBLIC_KEY,
+          template_params: {
+            to_email: data.adminEmail,
+            subject,
+            html_content: emailContent,
+            vote_value: data.vote.vote,
+            voter_name: data.vote.voterName,
+            voter_email: data.vote.voterEmail,
+            class_name: data.lockedClass.name,
+            required_votes: data.lockedClass.requiredVotes,
+            current_votes: data.currentStats.totalVotes,
+          },
+        };
+
+        const response = await fetch(this.EMAIL_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(emailData),
+        });
+
+        if (response.ok) {
+          logger.info('Email de vote envoyé avec succès (EmailJS)', { classId: data.lockedClass.id });
+          return true;
+        } else {
+          logger.error('Erreur lors de l\'envoi de l\'email (EmailJS)', { status: response.status });
+        }
+      }
+
+      // 3) Aucun mécanisme configuré
+      logger.warn('Aucun mécanisme d\'envoi d\'email configuré. Définissez VITE_FORMSUBMIT_EMAIL (ou VITE_FORMSUBMIT_ENDPOINT) ou VITE_VOTE_WEBHOOK_URL, ou EmailJS (service/template/public key).');
+      logger.info('CONTENU EMAIL (fallback log):', { to: data.adminEmail, subject });
+      // Pour la démo, nous allons simplement logger les détails dans la console
+      // Au lieu d'envoyer un véritable email
+      // console.log('📧 EMAIL DE VOTE (LOG SEULEMENT) →', data.adminEmail, subject);
+      // console.log('Sujet:', subject);
+      // console.log('Contenu:', body);
+      // console.log('------------------------------------------------');
+      return false;
     } catch (error) {
       logger.error('Erreur lors de l\'envoi de l\'email de vote', error);
       return false;
@@ -209,7 +287,7 @@ export class EmailService {
         
         <div class="footer">
             <p>Cet email a été généré automatiquement par le système CAHIER_txt</p>
-            <p style="margin-top: 5px;">📧 ${this.ADMIN_EMAIL}</p>
+            <p style="margin-top: 5px;">📧 ${data.adminEmail}</p>
         </div>
     </div>
 </body>

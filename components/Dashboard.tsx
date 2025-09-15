@@ -135,6 +135,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
             try {
                 const locked = await manifestService.getLockedClasses(selectedCycle);
                 setLockedClasses(locked);
+                
+                // Debug: Log des classes verrouillées chargées
+                logger.info(`Loaded ${locked.length} locked classes for cycle: ${selectedCycle}`, {
+                    cycle: selectedCycle,
+                    lockedClasses: locked.map(lc => ({ id: lc.id, name: lc.name, cycle: lc.cycle }))
+                });
             } catch (error) {
                 logger.error('Failed to load locked classes', error);
                 setLockedClasses([]);
@@ -390,25 +396,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                         {/* Create new class first */}
                         <AddClassCard onClick={() => setCreateModalOpen(true)} />
                         {/* Sort classes: demo "Tronc commun scientifique" first, then other user classes */}
-                        {classes
-                            .filter(c => {
-                                // Filtrer par cycle sélectionné
+                        {(() => {
+                            const filteredClasses = classes.filter(c => {
+                                // Filtrer par cycle sélectionné et préférences utilisateur
                                 const classCycle = c.cycle || 'college';
-                                if (classCycle !== selectedCycle) return false;
                                 
-                                // Appliquer les préférences utilisateur
-                                const showAllCycles = config.showAllCycles ?? true;
-                                const showAllSubjects = config.showAllSubjects ?? true;
-                                const selectedCycles = config.selectedCycles || ['college', 'lycee', 'prepa'];
+                                // Logique optimisée pour sélection unique
+                                const selectedCycles = config.selectedCycles || ['college'];
                                 const selectedSubjects = config.selectedSubjects || [];
                                 
-                                // Vérifier le cycle
-                                if (!showAllCycles && !selectedCycles.includes(classCycle)) {
+                                // Vérifier le cycle : doit correspondre au cycle sélectionné ET être dans selectedCycles
+                                if (!selectedCycles.includes(classCycle)) {
                                     return false;
                                 }
                                 
-                                // Vérifier la matière
-                                if (!showAllSubjects && selectedSubjects.length > 0) {
+                                // Vérifier la matière : si une matière est sélectionnée, filtrer par celle-ci
+                                if (selectedSubjects.length > 0) {
                                     const classSubject = c.subject;
                                     const matchesSubject = selectedSubjects.some(selectedSubject => 
                                         classSubject.toLowerCase().includes(selectedSubject.toLowerCase()) ||
@@ -416,15 +419,33 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                                     );
                                     if (!matchesSubject) return false;
                                 }
+                                // Si aucune matière sélectionnée, afficher toutes les matières
                                 
                                 return true;
-                            })
+                            });
+                            
+                            // Debug: Log des classes filtrées
+                            logger.info(`Filtered ${filteredClasses.length} user classes for cycle: ${selectedCycle}`, {
+                                cycle: selectedCycle,
+                                totalClasses: classes.length,
+                                filteredClasses: filteredClasses.map(c => ({ id: c.id, name: c.name, cycle: c.cycle })),
+                                config: { 
+                                    selectedCycles: config.selectedCycles, 
+                                    selectedSubjects: config.selectedSubjects,
+                                    singleCycleMode: true,
+                                    singleSubjectMode: (config.selectedSubjects || []).length <= 1
+                                }
+                            });
+                            
+                            return filteredClasses
                             .sort((a, b) => {
-                                // Prioritize demo classes per cycle: 'Tronc commun scientifique' for lycée, '3ème année collégiale' for collège
+                                // Prioritize demo classes per cycle
                                 const isDemoA = (selectedCycle === 'lycee' && a.name.toLowerCase().includes('tronc commun scientifique'))
-                                    || (selectedCycle === 'college' && a.name.toLowerCase().includes('3ème année collégiale'));
+                                    || (selectedCycle === 'college' && a.name.toLowerCase().includes('3ème année collégiale'))
+                                    || (selectedCycle === 'prepa' && a.name.toLowerCase().includes('mpsi') && a.name.toLowerCase().includes('démo'));
                                 const isDemoB = (selectedCycle === 'lycee' && b.name.toLowerCase().includes('tronc commun scientifique'))
-                                    || (selectedCycle === 'college' && b.name.toLowerCase().includes('3ème année collégiale'));
+                                    || (selectedCycle === 'college' && b.name.toLowerCase().includes('3ème année collégiale'))
+                                    || (selectedCycle === 'prepa' && b.name.toLowerCase().includes('mpsi') && b.name.toLowerCase().includes('démo'));
                                 if (isDemoA && !isDemoB) return -1;
                                 if (!isDemoA && isDemoB) return 1;
                                 // Then sort by creation date (newest first)
@@ -438,27 +459,24 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                                 onSelect={() => onSelectClass(classInfo)}
                                 onDelete={() => deleteClass(classInfo.id)}
                             />
-                        ))}
+                        ));
+                        })()}
             {lockedClasses
                 .filter(lc => !dismissedLockedIds.includes(lc.id))
-                .filter(lc => !classes.some(c => (c.cycle || 'college') === selectedCycle && c.name === lc.name && c.subject === lc.subject))
+                .filter(lc => !classes.some(c => (c.cycle || 'college') === (lc.cycle || 'college') && c.name === lc.name && c.subject === lc.subject))
                 .filter(lc => {
                     // Appliquer les préférences utilisateur aux classes verrouillées
                     const lockedClassCycle = lc.cycle || 'college';
-                    if (lockedClassCycle !== selectedCycle) return false;
                     
-                    const showAllCycles = config.showAllCycles ?? true;
-                    const showAllSubjects = config.showAllSubjects ?? true;
-                    const selectedCycles = config.selectedCycles || ['college', 'lycee', 'prepa'];
-                    const selectedSubjects = config.selectedSubjects || [];
-                    
-                    // Vérifier le cycle
-                    if (!showAllCycles && !selectedCycles.includes(lockedClassCycle)) {
+                    // Vérifier le cycle : doit correspondre au cycle sélectionné
+                    if (lockedClassCycle !== selectedCycle) {
                         return false;
                     }
                     
-                    // Vérifier la matière
-                    if (!showAllSubjects && selectedSubjects.length > 0) {
+                    const selectedSubjects = config.selectedSubjects || [];
+
+                    // Vérifier la matière : si une matière est sélectionnée, filtrer par celle-ci
+                    if (selectedSubjects.length > 0) {
                         const lockedClassSubject = lc.subject;
                         const matchesSubject = selectedSubjects.some(selectedSubject => 
                             lockedClassSubject.toLowerCase().includes(selectedSubject.toLowerCase()) ||
@@ -466,6 +484,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                         );
                         if (!matchesSubject) return false;
                     }
+                    // Si aucune matière sélectionnée, afficher toutes les matières
                     
                     return true;
                 })

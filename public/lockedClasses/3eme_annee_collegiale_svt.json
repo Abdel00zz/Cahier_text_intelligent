@@ -1,0 +1,31 @@
+{
+  "classInfo": {
+    "name": "3ème année collégiale",
+    "subject": "Sciences de la Vie et de la Terre",
+    "cycle": "college",
+    "teacherName": "Professeur",
+    "id": "locked_college_svt_3eme",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#10B981"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "La reproduction humaine",
+      "sections": [
+        {
+          "name": "Introduction à la reproduction humaine",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition de la reproduction humaine",
+              "description": "La reproduction humaine est le processus par lequel les êtres humains donnent naissance à de nouveaux individus.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

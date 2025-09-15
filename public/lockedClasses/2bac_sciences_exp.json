@@ -1,0 +1,31 @@
+{
+  "classInfo": {
+    "name": "2ème Bac Sciences Expérimentales",
+    "subject": "Sciences de la Vie et de la Terre",
+    "cycle": "lycee",
+    "teacherName": "Professeur",
+    "id": "locked_lycee_svt_2bac",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#10B981"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "La génétique",
+      "sections": [
+        {
+          "name": "Introduction à la génétique",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition de la génétique",
+              "description": "La génétique est la science qui étudie l'hérédité et les gènes.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

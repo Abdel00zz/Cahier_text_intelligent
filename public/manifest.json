@@ -15,15 +15,15 @@
         "description": "Classe de démonstration pour le collège - Mathématiques 3ème année"
       },
       {
-        "id": "demo_college_math_3eme",
+        "id": "demo_college_math_1ere",
         "filename": "1er anne collegial math.json",
         "name": "1er année collégiale",
         "subject": "Mathématiques",
         "cycle": "college",
         "teacherName": "Professeur",
         "color": "#99f6e4",
-        "priority": 1,
-        "description": "Classe de démonstration pour le collège - Mathématiques 3ème année"
+        "priority": 2,
+        "description": "Classe de démonstration pour le collège - Mathématiques 1ère année"
       }
     ],
     "lycee": [
@@ -39,7 +39,19 @@
         "description": "Classe de démonstration pour le lycée - Tronc commun scientifique"
       }
     ],
-    "prepa": []
+    "prepa": [
+      {
+        "id": "demo_prepa_mpsi_math",
+        "filename": "mpsi_mathematiques.json",
+        "name": "MPSI - Mathématiques (Démo)",
+        "subject": "Mathématiques",
+        "cycle": "prepa",
+        "teacherName": "Prof. Driss",
+        "color": "#8B5CF6",
+        "priority": 1,
+        "description": "Classe de démonstration pour les classes préparatoires - MPSI Mathématiques"
+      }
+    ]
   },
   "lockedClasses": {
     "college": [
@@ -298,7 +310,7 @@
   },
   "voting": {
     "enabled": true,
-    "adminEmail": "admin@cahier-txt.com",
+    "adminEmail": "bdh.malek@gmail.com",
     "voteThreshold": 500,
     "cooldownHours": 24
   }

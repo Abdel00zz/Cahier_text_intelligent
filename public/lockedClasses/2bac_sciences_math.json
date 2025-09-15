@@ -1,0 +1,31 @@
+{
+  "classInfo": {
+    "name": "2ème Bac Sciences Mathématiques",
+    "subject": "Mathématiques",
+    "cycle": "lycee",
+    "teacherName": "Professeur",
+    "id": "locked_lycee_math_2bac",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#8B5CF6"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "Les limites et la continuité",
+      "sections": [
+        {
+          "name": "Introduction aux limites",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition d'une limite",
+              "description": "La limite d'une fonction en un point est la valeur dont la fonction s'approche lorsque la variable s'approche de ce point.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

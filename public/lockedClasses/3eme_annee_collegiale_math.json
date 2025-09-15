@@ -1,0 +1,38 @@
+{
+  "classInfo": {
+    "name": "3ème année collégiale",
+    "subject": "Mathématiques",
+    "cycle": "college",
+    "teacherName": "Professeur",
+    "id": "locked_college_math_3eme",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#166534"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "Les équations et inéquations",
+      "sections": [
+        {
+          "name": "Introduction aux équations",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition d'une équation",
+              "description": "Une équation est une égalité qui contient une ou plusieurs inconnues.",
+              "date": "2025-01-15"
+            },
+            {
+              "type": "exemple",
+              "number": 1,
+              "title": "Exemples d'équations",
+              "description": "2x + 3 = 7 est une équation du premier degré à une inconnue.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

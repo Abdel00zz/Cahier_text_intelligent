@@ -82,28 +82,25 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ isOpen, onClose, config, o
   };
 
   const handleCycleToggle = (cycle: string) => {
-    const currentCycles = localConfig.selectedCycles || [];
-    const newCycles = currentCycles.includes(cycle as any)
-      ? currentCycles.filter(c => c !== cycle)
-      : [...currentCycles, cycle as any];
+    // Nouvelle logique : sélection unique d'un cycle
+    const newSelectedCycle = cycle as any;
     
     setLocalConfig(prev => ({
       ...prev,
-      selectedCycles: newCycles,
-      showAllCycles: newCycles.length === 3
+      selectedCycles: [newSelectedCycle], // Toujours un seul cycle
+      showAllCycles: false // Toujours false car on a une sélection spécifique
     }));
   };
 
   const handleSubjectToggle = (subject: string) => {
+    // Nouvelle logique : sélection unique d'une matière
     const currentSubjects = localConfig.selectedSubjects || [];
-    const newSubjects = currentSubjects.includes(subject)
-      ? currentSubjects.filter(s => s !== subject)
-      : [...currentSubjects, subject];
+    const isCurrentlySelected = currentSubjects.includes(subject);
     
     setLocalConfig(prev => ({
       ...prev,
-      selectedSubjects: newSubjects,
-      showAllSubjects: newSubjects.length === 0
+      selectedSubjects: isCurrentlySelected ? [] : [subject], // Soit vide, soit une seule matière
+      showAllSubjects: isCurrentlySelected // true si on désélectionne (toutes les matières), false si on sélectionne une matière spécifique
     }));
   };
 
@@ -256,7 +253,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ isOpen, onClose, config, o
         </div>
 
         {/* Footer minimaliste */}
-        <div className="px-4 sm:px-6 py-4 sm:py-5 flex justify-between items-center bg-white border-t border-gray-100 sm:border-t-0">
+        <div className="px-4 sm:px-6 py-3 flex justify-between items-center bg-white border-t border-gray-100">
           <div>
             {currentStep > 1 && (
               <button

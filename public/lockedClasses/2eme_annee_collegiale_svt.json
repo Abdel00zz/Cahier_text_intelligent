@@ -1,0 +1,31 @@
+{
+  "classInfo": {
+    "name": "2ème année collégiale",
+    "subject": "Sciences de la Vie et de la Terre",
+    "cycle": "college",
+    "teacherName": "Professeur",
+    "id": "locked_college_svt_2eme",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#10B981"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "La digestion et l'absorption intestinale",
+      "sections": [
+        {
+          "name": "Introduction à la digestion",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition de la digestion",
+              "description": "La digestion est le processus de transformation des aliments en nutriments assimilables par l'organisme.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "classInfo": {
+    "name": "3ème année collégiale",
+    "subject": "Physique-Chimie",
+    "cycle": "college",
+    "teacherName": "Professeur",
+    "id": "locked_college_pc_3eme",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#06B6D4"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "Les ions et l'acidité",
+      "sections": [
+        {
+          "name": "Introduction aux ions",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition d'un ion",
+              "description": "Un ion est un atome ou une molécule qui a gagné ou perdu un ou plusieurs électrons.",
+              "date": "2025-01-15"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
