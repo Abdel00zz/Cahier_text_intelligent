@@ -4,6 +4,7 @@
 
 import { logger } from '../utils/logger';
 import { ClassInfo, Cycle } from '../types';
+import { EmailService, VoteEmailData } from './EmailService';
 
 export interface ManifestClass {
   id: string;
@@ -393,20 +394,53 @@ class ManifestService {
   }
 
   /**
-   * Simule l'envoi d'un email à l'admin
+   * Envoie une notification complète à l'admin avec statistiques
    */
   private async sendVoteNotificationToAdmin(vote: Vote): Promise<void> {
-    // Dans un vrai projet, ceci ferait un appel API
-    logger.info(`[EMAIL SIMULATION] Vote notification sent to admin:`, {
-      classId: vote.classId,
-      voterName: vote.voterName,
-      voterEmail: vote.voterEmail,
-      vote: vote.vote,
-      timestamp: vote.timestamp
-    });
-    
-    // Simulation d'un délai réseau
-    await new Promise(resolve => setTimeout(resolve, 500));
+    try {
+      // Récupérer les informations de la classe
+      const lockedClass = this.findLockedClassById(vote.classId);
+      if (!lockedClass) {
+        logger.error('Classe verrouillée introuvable pour le vote', { classId: vote.classId });
+        return;
+      }
+
+      // Calculer les statistiques actuelles
+      const totalVotes = this.getVoteCount(vote.classId);
+      const stats = this.getVoteStats(vote.classId);
+      const progressPercentage = Math.min((totalVotes / lockedClass.requiredVotes) * 100, 100);
+      const remainingVotes = Math.max(lockedClass.requiredVotes - totalVotes, 0);
+
+      // Préparer les données pour l'email
+      const emailData: VoteEmailData = {
+        vote,
+        lockedClass,
+        currentStats: {
+          totalVotes,
+          yesVotes: totalVotes,
+          noVotes: stats.no,
+          progressPercentage,
+          remainingVotes
+        }
+      };
+
+      // Envoyer l'email via le service EmailService
+      const emailSent = await EmailService.sendVoteNotification(emailData);
+      
+      if (emailSent) {
+        logger.info('Notification email envoyée avec succès', { 
+          classId: vote.classId, 
+          voterEmail: vote.voterEmail 
+        });
+      } else {
+        logger.warn('Échec de l\'envoi de l\'email de notification', { 
+          classId: vote.classId 
+        });
+      }
+      
+    } catch (error) {
+      logger.error('Erreur lors de l\'envoi de la notification admin', error);
+    }
   }
 }
 

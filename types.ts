@@ -26,6 +26,13 @@ export interface AppConfig {
     screenDescriptionTypes?: string[];
     printDescriptionMode?: 'all' | 'none' | 'custom';
     printDescriptionTypes?: string[];
+    // User preferences for display filtering
+    selectedCycles?: Cycle[];
+    selectedSubjects?: string[];
+    showAllCycles?: boolean;
+    showAllSubjects?: boolean;
+    // Welcome flow control
+    hasCompletedWelcome?: boolean;
 }
 
 export type TopLevelType = 

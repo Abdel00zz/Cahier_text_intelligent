@@ -11,6 +11,7 @@ import { GuideModal } from './modals/GuideModal';
 import { ImportPlatformModal } from './modals/ImportPlatformModal';
 import VotingModal from './modals/VotingModal';
 import AdminModal from './modals/AdminModal';
+import { WelcomeModal } from './modals/WelcomeModal';
 
 import { manifestService, LockedClass } from '../services/ManifestService';
 import { ClassInfo } from '../types';
@@ -82,6 +83,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const [isGuideOpen, setGuideOpen] = useState(false);
     const [isVotingModalOpen, setVotingModalOpen] = useState(false);
     const [isAdminModalOpen, setAdminModalOpen] = useState(false);
+    const [isWelcomeModalOpen, setWelcomeModalOpen] = useState(false);
     const [selectedLockedClass, setSelectedLockedClass] = useState<LockedClass | null>(null);
     const [lockedClasses, setLockedClasses] = useState<LockedClass[]>([]);
     const [lastModifiedDates, setLastModifiedDates] = useState<Record<string, string | null>>({});
@@ -164,6 +166,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
         });
         setLastModifiedDates(dates);
     }, [classes, isClassesLoading]);
+
+    // Check if welcome modal should be shown
+    useEffect(() => {
+        if (!isConfigLoading && !config.hasCompletedWelcome) {
+            setWelcomeModalOpen(true);
+        }
+    }, [config.hasCompletedWelcome, isConfigLoading]);
 
     // On first load without a saved selection, set cycle once to the first available class's cycle
     useEffect(() => {
@@ -352,33 +361,64 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 </div>
             </header>
             <main>
-            {/* Cycle selector (centered) */}
-            <div className="w-full flex justify-center mb-3 sm:mb-4">
-                <div className="inline-flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar px-2 -mx-2">
-                {([
-                    { key: 'college', label: 'Collège' },
-                    { key: 'lycee', label: 'Lycée' },
-                    { key: 'prepa', label: 'Classe préparatoire' },
-                ] as {key: Cycle; label: string;}[]).map(opt => (
-                    <button
-                        key={opt.key}
-                        onClick={() => !isClassesLoading && setSelectedCycle(opt.key)}
-                        className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${selectedCycle === opt.key ? 'bg-teal-600 text-white border-teal-600' : 'bg-white text-slate-700 border-slate-300 hover:border-slate-400'}`}
-                        aria-pressed={selectedCycle === opt.key}
-                        aria-disabled={isClassesLoading}
-                        disabled={isClassesLoading}
-                    >
-                        {opt.label}
-                    </button>
-                ))}
+            {/* Cycle selector (centered) - Masqué si l'utilisateur a des préférences personnalisées */}
+            {(config.showAllCycles ?? true) && (
+                <div className="w-full flex justify-center mb-3 sm:mb-4">
+                    <div className="inline-flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar px-2 -mx-2">
+                    {([
+                        { key: 'college', label: 'Collège' },
+                        { key: 'lycee', label: 'Lycée' },
+                        { key: 'prepa', label: 'Classe préparatoire' },
+                    ] as {key: Cycle; label: string;}[]).map(opt => (
+                        <button
+                            key={opt.key}
+                            onClick={() => !isClassesLoading && setSelectedCycle(opt.key)}
+                            className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${selectedCycle === opt.key ? 'bg-teal-600 text-white border-teal-600' : 'bg-white text-slate-700 border-slate-300 hover:border-slate-400'}`}
+                            aria-pressed={selectedCycle === opt.key}
+                            aria-disabled={isClassesLoading}
+                            disabled={isClassesLoading}
+                        >
+                            {opt.label}
+                        </button>
+                    ))}
+                    </div>
                 </div>
-            </div>
+            )}
+            
+
             <div className="mt-4 sm:mt-8 px-2 sm:px-2 max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-4">
                         {/* Create new class first */}
                         <AddClassCard onClick={() => setCreateModalOpen(true)} />
                         {/* Sort classes: demo "Tronc commun scientifique" first, then other user classes */}
                         {classes
-                            .filter(c => (c.cycle || 'college') === selectedCycle)
+                            .filter(c => {
+                                // Filtrer par cycle sélectionné
+                                const classCycle = c.cycle || 'college';
+                                if (classCycle !== selectedCycle) return false;
+                                
+                                // Appliquer les préférences utilisateur
+                                const showAllCycles = config.showAllCycles ?? true;
+                                const showAllSubjects = config.showAllSubjects ?? true;
+                                const selectedCycles = config.selectedCycles || ['college', 'lycee', 'prepa'];
+                                const selectedSubjects = config.selectedSubjects || [];
+                                
+                                // Vérifier le cycle
+                                if (!showAllCycles && !selectedCycles.includes(classCycle)) {
+                                    return false;
+                                }
+                                
+                                // Vérifier la matière
+                                if (!showAllSubjects && selectedSubjects.length > 0) {
+                                    const classSubject = c.subject;
+                                    const matchesSubject = selectedSubjects.some(selectedSubject => 
+                                        classSubject.toLowerCase().includes(selectedSubject.toLowerCase()) ||
+                                        selectedSubject.toLowerCase().includes(classSubject.toLowerCase())
+                                    );
+                                    if (!matchesSubject) return false;
+                                }
+                                
+                                return true;
+                            })
                             .sort((a, b) => {
                                 // Prioritize demo classes per cycle: 'Tronc commun scientifique' for lycée, '3ème année collégiale' for collège
                                 const isDemoA = (selectedCycle === 'lycee' && a.name.toLowerCase().includes('tronc commun scientifique'))
@@ -402,6 +442,33 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
             {lockedClasses
                 .filter(lc => !dismissedLockedIds.includes(lc.id))
                 .filter(lc => !classes.some(c => (c.cycle || 'college') === selectedCycle && c.name === lc.name && c.subject === lc.subject))
+                .filter(lc => {
+                    // Appliquer les préférences utilisateur aux classes verrouillées
+                    const lockedClassCycle = lc.cycle || 'college';
+                    if (lockedClassCycle !== selectedCycle) return false;
+                    
+                    const showAllCycles = config.showAllCycles ?? true;
+                    const showAllSubjects = config.showAllSubjects ?? true;
+                    const selectedCycles = config.selectedCycles || ['college', 'lycee', 'prepa'];
+                    const selectedSubjects = config.selectedSubjects || [];
+                    
+                    // Vérifier le cycle
+                    if (!showAllCycles && !selectedCycles.includes(lockedClassCycle)) {
+                        return false;
+                    }
+                    
+                    // Vérifier la matière
+                    if (!showAllSubjects && selectedSubjects.length > 0) {
+                        const lockedClassSubject = lc.subject;
+                        const matchesSubject = selectedSubjects.some(selectedSubject => 
+                            lockedClassSubject.toLowerCase().includes(selectedSubject.toLowerCase()) ||
+                            selectedSubject.toLowerCase().includes(lockedClassSubject.toLowerCase())
+                        );
+                        if (!matchesSubject) return false;
+                    }
+                    
+                    return true;
+                })
                 .map(lockedClass => (
                             <LockedClassCard
                                 key={lockedClass.id}
@@ -430,6 +497,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 onConfigChange={updateConfig}
                 onExportPlatform={handleExportPlatform}
                 onOpenImport={() => setImportModalOpen(true)}
+                onOpenWelcome={() => setWelcomeModalOpen(true)}
             />
             <GuideModal isOpen={isGuideOpen} onClose={() => setGuideOpen(false)} />
             <ImportPlatformModal
@@ -456,6 +524,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                     // Recharger les données
                     window.location.reload();
                 }}
+            />
+
+            <WelcomeModal
+                isOpen={isWelcomeModalOpen}
+                onClose={() => setWelcomeModalOpen(false)}
+                config={config}
+                onConfigChange={updateConfig}
             />
         </div>
     );

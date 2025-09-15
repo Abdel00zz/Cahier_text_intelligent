@@ -14,6 +14,11 @@ const defaultConfig: AppConfig = {
     screenDescriptionTypes: ['exemple', 'application'],
     printDescriptionMode: 'custom',
     printDescriptionTypes: ['exemple', 'application'],
+    selectedCycles: ['college', 'lycee', 'prepa'],
+    selectedSubjects: [],
+    showAllCycles: true,
+    showAllSubjects: true,
+    hasCompletedWelcome: false,
 };
 
 export const useConfigManager = () => {
@@ -33,6 +38,11 @@ export const useConfigManager = () => {
                     screenDescriptionTypes: loadedConfig.screenDescriptionTypes ?? [],
                     printDescriptionMode: loadedConfig.printDescriptionMode ?? (typeof loadedConfig.printShowDescriptions === 'boolean' ? (loadedConfig.printShowDescriptions ? 'all' : 'none') : 'all'),
                     printDescriptionTypes: loadedConfig.printDescriptionTypes ?? [],
+                    selectedCycles: loadedConfig.selectedCycles ?? ['college', 'lycee', 'prepa'],
+                    selectedSubjects: loadedConfig.selectedSubjects ?? [],
+                    showAllCycles: loadedConfig.showAllCycles ?? true,
+                    showAllSubjects: loadedConfig.showAllSubjects ?? true,
+                    hasCompletedWelcome: loadedConfig.hasCompletedWelcome ?? false,
                 }));
             } else {
                 setConfig(currentConfig => ({
@@ -42,6 +52,11 @@ export const useConfigManager = () => {
                     screenDescriptionTypes: ['exemple', 'application'],
                     printDescriptionMode: 'custom',
                     printDescriptionTypes: ['exemple', 'application'],
+                    selectedCycles: ['college', 'lycee', 'prepa'],
+                    selectedSubjects: [],
+                    showAllCycles: true,
+                    showAllSubjects: true,
+                    hasCompletedWelcome: false,
                 }));
             }
         } catch (error) {

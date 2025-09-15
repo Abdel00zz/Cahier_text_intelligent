@@ -50,11 +50,7 @@ export const printContent = async (content: string): Promise<void> => {
     try {
       // Utiliser le plugin WebviewPrint pour Android
       await WebviewPrint.print({
-        content: fullHtml,
-        options: {
-          name: 'Cahier de texte',
-          orientation: 'portrait'
-        }
+        name: 'Cahier de texte'
       });
     } catch (error) {
       // Fallback vers window.print()

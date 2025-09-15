@@ -12,9 +12,10 @@ interface ConfigModalProps {
   onConfigChange: (newConfig: Partial<AppConfig>) => void;
   onExportPlatform: () => void;
   onOpenImport: () => void;
+  onOpenWelcome?: () => void;
 }
 
-export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onConfigChange, onExportPlatform, onOpenImport }) => {
+export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onConfigChange, onExportPlatform, onOpenImport, onOpenWelcome }) => {
   const [localConfig, setLocalConfig] = useState(config);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -124,41 +125,10 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
   <div ref={modalRef} className="flex-1 overflow-y-auto overscroll-contain">
     <div className="p-3 sm:p-4 space-y-3 sm:space-y-4">
             
-            {/* Section Informations Générales */}
+            {/* Section Configuration Générale - Layout en colonnes */}
             <div className="bg-white rounded-lg border border-gray-100 p-3 sm:p-4 shadow-sm">
-              <h3 className="text-sm font-semibold text-gray-900 mb-2 sm:mb-3">Informations Générales</h3>
-              
-              <div className="grid grid-cols-1 gap-2 sm:gap-3 lg:grid-cols-2">
-                <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
-                  <label htmlFor="establishmentName" className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
-                    Nom de l'établissement
-                  </label>
-                  <input
-                    type="text"
-                    id="establishmentName"
-                    name="establishmentName"
-                    value={localConfig.establishmentName}
-                    onChange={handleChange}
-                    className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                    placeholder="Ex: Lycée Ibn al-Haytham"
-                  />
-                </div>
-                
-                <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
-                  <label htmlFor="defaultTeacherName" className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
-                    Nom de l'enseignant
-                  </label>
-                  <input
-                    type="text"
-                    id="defaultTeacherName"
-                    name="defaultTeacherName"
-                    value={localConfig.defaultTeacherName}
-                    onChange={handleChange}
-                    className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                    placeholder="Sera utilisé pour les nouvelles classes"
-                  />
-                </div>
-              </div>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3 sm:mb-4">Configuration Générale</h3>
+              <p className="text-sm text-gray-600">Les préférences d'affichage sont maintenant gérées via "Modifier mes informations"</p>
             </div>
 
             {/* Section Contenu visible */}
@@ -396,9 +366,13 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
 
             </div>
 
-            {/* Section Gestion des données - compact */}
-            <div className="bg-white rounded-lg border border-gray-100 p-3 sm:p-4 shadow-sm">
-              <h3 className="text-sm font-semibold text-gray-900 mb-2 sm:mb-3">Gestion des données</h3>
+
+            
+
+             
+             {/* Section Gestion des données */}
+             <div className="bg-white rounded-lg border border-gray-100 p-3 sm:p-4 shadow-sm">
+               <h3 className="text-sm font-semibold text-gray-900 mb-2 sm:mb-3">Gestion des données</h3>
               
               <div className="grid grid-cols-1 gap-2 sm:gap-3 lg:grid-cols-2">
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
@@ -430,21 +404,35 @@ export const ConfigModal: FC<ConfigModalProps> = ({ isOpen, onClose, config, onC
         </div> {/* end scroll container */}
 
         {/* Mobile-Optimized Footer */}
-        <div className="px-3 sm:px-6 py-2 sm:py-3 bg-white border-t border-gray-100 flex justify-end gap-2 sm:gap-3">
+        <div className="px-3 sm:px-6 py-2 sm:py-3 bg-white border-t border-gray-100 flex justify-between gap-2 sm:gap-3">
           <button
             type="button"
-            onClick={onClose}
+            onClick={() => {
+              if (onOpenWelcome) {
+                onClose();
+                onOpenWelcome();
+              }
+            }}
             className="h-8 sm:h-10 px-3 sm:px-4 rounded-lg border border-gray-300 text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200"
           >
-            Annuler
+            Modifier mes informations
           </button>
-          <button
-            type="button"
-            onClick={handleSave}
-            className="h-8 sm:h-10 px-4 sm:px-6 rounded-lg text-white text-xs sm:text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-all duration-200"
-          >
-            Enregistrer
-          </button>
+          <div className="flex gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="h-8 sm:h-10 px-3 sm:px-4 rounded-lg border border-gray-300 text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-all duration-200"
+            >
+              Annuler
+            </button>
+            <button
+              type="button"
+              onClick={handleSave}
+              className="h-8 sm:h-10 px-4 sm:px-6 rounded-lg text-white text-xs sm:text-sm font-medium bg-blue-600 hover:bg-blue-700 transition-all duration-200"
+            >
+              Enregistrer
+            </button>
+          </div>
         </div>
       </div>
     </div>

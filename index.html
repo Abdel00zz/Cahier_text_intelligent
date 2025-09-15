@@ -87,6 +87,28 @@
         animation: fade-in 0.2s ease-out;
     }
 
+    /* Hide scrollbars for mobile optimization */
+    .scrollbar-hide {
+      -ms-overflow-style: none;  /* Internet Explorer 10+ */
+      scrollbar-width: none;  /* Firefox */
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;  /* Safari and Chrome */
+    }
+
+    /* Mobile touch optimization */
+    .touch-manipulation {
+      touch-action: manipulation;
+    }
+
+    /* Prevent text selection on mobile buttons */
+    .touch-manipulation {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
 
     /* Date cell animation */
     .date-cell-filled::before {
