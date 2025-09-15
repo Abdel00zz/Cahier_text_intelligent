@@ -144,8 +144,11 @@ Bienvenue ! Ce guide pratique explique chaque bouton, badge, menu et écran de l
 💡 Astuces et notifications pour rester efficace au quotidien.
 
 ## Démarrage rapide (checklist)
+☐ **Configuration initiale** : À la première utilisation, complétez le modal d'accueil (établissement, nom, préférences).
+☐ **Sélection des cycles** : Choisissez au moins un cycle (Collège, Lycée, Prépa) - obligatoire pour continuer.
+☐ **Matières favorites** : Sélectionnez vos matières préférées ou laissez vide pour tout afficher.
 ☐ Créer une classe depuis le Tableau de bord ➜ renseignez Nom, Matière et validez.
-☐ Ouvrir la classe et configurer vos informations (nom d’enseignant, établissement).
+☐ Ouvrir la classe et vérifier vos informations (modifiables via "Modifier mes informations").
 ☐ Créer un premier Chapitre, puis ajouter une Section (A, B…).
 ☐ Insérer des Éléments pédagogiques: Définition, Théorème, Exemple, Exercice, Activité…
 ☐ Utiliser la Recherche pour retrouver vite un item (mot-clé, date 2025-09-06, numéro).
@@ -181,12 +184,22 @@ Bienvenue ! Ce guide pratique explique chaque bouton, badge, menu et écran de l
   - <i class="fas fa-print"></i> Imprimer: active un rendu prêt à l’impression; utilisez l’aperçu avant impression de votre navigateur.
   - <i class="fas fa-question-circle"></i> Aide: ouvre ce guide.
 
+## Modal d'accueil (première utilisation)
+À votre première connexion, un modal d'accueil moderne vous guide :
+- **Étape 1 - Établissement** : Saisissez le nom de votre établissement scolaire.
+- **Étape 2 - Présentation** : Indiquez votre nom (utilisé par défaut pour les nouvelles classes).
+- **Étape 3 - Préférences** : 
+  - **Cycles** : Sélectionnez au moins un cycle (Collège, Lycée, Prépa) - **obligatoire**
+  - **Matières** : Choisissez vos matières favorites ou laissez vide pour tout afficher
+- Navigation : "Précédent" pour revenir, "Suivant" pour continuer, "Terminer" une fois tout complété.
+- **Important** : Vous devez sélectionner au moins un cycle pour pouvoir terminer la configuration.
+
 ## Tableau de bord
 - Carte de classe: affiche le nom de la classe et la dernière date modifiée. Clic pour ouvrir.
 - <i class="fas fa-times"></i> Supprimer (survol de la carte): supprime la classe après confirmation.
-- Créer une classe: grand cadre “+”; renseignez Nom et Matière. Le nom de l’enseignant par défaut vient de la Configuration.
+- Créer une classe: grand cadre "+"; renseignez Nom et Matière. Le nom de l'enseignant par défaut vient de la Configuration.
 - <i class="fas fa-cog"></i> Configuration:
-  - Informations Générales: Nom de l’établissement, Nom de l’enseignant par défaut.
+  - **Modifier mes informations** : Bouton pour rouvrir le modal d'accueil et modifier vos préférences.
   - Descriptions affichées: interface moderne et intelligente avec deux contextes distincts
     - Application (écran): mode (Tout / Aucune / Sélection) + sélection par badges authentiques
     - Impression (PDF): mode (Tout / Aucune / Sélection) + sélection par badges authentiques
@@ -297,8 +310,11 @@ export const GUIDE_AR = `# مساعدة شاملة – دفتر النصوص ا�
 💡 تنبيهات ونصائح عملية لرفع الإنتاجية.
 
 ## بداية سريعة (قائمة تحقق)
+☐ **الإعداد الأولي** : في الاستخدام الأول، أكمل نافذة الترحيب (المؤسسة، الاسم، التفضيلات).
+☐ **اختيار الدورات** : اختر دورة واحدة على الأقل (الإعدادية، الثانوية، التحضيرية) - إجباري للمتابعة.
+☐ **المواد المفضلة** : اختر موادك المفضلة أو اتركها فارغة لعرض الكل.
 ☐ أنشئ فصلاً/قسماً جديداً من لوحة التحكم ➜ أدخل الاسم والمادة ثم أكد.
-☐ افتح الفصل واضبط المعلومات (اسم الأستاذ، المؤسسة) من الإعدادات.
+☐ افتح الفصل وتحقق من معلوماتك (قابلة للتعديل عبر "تعديل معلوماتي").
 ☐ أنشئ فصلاً رئيسياً ثم أضف أقساماً (A، B…) بحسب حاجتك.
 ☐ أضف عناصر تعليمية: تعريف، نظرية، مثال، تمرين، نشاط…
 ☐ استخدم البحث للوصول السريع (كلمة مفتاحية، تاريخ 2025-09-06، رقم).
@@ -333,12 +349,22 @@ export const GUIDE_AR = `# مساعدة شاملة – دفتر النصوص ا�
   - <i class="fas fa-edit"></i> إدارة الدروس: إعادة ترتيب/حذف المحتويات الرئيسية بالسحب والإفلات.
   - <i class="fas fa-print"></i> طباعة: عرض خاص للطباعة عبر المتصفح.
 
+## نافذة الترحيب (الاستخدام الأول)
+عند أول اتصال، تقودك نافذة ترحيب حديثة :
+- **الخطوة 1 - المؤسسة** : أدخل اسم مؤسستك التعليمية.
+- **الخطوة 2 - التعريف** : أدخل اسمك (يُستخدم افتراضياً للفصول الجديدة).
+- **الخطوة 3 - التفضيلات** : 
+  - **الدورات** : اختر دورة واحدة على الأقل (الإعدادية، الثانوية، التحضيرية) - **إجباري**
+  - **المواد** : اختر موادك المفضلة أو اتركها فارغة لعرض الكل
+- التنقل : "السابق" للعودة، "التالي" للمتابعة، "إنهاء" عند الانتهاء.
+- **مهم** : يجب اختيار دورة واحدة على الأقل لإنهاء الإعداد.
+
 ## لوحة التحكم
 - بطاقة الفصل: اسم الفصل وتاريخ آخر تعديل؛ انقر للفتح.
 - <i class="fas fa-times"></i> حذف (يظهر عند المرور): حذف الفصل بعد التأكيد.
 - إنشاء فصل جديد: بطاقة كبيرة بعلامة +؛ أدخل الاسم والمادة. اسم الأستاذ الافتراضي من الإعدادات.
 - <i class="fas fa-cog"></i> الإعدادات:
-  - معلومات عامة: اسم المؤسسة، اسم الأستاذ الافتراضي.
+  - **تعديل معلوماتي** : زر لإعادة فتح نافذة الترحيب وتعديل تفضيلاتك.
   - الأوصاف المعروضة (واجهة جديدة وذكية):
     - الشاشة (التطبيق): الوضع (الكل / لا شيء / تحديد) + اختيار حسب النوع عبر الشارات الأصلية.
     - الطباعة (PDF): الوضع (الكل / لا شيء / تحديد) + اختيار حسب النوع عبر الشارات الأصلية.

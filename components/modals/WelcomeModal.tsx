@@ -66,13 +66,23 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ isOpen, onClose, config, o
       return localConfig.defaultTeacherName.trim().length > 0;
     }
     if (currentStep === 3) {
-      return true; // Préférences optionnelles
+      // Validation obligatoire : au moins un cycle doit être sélectionné
+      const selectedCycles = localConfig.selectedCycles || [];
+      return selectedCycles.length > 0;
     }
     return true;
   };
 
+  const canFinish = () => {
+    // Vérification finale : toutes les étapes doivent être complètes
+    const hasEstablishment = localConfig.establishmentName.trim().length > 0;
+    const hasTeacherName = localConfig.defaultTeacherName.trim().length > 0;
+    const hasCycles = (localConfig.selectedCycles || []).length > 0;
+    return hasEstablishment && hasTeacherName && hasCycles;
+  };
+
   const handleCycleToggle = (cycle: string) => {
-    const currentCycles = localConfig.selectedCycles || ['college', 'lycee', 'prepa'];
+    const currentCycles = localConfig.selectedCycles || [];
     const newCycles = currentCycles.includes(cycle as any)
       ? currentCycles.filter(c => c !== cycle)
       : [...currentCycles, cycle as any];
@@ -105,26 +115,28 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ isOpen, onClose, config, o
         ref={modalRef}
         className="bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl w-full max-w-sm sm:max-w-md transform transition-all duration-300 scale-100 overflow-hidden max-h-[90vh] sm:max-h-none"
       >
-        {/* Header ultra-minimaliste */}
-        <div className="px-4 sm:px-6 py-4 sm:py-5 text-center">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-2 sm:mb-3">
-            <i className="fas fa-magic text-white text-base sm:text-lg"></i>
+        {/* Header minimaliste */}
+        <div className="px-4 sm:px-6 py-4 text-center border-b border-gray-100">
+          <div className="w-8 h-8 bg-blue-500 rounded-xl flex items-center justify-center mx-auto mb-2">
+            <i className="fas fa-cog text-white text-sm"></i>
           </div>
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">Configuration</h2>
-          <div className="flex justify-center space-x-2 mt-2 sm:mt-3">
+          <h2 className="text-lg font-semibold text-gray-900 mb-1">Configuration</h2>
+          
+          {/* Indicateurs simples */}
+          <div className="flex justify-center space-x-2 mt-2">
             {[1, 2, 3].map((step) => (
               <div
                 key={step}
-                className={`h-1 rounded-full transition-all duration-500 ${
-                  step <= currentStep ? 'bg-blue-500 w-6 sm:w-8' : 'bg-gray-200 w-2'
-                }`}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  step <= currentStep ? 'bg-blue-500' : 'bg-gray-200'
+                } ${step === currentStep ? 'scale-125' : ''}`}
               />
             ))}
           </div>
         </div>
 
         {/* Contenu principal */}
-        <div className={`px-4 sm:px-6 pb-4 sm:pb-6 transition-all duration-300 ${isAnimating ? 'opacity-30 scale-95' : 'opacity-100 scale-100'} flex-1 overflow-y-auto overscroll-contain`}>
+        <div className={`px-4 sm:px-6 py-4 transition-all duration-200 ${isAnimating ? 'opacity-50' : 'opacity-100'} flex-1 overflow-y-auto overscroll-contain`}>
           {currentStep === 1 && (
             <div className="space-y-5">
               <div className="text-center">
@@ -175,7 +187,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ isOpen, onClose, config, o
             <div className="space-y-5">
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Préférences</h3>
-                <p className="text-sm text-gray-500">Personnalisez votre affichage</p>
+                <p className="text-sm text-gray-500">Choisissez au moins un cycle (obligatoire)</p>
               </div>
               
               {/* Cycles */}
@@ -187,15 +199,15 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ isOpen, onClose, config, o
                     { key: 'lycee', label: 'Lycée' },
                     { key: 'prepa', label: 'Prépa' }
                   ].map(cycle => {
-                    const isSelected = (localConfig.selectedCycles || ['college', 'lycee', 'prepa']).includes(cycle.key as any);
+                    const isSelected = (localConfig.selectedCycles || []).includes(cycle.key as any);
                     return (
                       <button
                         key={cycle.key}
                         onClick={() => handleCycleToggle(cycle.key)}
-                        className={`flex-1 px-3 py-3 text-sm font-medium rounded-2xl transition-all duration-300 ${
+                        className={`flex-1 px-3 py-2.5 text-sm font-medium rounded-lg border transition-all duration-200 touch-manipulation ${
                           isSelected 
-                            ? 'bg-blue-500 text-white shadow-lg scale-105' 
-                            : 'bg-gray-50 text-gray-600 hover:bg-gray-100 hover:scale-102'
+                            ? 'bg-blue-500 text-white border-blue-500 shadow-sm' 
+                            : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400 hover:bg-blue-50'
                         }`}
                       >
                         {cycle.label}
@@ -224,10 +236,10 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ isOpen, onClose, config, o
                       <button
                         key={subject}
                         onClick={() => handleSubjectToggle(subject)}
-                        className={`px-2 sm:px-3 py-2 text-xs font-medium rounded-xl transition-all duration-300 touch-manipulation ${
+                        className={`px-2.5 py-2 text-xs font-medium rounded-lg border transition-all duration-200 touch-manipulation ${
                           isSelected 
-                            ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md' 
-                            : 'bg-gray-50 text-gray-600 hover:bg-gray-100 active:bg-gray-200'
+                            ? 'bg-green-500 text-white border-green-500 shadow-sm' 
+                            : 'bg-white text-gray-700 border-gray-300 hover:border-green-400 hover:bg-green-50'
                         }`}
                       >
                         {subject}
@@ -249,7 +261,7 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ isOpen, onClose, config, o
             {currentStep > 1 && (
               <button
                 onClick={handlePrevious}
-                className="text-sm font-medium text-gray-500 hover:text-gray-700 active:text-gray-800 transition-colors duration-300 touch-manipulation min-h-[44px] flex items-center"
+                className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-800 transition-colors duration-200 touch-manipulation min-h-[40px] flex items-center"
               >
                 Précédent
               </button>
@@ -261,10 +273,10 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ isOpen, onClose, config, o
               <button
                 onClick={handleNext}
                 disabled={!canProceed()}
-                className={`px-6 sm:px-8 py-3 text-sm font-semibold rounded-2xl transition-all duration-300 touch-manipulation min-h-[44px] ${
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 touch-manipulation min-h-[40px] ${
                   canProceed()
-                    ? 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white shadow-lg hover:shadow-xl sm:hover:scale-105'
-                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    ? 'bg-blue-500 hover:bg-blue-600 text-white'
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                 }`}
               >
                 Suivant
@@ -272,7 +284,12 @@ export const WelcomeModal: FC<WelcomeModalProps> = ({ isOpen, onClose, config, o
             ) : (
               <button
                 onClick={handleFinish}
-                className="px-6 sm:px-8 py-3 text-sm font-semibold bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 active:from-green-700 active:to-emerald-700 text-white rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl sm:hover:scale-105 touch-manipulation min-h-[44px]"
+                disabled={!canFinish()}
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 touch-manipulation min-h-[40px] ${
+                  canFinish()
+                    ? 'bg-green-500 hover:bg-green-600 text-white'
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                }`}
               >
                 Terminer
               </button>
