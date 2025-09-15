@@ -256,6 +256,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
         setVotingModalOpen(true);
     }, []);
 
+    // Synchronisation intelligente des classes déverrouillées
+    const refreshClassesAfterVote = useCallback(async () => {
+        try {
+            // Recharger les classes verrouillées
+            const locked = await manifestService.getLockedClasses(selectedCycle);
+            setLockedClasses(locked);
+            
+            // Forcer le rechargement des classes utilisateur depuis le localStorage
+            window.location.reload();
+        } catch (error) {
+            logger.error('Failed to refresh classes after vote', error);
+        }
+    }, [selectedCycle]);
+
 
 
     // Gestionnaire pour le raccourci clavier Ctrl+Alt+A
@@ -425,7 +439,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
             />
             <VotingModal
                 isOpen={isVotingModalOpen}
-                onClose={() => { setVotingModalOpen(false); setSelectedLockedClass(null); }}
+                onClose={() => { 
+                    setVotingModalOpen(false); 
+                    setSelectedLockedClass(null);
+                    // Actualiser les classes après fermeture du modal
+                    refreshClassesAfterVote();
+                }}
                 lockedClass={selectedLockedClass}
             />
 

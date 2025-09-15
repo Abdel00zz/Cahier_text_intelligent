@@ -18,17 +18,42 @@ const VotingModal: React.FC<VotingModalProps> = ({ isOpen, onClose, lockedClass 
   const [cooldownMessage, setCooldownMessage] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
 
+  const loadVoteData = () => {
+    if (!lockedClass) return;
+
+    // Utiliser getVoteCount qui inclut les votes de base + votes utilisateur
+    const totalVotes = manifestService.getVoteCount(lockedClass.id);
+    const stats = manifestService.getVoteStats(lockedClass.id);
+    
+    // Synchroniser avec les votes totaux (base + utilisateur)
+    setVoteStats({
+      yes: totalVotes,
+      no: stats.no,
+      total: totalVotes + stats.no
+    });
+  };
+
   useEffect(() => {
     if (isOpen && lockedClass) {
-      // Charger les statistiques de vote
-      const stats = manifestService.getVoteStats(lockedClass.id);
-      setVoteStats(stats);
+      // Charger les statistiques de vote avec les votes de base inclus
+      loadVoteData();
       
       // Réinitialiser le formulaire
       setVoterName('');
       setVoterEmail('');
       setHasVoted(false);
       setShowSuccess(false);
+    }
+  }, [isOpen, lockedClass]);
+
+  // Synchronisation en temps réel de la progression
+  useEffect(() => {
+    if (isOpen && lockedClass) {
+      const interval = setInterval(() => {
+        loadVoteData();
+      }, 2000); // Actualise toutes les 2 secondes
+      
+      return () => clearInterval(interval);
     }
   }, [isOpen, lockedClass]);
 
@@ -66,12 +91,24 @@ const VotingModal: React.FC<VotingModalProps> = ({ isOpen, onClose, lockedClass 
     try {
       await manifestService.submitVote(lockedClass.id, voterName.trim(), voterEmail.trim(), vote);
       
-      // Mettre à jour les statistiques
-      const newStats = manifestService.getVoteStats(lockedClass.id);
-      setVoteStats(newStats);
+      // Mettre à jour les statistiques avec les votes de base inclus
+      loadVoteData();
       
       setHasVoted(true);
       setShowSuccess(true);
+      
+      // Actualisation immédiate de la progression
+      setTimeout(() => {
+        loadVoteData();
+      }, 500);
+      
+      // Vérifier si la classe est maintenant déverrouillée
+      const totalVotes = manifestService.getVoteCount(lockedClass.id);
+      if (totalVotes >= lockedClass.requiredVotes) {
+        setTimeout(() => {
+          alert('🎉 Félicitations ! Cette classe vient d\'être déverrouillée grâce à votre vote !');
+        }, 1000);
+      }
       
       // Fermer automatiquement après 3 secondes
       setTimeout(() => {
