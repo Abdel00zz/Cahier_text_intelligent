@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useImmer } from 'use-immer';
 import { ClassInfo } from '../types';
 import { logger } from '../utils/logger';
+import { manifestService, ManifestClass } from '../services/ManifestService';
 
 const STORAGE_KEY = 'classManager_v1';
 const CLASS_DATA_PREFIX = 'classData_v1_';
@@ -37,151 +38,90 @@ export const useClassManager = () => {
                 const isFirstLaunch = !localStorage.getItem(FIRST_LAUNCH_KEY);
 
                 if (storedClasses) {
-                    // Load existing classes, then ensure demo classes are present (lycée + collège)
+                    // Load existing classes, then ensure demo classes are present
                     const existing: ClassInfo[] = JSON.parse(storedClasses);
                     let current = [...existing];
                     setClasses(existing);
 
-                    // Ensure 'Tronc commun scientifique' (lycée)
-                    try {
-                        const hasLyceeDemo = current.some(c => c.name === 'Tronc commun scientifique');
-                        if (!hasLyceeDemo) {
-                            const base = (import.meta as any).env?.BASE_URL || '/';
-                            const demoFilename = 'Tronc commun scientifique.json';
-                            const resp = await fetch(`${base}Demo/${encodeURIComponent(demoFilename)}`);
-                            if (resp.ok) {
-                                const defaultClassData = await resp.json();
-                                const demoClass: ClassInfo = {
-                                    id: crypto.randomUUID(),
-                                    name: defaultClassData.classInfo?.name || 'Tronc commun scientifique',
-                                    subject: defaultClassData.classInfo?.subject || 'Mathématiques',
-                                    teacherName: defaultClassData.classInfo?.teacherName || 'Professeur',
-                                    createdAt: new Date().toISOString(),
-                                    color: '#99f6e4',
-                                    cycle: 'lycee',
-                                };
-                                current = [...current, demoClass];
-                                setClasses(current);
-                                localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
-                                localStorage.setItem(`${CLASS_DATA_PREFIX}${demoClass.id}`, JSON.stringify(defaultClassData.lessonsData || []));
-                            }
-                        }
-                    } catch {
-                        // ignore lycee demo seed errors
-                    }
-
-                    // Ensure '3ème année collégiale' (collège)
-                    try {
-                        const hasCollegeDemo = current.some(c => c.name === '3ème année collégiale');
-                        if (!hasCollegeDemo) {
-                            const base = (import.meta as any).env?.BASE_URL || '/';
-                            const demoFilename2 = '3éme anne collegial math.json';
-                            const resp2 = await fetch(`${base}Demo/${encodeURIComponent(demoFilename2)}`);
-                            if (resp2.ok) {
-                                const data2 = await resp2.json();
-                                const demoClass2: ClassInfo = {
-                                    id: crypto.randomUUID(),
-                                    name: data2.classInfo?.name || '3ème année collégiale',
-                                    subject: data2.classInfo?.subject || 'Mathématiques',
-                                    teacherName: data2.classInfo?.teacherName || 'Professeur',
-                                    createdAt: new Date().toISOString(),
-                                    color: data2.classInfo?.color || generateColor(),
-                                    cycle: data2.classInfo?.cycle || 'college',
-                                };
-                                current = [...current, demoClass2];
-                                setClasses(current);
-                                localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
-                                localStorage.setItem(`${CLASS_DATA_PREFIX}${demoClass2.id}`, JSON.stringify(data2.lessonsData || []));
-                            }
-                        }
-                    } catch {
-                        // ignore college demo seed errors
-                    }
-
+                    // Load and ensure demo classes from manifest
+                    await ensureDemoClassesFromManifest(current);
                 } else if (isFirstLaunch) {
-                    // Load default class on first launch
-                    let createdDefault = false;
-                    try {
-                        // Use Vite BASE_URL to work under subpaths in production
-                        const base = (import.meta as any).env?.BASE_URL || '/';
-                        const demoFilename = 'Tronc commun scientifique.json';
-                        const response = await fetch(`${base}Demo/${encodeURIComponent(demoFilename)}`);
-                        if (response.ok) {
-                            const defaultClassData = await response.json();
-
-                            const defaultClass: ClassInfo = {
-                                id: crypto.randomUUID(),
-                                name: defaultClassData.classInfo?.name || 'Tronc commun scientifique',
-                                subject: defaultClassData.classInfo?.subject || 'Mathématiques',
-                                teacherName: defaultClassData.classInfo?.teacherName || 'Professeur',
-                                createdAt: new Date().toISOString(),
-                                color: '#99f6e4',
-                                cycle: 'lycee',
-                            };
-
-                            setClasses([defaultClass]);
-                            localStorage.setItem(STORAGE_KEY, JSON.stringify([defaultClass]));
-                            localStorage.setItem(`${CLASS_DATA_PREFIX}${defaultClass.id}`, JSON.stringify(defaultClassData.lessonsData || []));
-                            createdDefault = true;
-                            logger.info("Default class 'Tronc commun scientifique' loaded from JSON");
-                        } else {
-                            logger.warn?.("Default JSON not found (HTTP " + response.status + "), creating empty default class.");
-                        }
-                    } catch (error) {
-                        logger.error("Failed to load default class JSON, creating empty default class", error);
-                    }
-
-                    if (!createdDefault) {
-                        const defaultClass: ClassInfo = {
-                            id: crypto.randomUUID(),
-                            name: 'Tronc commun scientifique',
-                            subject: 'Mathématiques',
-                            teacherName: 'Professeur',
-                            createdAt: new Date().toISOString(),
-                            color: '#99f6e4',
-                            cycle: 'lycee',
-                        };
-                        setClasses([defaultClass]);
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify([defaultClass]));
-                        localStorage.setItem(`${CLASS_DATA_PREFIX}${defaultClass.id}`, JSON.stringify([]));
-                    }
-
-                    // Also seed '3ème année collégiale' demo class on first launch
-                    try {
-                        const base2 = (import.meta as any).env?.BASE_URL || '/';
-                        const demoFilename2 = '3éme anne collegial math.json';
-                        const respMath = await fetch(`${base2}Demo/${encodeURIComponent(demoFilename2)}`);
-                        if (respMath.ok) {
-                            const dataMath = await respMath.json();
-                            const mathDemo: ClassInfo = {
-                                id: crypto.randomUUID(),
-                                name: dataMath.classInfo?.name || '3ème année collégiale',
-                                subject: dataMath.classInfo?.subject || 'Mathématiques',
-                                teacherName: dataMath.classInfo?.teacherName || 'Professeur',
-                                createdAt: new Date().toISOString(),
-                                color: dataMath.classInfo?.color || generateColor(),
-                                cycle: dataMath.classInfo?.cycle || 'college',
-                            };
-                            // Append to existing classes
-                            setClasses(draft => {
-                                draft.push(mathDemo);
-                            });
-                            // Save to storage
-                            const updatedList = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-                            updatedList.push(mathDemo);
-                            localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedList));
-                            localStorage.setItem(`${CLASS_DATA_PREFIX}${mathDemo.id}`, JSON.stringify(dataMath.lessonsData || []));
-                        }
-                    } catch {
-                        // ignore math demo errors
-                    }
-                    // Mark that the app has been launched
+                    // Load default classes on first launch from manifest
+                    await loadDefaultClassesFromManifest();
                     localStorage.setItem(FIRST_LAUNCH_KEY, 'true');
                 }
             } catch (error) {
-                logger.error("Failed to load classes from localStorage", error);
+                logger.error('Failed to load classes from localStorage', error);
             } finally {
                 setIsLoading(false);
+            }
+        };
+
+        const ensureDemoClassesFromManifest = async (currentClasses: ClassInfo[]) => {
+            try {
+                // Load demo classes for all cycles
+                const cycles: ('college' | 'lycee' | 'prepa')[] = ['college', 'lycee', 'prepa'];
+                let updatedClasses = [...currentClasses];
+                
+                for (const cycle of cycles) {
+                    const demoClasses = await manifestService.getDemoClasses(cycle);
+                    
+                    for (const manifestClass of demoClasses) {
+                        const exists = updatedClasses.some(c => 
+                            c.name === manifestClass.name && 
+                            c.subject === manifestClass.subject &&
+                            c.cycle === manifestClass.cycle
+                        );
+                        
+                        if (!exists) {
+                            await createClassFromManifest(manifestClass, true, updatedClasses);
+                        }
+                    }
+                }
+                
+                if (updatedClasses.length !== currentClasses.length) {
+                    setClasses(updatedClasses);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedClasses));
+                }
+            } catch (error) {
+                logger.error('Failed to ensure demo classes from manifest', error);
+            }
+        };
+
+        const loadDefaultClassesFromManifest = async () => {
+            try {
+                const defaultClasses: ClassInfo[] = [];
+                
+                // Load demo classes for college and lycee by default
+                const collegeDemos = await manifestService.getDemoClasses('college');
+                const lyceeDemos = await manifestService.getDemoClasses('lycee');
+                
+                for (const manifestClass of [...collegeDemos, ...lyceeDemos]) {
+                    await createClassFromManifest(manifestClass, true, defaultClasses);
+                }
+                
+                setClasses(defaultClasses);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultClasses));
+                logger.info('Default classes loaded from manifest');
+            } catch (error) {
+                logger.error('Failed to load default classes from manifest', error);
+                // Fallback to empty array
+                setClasses([]);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+            }
+        };
+
+        const createClassFromManifest = async (manifestClass: ManifestClass, isDemo: boolean, targetArray: ClassInfo[]) => {
+            try {
+                const classInfo = manifestService.manifestClassToClassInfo(manifestClass);
+                const classData = await manifestService.loadClassData(manifestClass, isDemo);
+                
+                targetArray.push(classInfo);
+                localStorage.setItem(`${CLASS_DATA_PREFIX}${classInfo.id}`, JSON.stringify(classData.lessonsData || []));
+                
+                logger.info(`Class created from manifest: ${manifestClass.name}`);
+            } catch (error) {
+                logger.error(`Failed to create class from manifest: ${manifestClass.name}`, error);
             }
         };
 

@@ -63,7 +63,9 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
 
     const handleDeleteClick = (e: MouseEvent) => {
         e.stopPropagation();
-        onDelete();
+        if (window.confirm(`Êtes-vous sûr de vouloir supprimer la classe "${classInfo.name}" ?\n\nCette action est irréversible et supprimera définitivement tous les contenus de cette classe.`)) {
+            onDelete();
+        }
     };
 
     const formatDate = (dateString: string | null | undefined): string => {
@@ -92,62 +94,59 @@ const ClassCardComponent: FC<ClassCardProps> = ({ classInfo, lastModified, onSel
 
     return (
         <div 
-            className="relative bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col h-auto min-h-[10rem] cursor-pointer border border-slate-100"
+            className="w-full bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border-2 overflow-hidden group flex flex-col"
+            style={{
+                background: `linear-gradient(135deg, ${classInfo.color}15 0%, ${classInfo.color}08 100%)`,
+                borderColor: `${classInfo.color}80`,
+                minHeight: '280px'
+            }}
             onClick={() => onSelect()}
         >
-            <button
-                onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                className="absolute top-2 right-2 w-10 h-10 flex items-center justify-center bg-white/80 text-gray-500 rounded-full opacity-90 hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 active:bg-red-100 z-20 shadow-sm"
-                data-tippy-content="Supprimer cette classe"
-                aria-label="Supprimer cette classe"
-            >
-                <i className="fas fa-times text-base"></i>
-            </button>
+            {/* Content */}
+            <div className="flex-1 flex flex-col p-4 cursor-pointer">
+                {/* Delete button - bien placé en haut à droite */}
+                <div className="flex justify-end mb-2">
+                    <button
+                        onClick={handleDeleteClick}
+                        className="w-8 h-8 flex items-center justify-center bg-white/90 text-gray-400 rounded-full opacity-80 hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 hover:scale-110 shadow-md z-10"
+                        title="Supprimer cette classe"
+                        aria-label="Supprimer cette classe"
+                    >
+                        <i className="fas fa-times text-sm"></i>
+                    </button>
+                </div>
 
-            {/* Header with Subject Badge */}
-            <div className="flex justify-center mt-4 mb-2">
-                <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium" 
-                     style={{
-                         background: `linear-gradient(135deg, ${subjectColor}20 0%, ${subjectColor}40 100%)`,
-                         color: subjectColor,
-                         border: `1px solid ${subjectColor}30`
-                     }}>
-                    <span className={isSubjectArabic ? 'font-ar' : 'font-medium'}>
+                {/* Unlocked icon - cadenas déverrouillé vert en haut */}
+                <div className="flex items-center justify-center mb-3">
+                    <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center border-2 border-green-300 shadow-lg">
+                        <i className="fas fa-unlock text-green-600 text-xl"></i>
+                    </div>
+                </div>
+                
+                <div className="text-center mb-4">
+                    <h3 className={`font-bold text-lg mb-1 ${isArabic ? 'font-arabic' : ''}`} style={{ color: getSubjectTextColor(classInfo.subject) }}>
+                        {formatSuperscript(classInfo.name)}
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-2">
                         {displaySubject}
-                    </span>
+                    </p>
+                    <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        <i className="fas fa-user mr-1"></i>
+                        {classInfo.teacherName}
+                    </div>
                 </div>
-            </div>
-            
-            {/* Main Content - Centered */}
-            <div className="flex-grow flex flex-col justify-center items-center text-center px-4 py-3">
-                <h3 className={`text-gray-900 font-semibold leading-tight ${isArabic ? 'font-ar text-xl' : 'text-lg'}`}>
-                    {formatSuperscript(classInfo.name)}
-                </h3>
-                <p className="text-gray-500 text-sm mt-2">
-                    {classInfo.teacherName}
-                </p>
-            </div>
 
-            {/* Footer with Last Modified Date */}
-            <div className="bg-slate-50 py-3 px-3 text-xs text-slate-500 flex items-center justify-between">
-                <div className="flex items-center">
-                    {lastModified ? (
-                        <>
-                            <i className="fas fa-history mr-1.5 text-slate-400"></i>
-                            <span>Modifié le {formatDate(lastModified)}</span>
-                        </>
-                    ) : (
-                        <>
-                            <i className="fas fa-file-alt mr-1.5 text-slate-400"></i>
-                            <span>Pas encore de contenu</span>
-                        </>
-                    )}
+
+
+                {/* Status indicator */}
+                <div className="mt-auto">
+                    <div className="bg-green-50 border border-green-300 rounded-lg p-2 text-center">
+                        <p className="text-green-700 font-semibold text-xs uppercase tracking-wide">
+                            <i className="fas fa-unlock mr-1"></i>
+                            Classe déverrouillée
+                        </p>
+                    </div>
                 </div>
-                {classInfo.isTest && (
-                    <span className="bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-[10px] uppercase font-medium">
-                        Test
-                    </span>
-                )}
             </div>
         </div>
     );

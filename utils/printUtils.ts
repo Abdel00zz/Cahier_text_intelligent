@@ -1,10 +1,6 @@
 import { Capacitor } from '@capacitor/core';
 import { WebviewPrint } from 'capacitor-webview-print';
 
-// Vérifier que le plugin est disponible
-console.log('Capacitor Platform:', Capacitor.getPlatform());
-console.log('WebviewPrint Plugin:', WebviewPrint);
-
 /**
  * Fonction utilitaire pour l'impression qui fonctionne sur toutes les plateformes
  * Utilise le plugin capacitor-webview-print sur Android
@@ -12,43 +8,78 @@ console.log('WebviewPrint Plugin:', WebviewPrint);
  */
 export const printDocument = async (fileName: string = 'cahier-de-textes'): Promise<void> => {
   try {
-    // Vérifier si on est sur Android
     const platform = Capacitor.getPlatform();
-    console.log('Plateforme détectée:', platform);
     
     if (platform === 'android') {
-      console.log('Tentative d\'impression sur Android avec WebviewPrint...');
-      // Vérifier que le plugin est bien défini
       if (!WebviewPrint || !WebviewPrint.print) {
         throw new Error('Le plugin WebviewPrint n\'est pas correctement initialisé');
       }
       
-      // Utiliser le plugin capacitor-webview-print
-      const result = await WebviewPrint.print({ name: fileName });
-      console.log('Résultat de l\'impression:', result);
+      await WebviewPrint.print({ name: fileName });
     } else {
-      console.log('Utilisation de window.print() sur le web');
-      // Sur le web, utiliser window.print()
       window.print();
     }
-    console.log('Impression terminée avec succès');
   } catch (error) {
-    console.error('Erreur détaillée lors de l\'impression:', error);
-    // Afficher plus de détails sur l'erreur
-    if (error instanceof Error) {
-      console.error('Message:', error.message);
-      console.error('Stack:', error.stack);
-    }
-    
     // Essayer window.print() comme fallback en cas d'erreur sur Android
     if (Capacitor.getPlatform() === 'android') {
-      console.log('Tentative de fallback vers window.print() sur Android...');
       try {
         window.print();
-        console.log('Fallback window.print() exécuté');
       } catch (fallbackError) {
-        console.error('Échec du fallback window.print():', fallbackError);
+        // Fallback silencieux
       }
     }
+  }
+};
+
+export const printContent = async (content: string): Promise<void> => {
+  const platform = Capacitor.getPlatform();
+  
+  // Créer le contenu HTML complet
+  const fullHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Impression</title>
+      </head>
+      <body>${content}</body>
+    </html>
+  `;
+  
+  if (platform === 'android' && WebviewPrint) {
+    try {
+      // Utiliser le plugin WebviewPrint pour Android
+      await WebviewPrint.print({
+        content: fullHtml,
+        options: {
+          name: 'Cahier de texte',
+          orientation: 'portrait'
+        }
+      });
+    } catch (error) {
+      // Fallback vers window.print()
+      printWithWindowPrint(fullHtml);
+    }
+  } else {
+    // Utiliser window.print() pour le web et autres plateformes
+    printWithWindowPrint(fullHtml);
+  }
+};
+
+const printWithWindowPrint = (content: string): void => {
+  try {
+    // Fallback pour Android si le plugin échoue
+    if (Capacitor.getPlatform() === 'android') {
+      // Ouvrir dans une nouvelle fenêtre pour Android
+      const printWindow = window.open('', '_blank');
+      printWindow?.document.write(content);
+      printWindow?.print();
+      return;
+    }
+    
+    // Pour le web, utiliser window.print() directement
+    window.print();
+  } catch (error) {
+    // Fallback silencieux
   }
 };

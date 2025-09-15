@@ -1,0 +1,178 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-15T10:00:00.000Z",
+  "demoClasses": {
+    "college": [
+      {
+        "id": "demo_college_math_3eme",
+        "filename": "3éme anne collegial math.json",
+        "name": "3ème année collégiale",
+        "subject": "Mathématiques",
+        "cycle": "college",
+        "teacherName": "Professeur",
+        "color": "#99f6e4",
+        "priority": 1,
+        "description": "Classe de démonstration pour le collège - Mathématiques 3ème année"
+      },
+      {
+        "id": "demo_college_math_3eme",
+        "filename": "1er anne collegial math.json",
+        "name": "1er année collégiale",
+        "subject": "Mathématiques",
+        "cycle": "college",
+        "teacherName": "Professeur",
+        "color": "#99f6e4",
+        "priority": 1,
+        "description": "Classe de démonstration pour le collège - Mathématiques 3ème année"
+      }
+    ],
+    "lycee": [
+      {
+        "id": "demo_lycee_math_tronc",
+        "filename": "Tronc commun scientifique.json",
+        "name": "Tronc commun scientifique",
+        "subject": "Mathématiques",
+        "cycle": "lycee",
+        "teacherName": "Enseignant",
+        "color": "#3b82f6",
+        "priority": 1,
+        "description": "Classe de démonstration pour le lycée - Tronc commun scientifique"
+      }
+    ],
+    "prepa": []
+  },
+  "lockedClasses": {
+    "college": [
+      {
+        "id": "locked_college_math_1ere",
+        "filename": "1ere_annee_collegiale_math.json",
+        "name": "1ère année collégiale",
+        "subject": "Mathématiques",
+        "cycle": "college",
+        "color": "#166534",
+        "votes": 0,
+        "requiredVotes": 500,
+        "description": "Cours complet de mathématiques pour la 1ère année collégiale",
+        "features": ["Exercices corrigés", "Cours détaillés", "Évaluations"]
+      },
+      {
+        "id": "locked_college_math_2eme",
+        "filename": "2eme_annee_collegiale_math.json",
+        "name": "2ème année collégiale",
+        "subject": "Mathématiques",
+        "cycle": "college",
+        "color": "#fdba74",
+        "votes": 0,
+        "requiredVotes": 500,
+        "description": "Cours complet de mathématiques pour la 2ème année collégiale",
+        "features": ["Exercices corrigés", "Cours détaillés", "Évaluations"]
+      },
+      {
+        "id": "locked_college_physique_2eme",
+        "filename": "2eme_annee_collegiale_physique.json",
+        "name": "2ème année collégiale",
+        "subject": "Physique-Chimie",
+        "cycle": "college",
+        "color": "#1e40af",
+        "votes": 0,
+        "requiredVotes": 500,
+        "description": "Cours complet de physique-chimie pour la 2ème année collégiale",
+        "features": ["Expériences pratiques", "Cours théoriques", "Exercices"]
+      },
+      {
+        "id": "locked_college_svt_1ere",
+        "filename": "1ere_annee_collegiale_svt.json",
+        "name": "1ère année collégiale",
+        "subject": "SVT",
+        "cycle": "college",
+        "color": "#10B981",
+        "votes": 0,
+        "requiredVotes": 500,
+        "description": "Cours complet de sciences de la vie et de la terre",
+        "features": ["Schémas détaillés", "Cours complets", "Travaux pratiques"]
+      }
+    ],
+    "lycee": [
+      {
+        "id": "locked_lycee_math_1bac",
+        "filename": "1bac_sciences_math.json",
+        "name": "1ère Bac Sciences Mathématiques",
+        "subject": "Mathématiques",
+        "cycle": "lycee",
+        "color": "#fda4af",
+        "votes": 0,
+        "requiredVotes": 500,
+        "description": "Cours complet de mathématiques pour la 1ère Bac Sciences Mathématiques",
+        "features": ["Exercices avancés", "Cours détaillés", "Préparation examens"]
+      },
+      {
+        "id": "locked_lycee_math_2bac",
+        "filename": "2bac_sciences_math.json",
+        "name": "2ème Bac Sciences Mathématiques",
+        "subject": "Mathématiques",
+        "cycle": "lycee",
+        "color": "#bbf7d0",
+        "votes": 0,
+        "requiredVotes": 500,
+        "description": "Cours complet de mathématiques pour la 2ème Bac Sciences Mathématiques",
+        "features": ["Préparation Bac", "Exercices types", "Cours complets"]
+      },
+      {
+        "id": "locked_lycee_physique_2bac",
+        "filename": "2bac_sciences_physiques.json",
+        "name": "2ème Bac Sciences Physiques",
+        "subject": "Physique",
+        "cycle": "lycee",
+        "color": "#c4b5fd",
+        "votes": 0,
+        "requiredVotes": 500,
+        "description": "Cours complet de physique pour la 2ème Bac Sciences Physiques",
+        "features": ["Expériences avancées", "Théorie complète", "Préparation Bac"]
+      },
+      {
+        "id": "locked_lycee_svt_2bac",
+        "filename": "2bac_sciences_svt.json",
+        "name": "2ème Bac Sciences de la Vie et de la Terre",
+        "subject": "Sciences de la Vie et de la Terre",
+        "cycle": "lycee",
+        "color": "#fef08a",
+        "votes": 0,
+        "requiredVotes": 500,
+        "description": "Cours complet de SVT pour la 2ème Bac Sciences de la Vie et de la Terre",
+        "features": ["Biologie avancée", "Géologie", "Écologie"]
+      }
+    ],
+    "prepa": [
+      {
+        "id": "locked_prepa_mpsi",
+        "filename": "mpsi_mathematiques.json",
+        "name": "MPSI",
+        "subject": "Mathématiques",
+        "cycle": "prepa",
+        "color": "#7c2d12",
+        "votes": 0,
+        "requiredVotes": 500,
+        "description": "Cours complet de mathématiques pour MPSI",
+        "features": ["Niveau supérieur", "Exercices complexes", "Préparation concours"]
+      },
+      {
+        "id": "locked_prepa_pcsi",
+        "filename": "pcsi_physique.json",
+        "name": "PCSI",
+        "subject": "Physique",
+        "cycle": "prepa",
+        "color": "#14532d",
+        "votes": 0,
+        "requiredVotes": 500,
+        "description": "Cours complet de physique pour PCSI",
+        "features": ["Physique avancée", "Travaux pratiques", "Préparation concours"]
+      }
+    ]
+  },
+  "voting": {
+    "enabled": true,
+    "adminEmail": "admin@cahier-txt.com",
+    "voteThreshold": 500,
+    "cooldownHours": 24
+  }
+}

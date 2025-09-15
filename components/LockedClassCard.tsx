@@ -1,5 +1,5 @@
 import React from 'react';
-import { SUBJECT_ABBREV_MAP, getSubjectBandClass } from '../constants';
+import { SUBJECT_ABBREV_MAP } from '../constants';
 import { getSubjectTextColor } from '../utils/subjectColors';
 
 // Fonction pour obtenir des couleurs créatives pour les matières
@@ -31,7 +31,9 @@ interface LockedClassCardProps {
     name: string;
     subject: string;
     color: string;
-    onContactAdmin: () => void;
+    votes?: number;
+    requiredVotes?: number;
+    onVote: () => void;
     onDelete: () => void;
 }
 
@@ -51,7 +53,9 @@ const formatSuperscript = (text: string) => {
     });
 };
 
-const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color, onContactAdmin, onDelete }) => {
+const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color, votes = 0, requiredVotes = 500, onVote, onDelete }) => {
+    const progressPercentage = Math.min((votes / requiredVotes) * 100, 100);
+    const isUnlockable = votes >= requiredVotes;
     // Helper to detect Arabic for font switching
     const isArabic = /[\u0600-\u06FF]/.test(name);
     const isSubjectArabic = /[\u0600-\u06FF]/.test(subject);
@@ -61,47 +65,99 @@ const LockedClassCard: React.FC<LockedClassCardProps> = ({ name, subject, color,
 
     return (
         <div 
-            className="relative bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col h-auto min-h-[10rem] cursor-pointer border border-slate-100 opacity-80 hover:opacity-100"
-            onClick={onContactAdmin}
+            className="w-full bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200 overflow-hidden group flex flex-col"
+            style={{
+                background: `linear-gradient(135deg, ${color}15 0%, ${color}08 100%)`,
+                borderColor: `${color}30`,
+                minHeight: '280px'
+            }}
         >
-            {/* Overlay with blur effect */}
-            <div className="absolute inset-0 bg-white/30 backdrop-blur-[1px] z-10"></div>
 
-            <button
-                onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                className="absolute top-2 right-2 w-10 h-10 flex items-center justify-center bg-white/80 text-gray-500 rounded-full opacity-90 hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 active:bg-red-100 z-20 shadow-sm"
-                data-tippy-content="Supprimer cette carte"
-                aria-label="Supprimer cette carte"
-            >
-                <i className="fas fa-times text-base"></i>
-            </button>
-
-            {/* Header with Subject Badge */}
-            <div className="flex justify-center mt-4 mb-2">
-                <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium" 
-                     style={{
-                         background: `linear-gradient(135deg, ${getCreativeSubjectColor(subject)}20 0%, ${getCreativeSubjectColor(subject)}40 100%)`,
-                         color: getCreativeSubjectColor(subject),
-                         border: `1px solid ${getCreativeSubjectColor(subject)}30`
-                     }}>
-                    <span className={isSubjectArabic ? 'font-ar' : 'font-medium'}>
-                        {displaySubject}
-                    </span>
-                </div>
-            </div>
             
-            {/* Main Content - Centered */}
-            <div className="flex-grow flex flex-col justify-center items-center text-center px-4 py-3">
-                <h3 className={`text-gray-900 font-semibold leading-tight ${isArabic ? 'font-ar text-xl' : 'text-lg'}`}>
-                    {formatSuperscript(name)}
-                </h3>
-            </div>
+            {/* Content */}
+            <div className="flex-1 flex flex-col p-4">
+                {/* Delete button - bien placé en haut à droite */}
+                <div className="flex justify-end mb-2">
+                    <button
+                        onClick={(e) => { 
+                            e.stopPropagation(); 
+                            if (window.confirm(`Êtes-vous sûr de vouloir masquer la classe "${name}" ?\n\nVous pourrez la réafficher depuis le panneau d'administration.`)) {
+                                onDelete();
+                            }
+                        }}
+                        className="w-8 h-8 flex items-center justify-center bg-white/90 text-gray-400 rounded-full opacity-80 hover:opacity-100 transition-all duration-200 hover:bg-red-50 hover:text-red-600 hover:scale-110 shadow-md z-10"
+                        title="Masquer cette carte"
+                        aria-label="Masquer cette carte"
+                    >
+                        <i className="fas fa-times text-sm"></i>
+                    </button>
+                </div>
 
-            {/* Footer with Action */}
-            <div className="bg-slate-50 py-3 px-3 text-xs text-slate-500 flex items-center justify-center border-t border-slate-100">
-                <div className="flex items-center gap-2">
-                    <i className="fas fa-lock text-amber-500"></i>
-                    <span>Cliquez pour débloquer</span>
+                {/* Lock/Unlock icon and status */}
+                <div className="flex items-center justify-center mb-3">
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                        isUnlockable ? 'bg-green-100' : 'bg-gray-100'
+                    }`}>
+                        <i className={`fas ${isUnlockable ? 'fa-unlock text-green-500' : 'fa-lock text-gray-500'} text-lg`}></i>
+                    </div>
+                </div>
+                
+                <div className="text-center mb-4">
+                    <h3 className={`font-bold text-lg mb-1 ${isArabic ? 'font-arabic' : ''}`} style={{ color: getSubjectTextColor(subject) }}>
+                        {formatSuperscript(name)}
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-2">
+                        {SUBJECT_ABBREV_MAP[subject] || subject}
+                    </p>
+                    <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                        isUnlockable 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                        <i className={`fas ${isUnlockable ? 'fa-check-circle' : 'fa-vote-yea'} mr-1`}></i>
+                        {isUnlockable ? 'Débloquée !' : 'Vote requis'}
+                    </div>
+                </div>
+
+                {/* Progress bar */}
+                <div className="mb-4">
+                    <div className="flex justify-between items-center mb-1">
+                        <span className="text-xs text-gray-500">Progression</span>
+                        <span className="text-xs font-medium text-gray-800">
+                            {votes} / {requiredVotes}
+                        </span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                            className="h-2 rounded-full transition-all duration-300"
+                            style={{ 
+                                width: `${progressPercentage}%`,
+                                backgroundColor: color
+                            }}
+                        ></div>
+                    </div>
+                    <p className="text-xs text-gray-500 text-center mt-1">
+                        {isUnlockable 
+                            ? '🎉 Prête à être débloquée !'
+                            : `${requiredVotes - votes} votes restants`
+                        }
+                    </p>
+                </div>
+
+                {/* Action button */}
+                <div className="mt-auto">
+                    <button
+                        onClick={(e) => { e.stopPropagation(); onVote(); }}
+                        disabled={isUnlockable}
+                        className={`w-full text-white text-sm font-medium py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 ${
+                            isUnlockable 
+                                ? 'bg-gray-400 cursor-not-allowed'
+                                : 'bg-blue-500 hover:bg-blue-600 transform hover:scale-105'
+                        }`}
+                    >
+                        <i className={`fas ${isUnlockable ? 'fa-check' : 'fa-vote-yea'} text-sm`}></i>
+                        {isUnlockable ? 'Classe débloquée' : 'Voter pour cette classe'}
+                    </button>
                 </div>
             </div>
         </div>

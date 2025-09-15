@@ -36,13 +36,8 @@ const App: React.FC = () => {
   useEffect(() => {
     const initializePlugins = async () => {
       try {
-        console.log('Initialisation des plugins Capacitor...');
-        console.log('Plateforme:', Capacitor.getPlatform());
-        console.log('Plugin WebviewPrint disponible:', !!WebviewPrint);
-        
-        if (Capacitor.getPlatform() === 'android' && WebviewPrint) {
-          console.log('WebviewPrint initialisé avec succès');
-        }
+        // Le plugin WebviewPrint n'a pas besoin d'initialisation explicite
+        // Il sera initialisé automatiquement lors de la première utilisation
       } catch (error) {
         console.error('Erreur lors de l\'initialisation des plugins:', error);
       }

@@ -1,0 +1,75 @@
+{
+  "classInfo": {
+    "name": "1ère année collégiale",
+    "subject": "Mathématiques",
+    "cycle": "college",
+    "teacherName": "Professeur",
+    "id": "locked_college_math_1ere",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#166534"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "Les nombres entiers naturels",
+      "sections": [
+        {
+          "name": "Introduction aux nombres naturels",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition des nombres naturels",
+              "description": "Les nombres naturels sont les nombres entiers positifs ou nuls : 0, 1, 2, 3, 4, ...",
+              "date": "2025-01-15"
+            },
+            {
+              "type": "exemple",
+              "number": 1,
+              "title": "Exemples de nombres naturels",
+              "description": "0, 5, 12, 100, 1000 sont des nombres naturels.",
+              "date": "2025-01-15"
+            }
+          ]
+        },
+        {
+          "name": "Opérations sur les nombres naturels",
+          "items": [
+            {
+              "type": "proposition",
+              "number": 1,
+              "title": "Addition et multiplication",
+              "description": "L'addition et la multiplication de deux nombres naturels donnent toujours un nombre naturel.",
+              "date": "2025-01-16"
+            },
+            {
+              "type": "exercice",
+              "number": 1,
+              "title": "Calculs avec les nombres naturels",
+              "description": "Effectuer les calculs suivants :\n1) 25 + 37\n2) 12 × 8\n3) 156 - 89",
+              "date": "2025-01-16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "chapter",
+      "title": "Les fractions",
+      "sections": [
+        {
+          "name": "Notion de fraction",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition d'une fraction",
+              "description": "Une fraction est un nombre qui s'écrit sous la forme a/b où a et b sont des nombres entiers et b ≠ 0.",
+              "date": "2025-01-20"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

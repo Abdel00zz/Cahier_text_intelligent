@@ -1,0 +1,89 @@
+{
+  "classInfo": {
+    "name": "1ère Bac Sciences Mathématiques",
+    "subject": "Mathématiques",
+    "cycle": "lycee",
+    "teacherName": "Professeur",
+    "id": "locked_lycee_math_1bac",
+    "createdAt": "2025-01-15T10:00:00.000Z",
+    "color": "#fda4af"
+  },
+  "lessonsData": [
+    {
+      "type": "chapter",
+      "title": "Fonctions numériques",
+      "sections": [
+        {
+          "name": "Généralités sur les fonctions",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Définition d'une fonction",
+              "description": "Une fonction f de A vers B est une relation qui associe à chaque élément x de A au plus un élément y de B.\nOn note : f : A → B\n          x ↦ f(x)",
+              "date": "2025-01-15"
+            },
+            {
+              "type": "définition",
+              "number": 2,
+              "title": "Domaine de définition",
+              "description": "Le domaine de définition d'une fonction f, noté Df, est l'ensemble de tous les réels x pour lesquels f(x) existe.",
+              "date": "2025-01-15"
+            },
+            {
+              "type": "exemple",
+              "number": 1,
+              "title": "Exemples de domaines de définition",
+              "description": "• f(x) = x² : Df = ℝ\n• g(x) = 1/x : Dg = ℝ*\n• h(x) = √x : Dh = ℝ⁺",
+              "date": "2025-01-16"
+            }
+          ]
+        },
+        {
+          "name": "Variations d'une fonction",
+          "items": [
+            {
+              "type": "définition",
+              "number": 3,
+              "title": "Fonction croissante",
+              "description": "Une fonction f est croissante sur un intervalle I si :\nPour tous x₁, x₂ ∈ I : x₁ < x₂ ⟹ f(x₁) ≤ f(x₂)",
+              "date": "2025-01-18"
+            },
+            {
+              "type": "définition",
+              "number": 4,
+              "title": "Fonction décroissante",
+              "description": "Une fonction f est décroissante sur un intervalle I si :\nPour tous x₁, x₂ ∈ I : x₁ < x₂ ⟹ f(x₁) ≥ f(x₂)",
+              "date": "2025-01-18"
+            },
+            {
+              "type": "méthode",
+              "number": 1,
+              "title": "Étudier les variations d'une fonction",
+              "description": "Pour étudier les variations d'une fonction f :\n1. Déterminer le domaine de définition Df\n2. Calculer la dérivée f'(x)\n3. Étudier le signe de f'(x)\n4. Dresser le tableau de variations",
+              "date": "2025-01-20"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "chapter",
+      "title": "Limites et continuité",
+      "sections": [
+        {
+          "name": "Notion de limite",
+          "items": [
+            {
+              "type": "définition",
+              "number": 1,
+              "title": "Limite finie en un point",
+              "description": "On dit que f(x) tend vers L quand x tend vers a si :\nPour tout ε > 0, il existe δ > 0 tel que :\n|x - a| < δ ⟹ |f(x) - L| < ε",
+              "date": "2025-01-25"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

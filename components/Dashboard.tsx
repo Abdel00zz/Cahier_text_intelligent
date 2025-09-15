@@ -9,7 +9,10 @@ import { CreateClassModal } from './modals/CreateClassModal';
 import { ConfigModal } from './modals/ConfigModal';
 import { GuideModal } from './modals/GuideModal';
 import { ImportPlatformModal } from './modals/ImportPlatformModal';
-import ContactAdminModal from './modals/ContactAdminModal';
+import VotingModal from './modals/VotingModal';
+import AdminModal from './modals/AdminModal';
+
+import { manifestService, LockedClass } from '../services/ManifestService';
 import { ClassInfo } from '../types';
 type Cycle = 'college' | 'lycee' | 'prepa';
 import { logger } from '../utils/logger';
@@ -68,128 +71,7 @@ const findLatestDate = (data: any): string | null => {
     return latestDate;
 };
 
-// Premium locked classes data - Only Scientific Subjects
-const premiumClasses = [
-    // Collège - Matières scientifiques
-    {
-        id: 'premium_2',
-        name: '2ème année collégiale',
-        subject: 'Physique',
-        color: '#fca5a5', // Pastel red
-        cycle: 'college' as Cycle,
-    },
-    {
-        id: 'premium_3',
-        name: '3ème année collégiale',
-        subject: 'Mathématiques',
-        color: '#fdba74', // Pastel orange
-        cycle: 'college' as Cycle,
-    },
-    {
-        id: 'premium_22',
-        name: '1ère année collégiale',
-        subject: 'SVT',
-        color: '#166534', // Green-800
-        cycle: 'college' as Cycle,
-    },
-    {
-        id: 'premium_23',
-        name: '2ème année collégiale',
-        subject: 'Physique-Chimie',
-        color: '#1e40af', // Blue-800
-        cycle: 'college' as Cycle,
-    },
-    
-    // Lycée - Matières scientifiques (Français)
-    {
-        id: 'premium_6',
-        name: '2ème Bac Sciences Physiques',
-        subject: 'Physique',
-        color: '#c4b5fd', // Pastel violet
-        cycle: 'lycee' as Cycle,
-    },
-    {
-        id: 'premium_7',
-        name: '2ème Bac Sciences Mathématiques',
-        subject: 'Mathématiques',
-        color: '#bbf7d0', // Pastel green
-        cycle: 'lycee' as Cycle,
-    },
-    {
-        id: 'premium_8',
-        name: '2ème Bac Sciences de la Vie et de la Terre',
-        subject: 'Sciences de la Vie et de la Terre',
-        color: '#fef08a', // Pastel yellow
-        cycle: 'lycee' as Cycle,
-    },
-    {
-        id: 'premium_9',
-        name: '1ère Bac Sciences Mathématiques',
-        subject: 'Mathématiques',
-        color: '#fda4af', // Pastel pink
-        cycle: 'lycee' as Cycle,
-    },
-    {
-        id: 'premium_10',
-        name: '1ère Bac Sciences Expérimentales',
-        subject: 'Sciences de la Vie et de la Terre',
-        color: '#b5e5f5', // Pastel light blue
-        cycle: 'lycee' as Cycle,
-    },
-    
-    // Lycée - Matières scientifiques (Arabe)
-    {
-        id: 'premium_14',
-        name: 'الجذع المشترك العلمي',
-        subject: 'الرياضيات',
-        color: '#bae1ff', // Pastel light blue
-        cycle: 'lycee' as Cycle,
-    },
-    {
-        id: 'premium_16',
-        name: 'الأولى باكالوريا علوم رياضية',
-        subject: 'الرياضيات',
-        color: '#ffb3ba', // Pastel pink
-        cycle: 'lycee' as Cycle,
-    },
-    {
-        id: 'premium_18',
-        name: 'الثانية باكالوريا علوم رياضية',
-        subject: 'الرياضيات',
-        color: '#ffffba', // Pastel yellow
-        cycle: 'lycee' as Cycle,
-    },
-    {
-        id: 'premium_19',
-        name: 'الثانية باكالوريا علوم الحياة والأرض',
-        subject: 'علوم الحياة والأرض',
-        color: '#baffc9', // Pastel mint
-        cycle: 'lycee' as Cycle,
-    },
-    {
-        id: 'premium_20',
-        name: 'الثالثة إعدادي',
-        subject: 'الرياضيات',
-        color: '#ffb7ce', // Pastel pink
-        cycle: 'college' as Cycle,
-    },
-    
-    // Prépa scientifique
-    {
-        id: 'premium_25',
-        name: 'MPSI',
-        subject: 'Mathématiques',
-        color: '#7c2d12', // Orange-900
-        cycle: 'prepa' as Cycle,
-    },
-    {
-        id: 'premium_26',
-        name: 'PCSI',
-        subject: 'Physique',
-        color: '#14532d', // Emerald-900
-        cycle: 'prepa' as Cycle,
-    },
-];
+// Locked classes will be loaded from manifest
 
 export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const { classes, addClass, deleteClass, isLoading: isClassesLoading } = useClassManager();
@@ -198,8 +80,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
     const [isConfigModalOpen, setConfigModalOpen] = useState(false);
     const [isImportModalOpen, setImportModalOpen] = useState(false);
     const [isGuideOpen, setGuideOpen] = useState(false);
-    const [isContactAdminModalOpen, setContactAdminModalOpen] = useState(false);
-    const [selectedPremiumInfo, setSelectedPremiumInfo] = useState<{ name: string; subject: string } | null>(null);
+    const [isVotingModalOpen, setVotingModalOpen] = useState(false);
+    const [isAdminModalOpen, setAdminModalOpen] = useState(false);
+    const [selectedLockedClass, setSelectedLockedClass] = useState<LockedClass | null>(null);
+    const [lockedClasses, setLockedClasses] = useState<LockedClass[]>([]);
     const [lastModifiedDates, setLastModifiedDates] = useState<Record<string, string | null>>({});
     const [selectedCycle, setSelectedCycle] = useState<Cycle>(() => {
         try {
@@ -210,9 +94,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
         try { return localStorage.getItem('selected_cycle_v1') !== null; } catch { return false; }
     });
     const didInitCycleRef = useRef(false);
-    const [dismissedPremiumIds, setDismissedPremiumIds] = useState<string[]>(() => {
+    const [dismissedLockedIds, setDismissedLockedIds] = useState<string[]>(() => {
         try {
-            const raw = localStorage.getItem('dismissed_premium_cards_v1');
+            const raw = localStorage.getItem('dismissed_locked_cards_v1');
             return raw ? JSON.parse(raw) : [];
         } catch {
             return [];
@@ -242,6 +126,23 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
         }, 50);
         return () => clearTimeout(id);
     }, [selectedCycle]);
+
+    // Load locked classes from manifest and community classes
+    useEffect(() => {
+        const loadLockedClasses = async () => {
+            try {
+                const locked = await manifestService.getLockedClasses(selectedCycle);
+                setLockedClasses(locked);
+            } catch (error) {
+                logger.error('Failed to load locked classes', error);
+                setLockedClasses([]);
+            }
+        };
+
+        if (!isClassesLoading) {
+            loadLockedClasses();
+        }
+    }, [selectedCycle, isClassesLoading]);
 
     useEffect(() => {
         if (isClassesLoading) return;
@@ -342,12 +243,34 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
         setImportModalOpen(false);
     }, []);
 
-    const handleDismissPremium = useCallback((id: string) => {
-        setDismissedPremiumIds(prev => {
+    const handleDismissLocked = useCallback((id: string) => {
+        setDismissedLockedIds(prev => {
             const next = Array.from(new Set([...prev, id]));
-            localStorage.setItem('dismissed_premium_cards_v1', JSON.stringify(next));
+            localStorage.setItem('dismissed_locked_cards_v1', JSON.stringify(next));
             return next;
         });
+    }, []);
+
+    const handleVoteForClass = useCallback((lockedClass: LockedClass) => {
+        setSelectedLockedClass(lockedClass);
+        setVotingModalOpen(true);
+    }, []);
+
+
+
+    // Gestionnaire pour le raccourci clavier Ctrl+Alt+A
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.ctrlKey && event.altKey && event.key.toLowerCase() === 'a') {
+                event.preventDefault();
+                setAdminModalOpen(true);
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
     }, []);
 
     const needsConfiguration = !config.establishmentName || !config.defaultTeacherName;
@@ -462,20 +385,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                                 onDelete={() => deleteClass(classInfo.id)}
                             />
                         ))}
-            {premiumClasses
-                .filter(p => p.cycle === selectedCycle)
-                .filter(p => !dismissedPremiumIds.includes(p.id))
-                .filter(p => !classes.some(c => (c.cycle || 'college') === selectedCycle && c.name === p.name && c.subject === p.subject))
-                .map(premiumClass => (
+            {lockedClasses
+                .filter(lc => !dismissedLockedIds.includes(lc.id))
+                .filter(lc => !classes.some(c => (c.cycle || 'college') === selectedCycle && c.name === lc.name && c.subject === lc.subject))
+                .map(lockedClass => (
                             <LockedClassCard
-                                key={premiumClass.id}
-                                name={premiumClass.name}
-                                subject={premiumClass.subject}
-                                color={premiumClass.color}
-                                onContactAdmin={() => { setSelectedPremiumInfo({ name: premiumClass.name, subject: premiumClass.subject }); setContactAdminModalOpen(true); }}
-                onDelete={() => handleDismissPremium(premiumClass.id)}
+                                key={lockedClass.id}
+                                name={lockedClass.name}
+                                subject={lockedClass.subject}
+                                color={lockedClass.color}
+                                votes={lockedClass.votes}
+                                requiredVotes={lockedClass.requiredVotes}
+                                onVote={() => handleVoteForClass(lockedClass)}
+                                onDelete={() => handleDismissLocked(lockedClass.id)}
                             />
                         ))}
+
                     </div>
             </main>
             <CreateClassModal 
@@ -498,10 +423,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ onSelectClass }) => {
                 onClose={() => setImportModalOpen(false)}
                 onImport={handleImportPlatform}
             />
-            <ContactAdminModal
-                isOpen={isContactAdminModalOpen}
-                onClose={() => { setContactAdminModalOpen(false); setSelectedPremiumInfo(null); }}
-                selectedPremium={selectedPremiumInfo}
+            <VotingModal
+                isOpen={isVotingModalOpen}
+                onClose={() => { setVotingModalOpen(false); setSelectedLockedClass(null); }}
+                lockedClass={selectedLockedClass}
+            />
+
+            <AdminModal
+                isOpen={isAdminModalOpen}
+                onClose={() => setAdminModalOpen(false)}
+                classes={classes}
+                onClassUpdate={() => {
+                    // Recharger les données
+                    window.location.reload();
+                }}
             />
         </div>
     );
