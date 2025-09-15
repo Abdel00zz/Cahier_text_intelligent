@@ -79,8 +79,12 @@ export const Editor: React.FC<EditorProps> = ({ classInfo: initialClassInfo, onB
     const storageKey = getStorageKey();
     
     try {
-      const savedData = localStorage.getItem(storageKey);
-      const lessons = savedData ? JSON.parse(savedData) : [];
+      const savedDataRaw = localStorage.getItem(storageKey);
+      const savedData = savedDataRaw ? JSON.parse(savedDataRaw) : [];
+      
+      // Vérifier si les données sont dans l'ancien format { lessonsData: [...] }
+      const lessons = Array.isArray(savedData) ? savedData : savedData.lessonsData || [];
+      
       const migratedLessons = migrateLessonsData(lessons);
 
       setState(() => migratedLessons, 'initial-load');

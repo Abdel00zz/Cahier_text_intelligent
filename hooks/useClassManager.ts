@@ -128,10 +128,11 @@ export const useClassManager = () => {
             try {
                 // Utiliser le nom de l'utilisateur configuré en priorité
                 const classInfo = manifestService.manifestClassToClassInfo(manifestClass, userTeacherName);
-                const classData = await manifestService.loadClassData(manifestClass, isDemo);
-                
+                const loadedData = await manifestService.loadClassData(manifestClass, isDemo);
+                const lessons = loadedData.lessonsData || [];
+
                 targetArray.push(classInfo);
-                localStorage.setItem(`${CLASS_DATA_PREFIX}${classInfo.id}`, JSON.stringify(classData || []));
+                localStorage.setItem(`${CLASS_DATA_PREFIX}${classInfo.id}`, JSON.stringify(lessons));
                 
                 logger.info(`Class created from manifest: ${manifestClass.name} with teacher: ${classInfo.teacherName}`);
             } catch (error) {
